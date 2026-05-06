@@ -5,22 +5,24 @@ const team = defineModel();
 const draft = ref({ ...team.value });
 
 async function save() {
-  team.value = { ...draft.value }; // emit once
-  await $fetch(`http://localhost:8000/api/teams/${team.value.id}`, {
+  // console.log(team.value);
+  //team.value = { ...draft.value }; // emit once
+  const res = await $fetch(`http://localhost:8000/api/teams/${team.value.id}`, {
     method: "PATCH",
     body: {
-      name: team.value.name,
-      logo: team.value.logo,
-      location: team.value.location,
+      name: draft.value.name,
+      logo: draft.value.logo,
+      location: draft.value.location,
     },
   });
+  team.value = res; // emit once
 }
 
-const emit = defineEmits(['cancel'])
+const emit = defineEmits(["cancel"]);
 
 function cancel() {
   draft.value = { ...team.value };
-  emit('cancel');
+  emit("cancel");
 }
 </script>
 
