@@ -16,11 +16,11 @@ async function save() {
   });
 }
 
-const router = useRouter();
+const emit = defineEmits(['cancel'])
 
 function cancel() {
   draft.value = { ...team.value };
-  router.push(`/teams/${team.value.id}`);
+  emit('cancel');
 }
 </script>
 
