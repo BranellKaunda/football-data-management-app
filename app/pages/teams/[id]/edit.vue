@@ -12,7 +12,6 @@ const onCancel = () => {
 
 const onSave = () => {
   navigateTo(`/teams/${teamId}`);
-  console.log("it is saved");
 };
 </script>
 
