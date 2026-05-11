@@ -9,19 +9,13 @@ async function save() {
     {
       method: "PATCH",
       body: {
-        homeTeam: {
-          id: draft.value.homeTeam.id,
-        },
-        awayTeam: {
-          id: draft.value.awayTeam.id,
-        },
+        homeTeamId: draft.value.homeTeam.id,
+        awayTeamId: draft.value.awayTeam.id,
         homeTeamGoals: draft.value.homeTeamGoals,
         awayTeamGoals: draft.value.awayTeamGoals,
         matchDate: draft.value.matchDate,
         status: draft.value.status,
-        competition: {
-          id: draft.value.competition.id,
-        },
+        competitionId: draft.value.competition.id,
       },
     },
   );
