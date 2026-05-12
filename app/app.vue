@@ -11,7 +11,7 @@ const players = ref({
     <nav>
       <ul>
         <li><NuxtLink to="/">Home</NuxtLink></li>
-        <li><NuxtLink to="/about">About</NuxtLink></li>
+        <li><NuxtLink to="/players">Players</NuxtLink></li>
         <li><NuxtLink to="/matches">Matches</NuxtLink></li>
         <li><NuxtLink to="/teams">Teams</NuxtLink></li>
         <li><NuxtLink to="/leagues">Leagues</NuxtLink></li>

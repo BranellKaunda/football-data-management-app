@@ -44,4 +44,4 @@ function cancel() {
   </form>
 
   <pre>{{ draft }}</pre>
-</template>
+</template> 
