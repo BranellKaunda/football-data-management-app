@@ -1,6 +1,5 @@
 <script setup>
 const selectedFile = ref(null);
-const competitionId = ref(null);
 
 function handleFileChange(event) {
   selectedFile.value = event.target.files[0];
@@ -11,9 +10,8 @@ async function handleFileUpload() {
 
   const formData = new FormData();
   formData.append("file", selectedFile.value);
-  formData.append("competitionId", competitionId.value);
 
-  const res = await $fetch("http://localhost:8000/api/import/matches", {
+  const res = await $fetch("http://localhost:8000/api/import/teams", {
     method: "POST",
     body: formData,
   });
@@ -22,7 +20,7 @@ async function handleFileUpload() {
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">Import Matches</h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">Import Teams</h1>
 
     <form
       @submit.prevent="handleFileUpload"
@@ -41,26 +39,12 @@ async function handleFileUpload() {
         />
       </div>
 
-      <div>
-        <label
-          for="competitionId"
-          class="block text-sm font-medium text-gray-700"
-          >Competition ID</label
-        >
-        <input
-          type="number"
-          id="competitionId"
-          v-model="competitionId"
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
-      </div>
-
       <button
         type="submit"
         class="self-start px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         :disabled="!selectedFile"
       >
-        Import Matches
+        Import Teams
       </button>
     </form>
   </div>
