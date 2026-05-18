@@ -2,20 +2,14 @@
 const { data: leagues } = await useFetch("http://localhost:8000/api/leagues");
 </script>
 
-<!-- <template>
-  <ol v-if="data">
-    <li v-for="season in data">
-      <pre>{{ season }}</pre>
-      <p><NuxtLink :to="`/leagues/${season.id}`">matches</NuxtLink></p>
-      <p>
-        <NuxtLink :to="`/leagues/${season.id}/edit`">edit league</NuxtLink>
-      </p>
-    </li>
-  </ol>
-</template> -->
-
 <template>
   <div class="max-w-md mx-auto p-6">
+    <NuxtLink
+      class="inline-block mb-6 px-4 py-2 font-semibold hover:text-blue-800"
+      to="/leagues/create"
+      >Create New League</NuxtLink
+    >
+
     <h1 class="text-2xl font-bold mb-6 text-center">Competition</h1>
 
     <div class="bg-white p-4 rounded shadow flex flex-col gap-3" v-if="leagues">

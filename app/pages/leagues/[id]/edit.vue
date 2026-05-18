@@ -7,14 +7,14 @@ const { data: league } = await useFetch(
 );
 
 const onCancel = () => {
-  navigateTo(`/leagues/${leagueId}`);
+  navigateTo(`/leagues`);
 };
 
-const onSave = () => {
-  navigateTo("/leagues/");
+const onSave = (e) => {
+  navigateTo(`/leagues/${e.id}`);
 };
 </script>
 
 <template>
-  <LeagueEditForm v-model="league" @cancel="onCancel" @save="onSave" />
+  <LeagueForm v-model="league" @cancel="onCancel" @save="onSave" />
 </template>

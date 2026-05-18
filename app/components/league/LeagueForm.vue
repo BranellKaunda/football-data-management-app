@@ -4,20 +4,25 @@ const draft = ref({ ...league.value });
 const emit = defineEmits(["cancel", "save"]);
 
 async function save() {
-  const res = await $fetch(
-    `http://localhost:8000/api/leagues/${league.value.id}`,
-    {
-      method: "PATCH",
-      body: {
-        name: draft.value.name,
-        season: draft.value.season,
-        rank: draft.value.rank,
-      },
-    },
-  );
+  const body = {
+    name: draft.value.name,
+    season: draft.value.season,
+    rank: draft.value.rank,
+  };
+
+  const method = league.value.id ? "PATCH" : "POST";
+
+  const url = league.value.id
+    ? `http://localhost:8000/api/leagues/${league.value.id}`
+    : "http://localhost:8000/api/leagues/create";
+
+  const res = await $fetch(url, {
+    method,
+    body,
+  });
 
   league.value = res;
-  emit("save");
+  emit("save", res);
 }
 
 function cancel() {
@@ -27,7 +32,9 @@ function cancel() {
 </script>
 
 <template>
-  <h1 class="m-8 text-2xl font-bold text-center">Edit League</h1>
+  <h1 class="m-8 text-2xl font-bold text-center">
+    {{ league.id ? "Edit League" : "Create League" }}
+  </h1>
   <form
     class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"
     @submit.prevent="save"
