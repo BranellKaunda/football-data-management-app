@@ -11,5 +11,5 @@ function onSave(e) {
 </script>
 
 <template>
-  <TeamRegisterForm v-model="team" @cancel="onCancel" @save="onSave" />
+  <TeamForm v-model="team" @cancel="onCancel" @save="onSave" />
 </template>

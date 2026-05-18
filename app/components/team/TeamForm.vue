@@ -1,19 +1,29 @@
 <script setup>
 const team = defineModel();
+
+// local working copy
 const draft = ref({ ...team.value });
 const emit = defineEmits(["cancel", "save"]);
 
 async function save() {
-  const res = await $fetch(`http://localhost:8000/api/teams/create`, {
-    method: "POST",
-    body: {
-      name: draft.value.name,
-      logo: draft.value.logo,
-      location: draft.value.location,
-    },
+  const body = {
+    name: draft.value.name,
+    logo: draft.value.logo,
+    location: draft.value.location,
+  };
+
+  const url = team.value.id
+    ? `http://localhost:8000/api/teams/${team.value.id}`
+    : `http://localhost:8000/api/teams/create`;
+
+  const method = team.value.id ? "PATCH" : "POST";
+
+  const res = await $fetch(url, {
+    method,
+    body,
   });
 
-  team.value = res;
+  team.value = res; // emit once
   emit("save", res);
 }
 
@@ -28,7 +38,9 @@ function onPhotoUpload(url) {
 </script>
 
 <template>
-  <h1 class="m-8 text-2xl font-bold text-center">Register Team</h1>
+  <h1 class="m-8 text-2xl font-bold text-center">
+    {{ team.id ? "Edit Team" : "Register Team" }}
+  </h1>
   <form
     class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"
     @submit.prevent="save"
@@ -45,7 +57,12 @@ function onPhotoUpload(url) {
 
     <div class="flex flex-col gap-2">
       <label>Logo</label>
-      <!-- <input v-model="draft.logo" placeholder="logo" /> -->
+      <img
+        v-if="team.logo"
+        :src="team.logo"
+        alt="Team Logo"
+        class="w-14 h-14 object-contain rounded-full shadow mb-2"
+      />
       <PhotoUpload @handle-upload="onPhotoUpload" />
     </div>
 

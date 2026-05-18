@@ -16,5 +16,5 @@ const onSave = () => {
 </script>
 
 <template>
-  <TeamEditForm v-model="team" @cancel="onCancel" @save="onSave" />
+  <TeamForm v-model="team" @cancel="onCancel" @save="onSave" />
 </template>
