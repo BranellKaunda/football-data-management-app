@@ -6,6 +6,7 @@ const match = ref({
   awayTeamGoals: 0,
   matchDate: "",
   status: "Scheduled",
+  referee: { id: "", firstName: "", lastName: "" },
   competition: { id: "", name: "" },
 });
 

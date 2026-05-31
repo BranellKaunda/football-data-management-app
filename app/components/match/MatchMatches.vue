@@ -64,18 +64,32 @@ const { data } = await useFetch(url);
 
         <!-- COMPETITION + DATE -->
         <div class="text-gray-600 text-sm text-center">
-          {{ match.competition?.name }} • {{ match.matchDate }}
+          {{ match.competition?.name }} • {{ match.matchDate }} •
+          {{ match.status }}
         </div>
 
-        <div class="text-center">
+        <!-- REFEE -->
+
+        <div class="text-center flex justify-center gap-4 mt-4">
           <NuxtLink
             class="text-blue-600 hover:text-blue-800 text-sm"
             :to="`/matches/${match.id}/edit`"
           >
             Edit Match
           </NuxtLink>
+
+          <NuxtLink
+            class="text-blue-600 hover:text-blue-800 text-sm"
+            :to="`/matches/${match.id}`"
+          >
+            Details
+          </NuxtLink>
         </div>
       </div>
     </div>
+
+    <!-- <div v-else-if="!data">
+      <p class="text-center text-gray-500">No matches found.</p>
+    </div> -->
   </div>
 </template>

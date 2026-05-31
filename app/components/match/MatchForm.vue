@@ -4,6 +4,10 @@ const draft = ref({ ...match.value });
 const emit = defineEmits(["cancel", "save"]);
 
 const { data: teams } = await useFetch("http://localhost:8000/api/teams");
+const { data: referees } = await useFetch("http://localhost:8000/api/referees");
+const { data: competitions } = await useFetch(
+  "http://localhost:8000/api/leagues",
+);
 
 async function save() {
   const body = {
@@ -13,6 +17,7 @@ async function save() {
     awayTeamGoals: draft.value.awayTeamGoals,
     matchDate: draft.value.matchDate,
     status: draft.value.status,
+    refereeId: draft.value.referee.id,
     competitionId: draft.value.competition.id,
   };
 
@@ -76,7 +81,7 @@ function cancel() {
 
     <div class="flex flex-col gap-2">
       <label>Match Date</label>
-      <input v-model="draft.matchDate" placeholder="matchDate" />
+      <input v-model="draft.matchDate" placeholder="yyyy-mm-dd" />
     </div>
 
     <div class="flex flex-col gap-2">
@@ -91,12 +96,32 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label> Competition ID</label>
-      <input
-        v-model.number="draft.competition.id"
-        placeholder="competitionId"
-      />
+    <div class="flex flex-col gap-2" v-if="referees">
+      <label>Referee</label>
+      <select v-model.number="draft.referee.id">
+        <option disabled value="">Select a referee</option>
+        <option
+          v-for="referee in referees"
+          :key="referee.id"
+          :value="referee.id"
+        >
+          {{ referee.firstName }} {{ referee.lastName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-2" v-if="competitions">
+      <label> Competition</label>
+      <select v-model.number="draft.competition.id">
+        <option disabled value="">Select a competition</option>
+        <option
+          v-for="competition in competitions"
+          :key="competition.id"
+          :value="competition.id"
+        >
+          {{ competition.name }} {{ competition.season }}
+        </option>
+      </select>
     </div>
 
     <div class="flex gap-4 justify-end">
