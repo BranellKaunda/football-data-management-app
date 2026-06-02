@@ -12,9 +12,7 @@ const { data: match } = await useFetch(
 const homeTeamId = computed(() => match.value?.homeTeam.id);
 const awayTeamId = computed(() => match.value?.awayTeam.id);
 
-const showSquadSelection = ref(false);
-
-/* const homeTeamPlayersArray = computed(() => {
+const homeTeamPlayersArray = computed(() => {
   return match.value?.players.filter(
     (player) => player.teamId === homeTeamId.value,
   );
@@ -24,7 +22,7 @@ const awayTeamPlayersArray = computed(() => {
   return match.value?.players.filter(
     (player) => player.teamId === awayTeamId.value,
   );
-}); */
+});
 
 function onSelectionSaved(selectedIds) {
   console.log("Selected player IDs saved:", selectedIds);
@@ -92,34 +90,37 @@ function onSelectionSaved(selectedIds) {
     <div v-else class="text-center text-gray-500">Loading match...</div>
   </div>
 
-  <div class="text-center">
-    <button
-      class="bg-white font-semibold text-black hover:text-green-700 py-2 px-4 rounded"
-      @click="showSquadSelection = !showSquadSelection"
-    >
-      Submit Team Squads
-    </button>
-  </div>
+  <template v-if="match.status === 'Scheduled'">
+    <div class="max-w-3xl mx-auto p-6">
+      <TeamLogo :teamLogo="match.homeTeam.logo" :teamId="match.homeTeam.id" />
+      <PlayerSelectionForMatch
+        :teamId="homeTeamId"
+        :matchId="id"
+        @save="onSelectionSaved"
+      />
+    </div>
 
-  <div v-if="showSquadSelection" class="max-w-3xl mx-auto p-6">
-    <NuxtLink :to="`/teams/${match.homeTeam.id}`" class="inline-block">
-      <img :src="match.homeTeam.logo" class="w-10 h-10 object-contain" />
-    </NuxtLink>
-    <PlayerSelectionForMatch
-      :teamId="homeTeamId"
-      :matchId="id"
-      @save="onSelectionSaved"
-    />
-  </div>
+    <div class="max-w-3xl mx-auto p-6">
+      <TeamLogo :teamLogo="match.awayTeam.logo" :teamId="match.awayTeam.id" />
+      <PlayerSelectionForMatch
+        :teamId="awayTeamId"
+        :matchId="id"
+        @save="onSelectionSaved"
+      />
+    </div>
+  </template>
 
-  <div v-if="showSquadSelection" class="max-w-3xl mx-auto p-6">
-    <NuxtLink :to="`/teams/${match.awayTeam.id}`" class="inline-block">
-      <img :src="match.awayTeam.logo" class="w-10 h-10 object-contain" />
-    </NuxtLink>
-    <PlayerSelectionForMatch
-      :teamId="awayTeamId"
-      :matchId="id"
-      @save="onSelectionSaved"
+  <template v-else-if="match.status === 'Finished'">
+    <PlayerInMatch
+      :players="homeTeamPlayersArray"
+      :teamLogo="match.homeTeam.logo"
+      :teamId="match.homeTeam.id"
     />
-  </div>
+
+    <PlayerInMatch
+      :players="awayTeamPlayersArray"
+      :teamLogo="match.awayTeam.logo"
+      :teamId="match.awayTeam.id"
+    />
+  </template>
 </template>
