@@ -7,7 +7,7 @@ const { data: players } = await useFetch("http://localhost:8000/api/players");
     <NuxtLink
       to="/players/create"
       class="inline-block mb-6 px-4 py-2 font-semibold hover:text-blue-800"
-      >Create Player</NuxtLink
+      >Register Player</NuxtLink
     >
 
     <h1 class="text-2xl font-bold mb-6 text-center">Players</h1>

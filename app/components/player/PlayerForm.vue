@@ -37,7 +37,7 @@ function cancel() {
 
 <template>
   <h1 class="m-8 text-2xl font-bold text-center">
-    {{ editing ? "Edit Player" : "Create Player" }}
+    {{ editing ? "Edit Player" : "Register Player" }}
   </h1>
   <form
     class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"

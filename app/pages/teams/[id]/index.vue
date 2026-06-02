@@ -18,13 +18,7 @@ const { data: team } = await useFetch(
         class="bg-white p-4 rounded shadow flex items-center gap-4"
       >
         <!-- TEAM LOGO -->
-        <NuxtLink :to="`/teams/${team.id}`">
-          <img
-            :src="team.logo"
-            alt="team logo"
-            class="w-14 h-14 object-contain rounded"
-          />
-        </NuxtLink>
+        <TeamLogo :teamLogo="team.logo" :teamId="team.id" />
 
         <!-- TEAM INFO -->
         <div class="flex flex-col">
@@ -44,5 +38,5 @@ const { data: team } = await useFetch(
   </div>
 
   <!-- RECENT MATCHES -->
-  <TeamRecentMatches />
+  <MatchMatches :recentMatches="[]" />
 </template>
