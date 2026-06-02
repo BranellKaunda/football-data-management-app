@@ -23,7 +23,10 @@ const { data: recentMatches } = await useFetch(
         <div class="flex items-center justify-between gap-4">
           <!-- HOME TEAM -->
           <div class="flex items-center gap-2 w-1/3">
-            <img :src="match.homeTeam.logo" class="w-10 h-10 object-contain" />
+            <TeamLogo
+              :teamLogo="match.homeTeam.logo"
+              :teamId="match.homeTeam.id"
+            />
             <p class="font-medium text-sm">{{ match.homeTeam.name }}</p>
           </div>
 
@@ -39,30 +42,18 @@ const { data: recentMatches } = await useFetch(
             <p class="font-medium text-sm text-right">
               {{ match.awayTeam.name }}
             </p>
-            <img :src="match.awayTeam.logo" class="w-10 h-10 object-contain" />
+            <TeamLogo
+              :teamLogo="match.awayTeam.logo"
+              :teamId="match.awayTeam.id"
+            />
           </div>
         </div>
 
         <!-- COMPETITION + DATE -->
         <div class="text-gray-600 text-sm text-center">
-          {{ match.competition?.name }} • {{ match.matchDate }}
+          {{ match.competition?.name }} • {{ match.matchDate }} •
+          {{ match.status }}
         </div>
-
-        <!-- FORM INDICATOR -->
-        <!-- <div
-          :class="[
-            'self-start px-2 py-1 rounded text-xs font-semibold',
-            getFormClass(match),
-          ]"
-        >
-          {{
-            getFormClass(match) === "bg-green-100 text-green-800"
-              ? "Win"
-              : getFormClass(match) === "bg-yellow-100 text-yellow-800"
-                ? "Draw"
-                : "Loss"
-          }}
-        </div> -->
       </div>
     </div>
   </div>

@@ -6,13 +6,13 @@ const props = defineProps({
   },
   teamId: {
     type: Number,
-    required: true,
+    required: false,
   },
 });
 </script>
 
 <template>
   <NuxtLink :to="`/teams/${props.teamId}`" class="inline-block">
-    <img :src="props.teamLogo" class="w-10 h-10 object-contain" />
+    <img :src="props.teamLogo" class="w-14 h-14 object-contain" />
   </NuxtLink>
 </template>

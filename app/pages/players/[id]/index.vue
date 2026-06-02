@@ -9,11 +9,6 @@ const { data: player } = await useFetch(
 );
 </script>
 
-<!-- <template>
-  <pre>{{ player }}</pre>
-  <NuxtLink :to="`/players/${player.id}/edit`">Edit player</NuxtLink>
-</template> -->
-
 <template>
   <div
     class="bg-white p-6 rounded shadow max-w-md mx-auto m-10 flex flex-col gap-4"
@@ -22,11 +17,7 @@ const { data: player } = await useFetch(
 
     <!-- TEAM LOGO + NAME -->
     <div class="flex items-center gap-4">
-      <img
-        :src="player.team.logo"
-        alt="team logo"
-        class="w-16 h-16 object-contain rounded"
-      />
+      <TeamLogo :teamLogo="player.team.logo" :teamId="player.team.id" />
       <div>
         <p class="text-lg font-semibold">{{ player.team.name }}</p>
         <p class="text-gray-600 text-sm">{{ player.team.location }}</p>

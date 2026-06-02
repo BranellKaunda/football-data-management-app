@@ -91,6 +91,10 @@ function onSelectionSaved(selectedIds) {
   </div>
 
   <template v-if="match.status === 'Scheduled'">
+    <h1 class="text-xl font-bold mb-4 text-center">
+      Submit players for the match
+    </h1>
+
     <div class="max-w-3xl mx-auto p-6">
       <TeamLogo :teamLogo="match.homeTeam.logo" :teamId="match.homeTeam.id" />
       <PlayerSelectionForMatch

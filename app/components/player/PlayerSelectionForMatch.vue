@@ -45,25 +45,32 @@ async function save() {
     class="flex flex-col gap-2 bg-white p-4 rounded shadow"
     @submit.prevent="save"
   >
-    <div v-for="player in players" :key="player.id" class="flex items-center gap-2">
-      <input
-        type="checkbox"
-        :id="`player-${player.id}`"
-        :value="player.id"
-        :checked="selectedPlayerIds.includes(player.id)"
-        @change="togglePlayer(player.id)"
-      />
-      <label :for="`player-${player.id}`">
-        {{ player.firstName }} {{ player.lastName }}
-      </label>
-    </div>
-    <div class="flex gap-4 justify-end mt-2">
-      <button
-        type="submit"
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+    <template v-if="players && players.length">
+      <div
+        v-for="player in players"
+        :key="player.id"
+        class="flex items-center gap-2"
       >
-        Save Selection
-      </button>
-    </div>
+        <input
+          type="checkbox"
+          :id="`player-${player.id}`"
+          :value="player.id"
+          :checked="selectedPlayerIds.includes(player.id)"
+          @change="togglePlayer(player.id)"
+        />
+        <label :for="`player-${player.id}`">
+          {{ player.firstName }} {{ player.lastName }}
+        </label>
+      </div>
+      <div class="flex gap-4 justify-end mt-2">
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+        >
+          Save Selection
+        </button>
+      </div>
+    </template>
+    <p v-else class="text-gray-500 text-sm">Player data not available</p>
   </form>
 </template>

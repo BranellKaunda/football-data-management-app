@@ -22,12 +22,10 @@ const { data } = await useFetch(url);
         <div class="flex items-center justify-between gap-4">
           <!-- HOME TEAM -->
           <div class="flex items-center gap-2 w-1/3">
-            <NuxtLink :to="`/teams/${match.homeTeam.id}`">
-              <img
-                :src="match.homeTeam.logo"
-                class="w-10 h-10 object-contain"
-              />
-            </NuxtLink>
+            <TeamLogo
+              :teamLogo="match.homeTeam.logo"
+              :teamId="match.homeTeam.id"
+            />
 
             <NuxtLink
               :to="`/teams/${match.homeTeam.id}`"
@@ -53,12 +51,10 @@ const { data } = await useFetch(url);
               {{ match.awayTeam.name }}
             </NuxtLink>
 
-            <NuxtLink :to="`/teams/${match.awayTeam.id}`">
-              <img
-                :src="match.awayTeam.logo"
-                class="w-10 h-10 object-contain"
-              />
-            </NuxtLink>
+            <TeamLogo
+              :teamLogo="match.awayTeam.logo"
+              :teamId="match.awayTeam.id"
+            />
           </div>
         </div>
 
