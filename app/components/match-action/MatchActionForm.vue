@@ -11,7 +11,7 @@ async function save() {
   const body = {
     matchId: draft.value.matchId,
     playerId: draft.value.playerId,
-    playerIdExtra: draft.value.playerIdExtra || null,
+    playerIdExtra: draft.value.playerIdExtra,
     teamId: draft.value.teamId,
     action: draft.value.action,
     minute: draft.value.minute,
@@ -29,6 +29,7 @@ async function save() {
   const res = await $fetch(url, { method, body });
 
   matchAction.value = res;
+  console.log("Saved match action:", res);
   emit("save", res);
 }
 
@@ -85,7 +86,7 @@ function cancel() {
       <label>Team</label>
       <select v-model.number="draft.teamId">
         <option disabled value="">Select a team</option>
-        <option v-for="team in teams" :key="team.id" :value="team.id">
+        <option v-for="team in teams" :key="team.id" :value="team.id || null">
           {{ team.name }}
         </option>
       </select>
@@ -98,9 +99,13 @@ function cancel() {
 
     <div class="flex flex-col gap-2">
       <label>Extra Player (e.g. substitution coming in)</label>
-      <select v-model.number="draft.playerIdExtra">
+      <select v-model="draft.playerIdExtra">
         <option :value="null">None</option>
-        <option v-for="player in players" :key="player.id" :value="player.id">
+        <option
+          v-for="player in players"
+          :key="player.id"
+          :value="player.id || null"
+        >
           {{ player.firstName }} {{ player.lastName }}
         </option>
       </select>

@@ -31,7 +31,7 @@ const { data: matchAction } = await useFetch(
       </div>
       <div>
         <p class="text-gray-500 text-sm">Action</p>
-        <p class="font-medium capitalize">{{ matchAction.action }}</p>
+        <MatchActionLogo :match-action="matchAction" class="font-medium" />
       </div>
       <div>
         <p class="text-gray-500 text-sm">Minute</p>
@@ -40,7 +40,8 @@ const { data: matchAction } = await useFetch(
       <div v-if="matchAction.playerIdExtra">
         <p class="text-gray-500 text-sm">Extra Player</p>
         <p class="font-medium">
-          {{ matchAction.playerExtra?.firstName }} {{ matchAction.playerExtra?.lastName }}
+          {{ matchAction.playerExtra?.firstName }}
+          {{ matchAction.playerExtra?.lastName }}
         </p>
       </div>
     </div>

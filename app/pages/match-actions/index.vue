@@ -22,12 +22,12 @@ const { data: matchActions } = await useFetch(
           :to="`/match-actions/${action.id}`"
           class="font-semibold text-lg hover:text-blue-600"
         >
-          {{ action.action }} — Minute {{ action.minute }}
+          <MatchActionLogo :match-action="action" />
         </NuxtLink>
         <p class="text-gray-600 text-sm">
           Player: {{ action.player?.firstName }} {{ action.player?.lastName }}
         </p>
-        <p class="text-gray-500 text-xs">{{ action.team?.name }}</p>
+        <TeamLogo :team-logo="action.team?.logo" />
       </div>
     </div>
   </div>
