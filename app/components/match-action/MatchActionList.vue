@@ -1,6 +1,13 @@
 <script setup>
+const props = defineProps({
+  match: {
+    type: Object,
+    required: true,
+  },
+});
+
 const { data: matchActions } = await useFetch(
-  "http://localhost:8000/api/match-actions/",
+  `http://localhost:8000/api/match-actions?matchId=${props.match.id}`,
 );
 </script>
 

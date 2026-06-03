@@ -58,16 +58,25 @@ function onSelectionSaved(selectedIds) {
   </template>
 
   <template v-else-if="match.status === 'Finished'">
-    <PlayerInMatch
-      :players="homeTeamPlayersArray"
-      :teamLogo="match.homeTeam.logo"
-      :teamId="match.homeTeam.id"
-    />
+    <div class="flex justify-between mb-4 max-w-3xl mx-auto gap-4">
+      <div class="bg-white p-4">
+        <PlayerInMatch
+          :players="homeTeamPlayersArray"
+          :teamLogo="match.homeTeam.logo"
+          :teamId="match.homeTeam.id"
+        />
+      </div>
 
-    <PlayerInMatch
-      :players="awayTeamPlayersArray"
-      :teamLogo="match.awayTeam.logo"
-      :teamId="match.awayTeam.id"
-    />
+      <div class="bg-white p-4">
+        <PlayerInMatch
+          :players="awayTeamPlayersArray"
+          :teamLogo="match.awayTeam.logo"
+          :teamId="match.awayTeam.id"
+        />
+      </div>
+    </div>
+
+    <!-- MATCH SUMMARY -->
+    <!-- <MatchActionList :match="match" /> -->
   </template>
 </template>

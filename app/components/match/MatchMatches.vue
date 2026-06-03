@@ -33,9 +33,9 @@ const { data } = await useFetch(url);
       }}
     </h1>
 
-    <div class="flex flex-col gap-4" v-if="props.match ? [props.match] : data">
+    <div class="flex flex-col gap-4" v-if="match ? [match] : data">
       <div
-        v-for="match in props.match ? [props.match] : data"
+        v-for="match in match ? [match] : data"
         :key="match.id"
         class="bg-white p-4 rounded shadow flex flex-col gap-3"
       >
