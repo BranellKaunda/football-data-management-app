@@ -1,10 +1,11 @@
 <script setup>
 import MatchSummary from "~/components/match-action/MatchSummary.vue";
+import { reloadNuxtApp } from "#app";
 
 const route = useRoute();
 
 const id = Number(route.params.id);
-const { data: match } = await useFetch(
+const { data: match, refresh } = await useFetch(
   `http://localhost:8000/api/matches/${id}`,
   {
     query: route.query,
@@ -30,6 +31,16 @@ function onSelectionSaved(selectedIds) {
   console.log("Selected player IDs saved:", selectedIds);
   navigateTo(`/matches/${id}`);
 }
+
+/* Match Actions*/
+const matchAction = ref({});
+const onCancel = () => {
+  navigateTo(`/matches/${id}`);
+};
+
+const onSave = async () => {
+  reloadNuxtApp();
+};
 </script>
 
 <template>
@@ -55,6 +66,21 @@ function onSelectionSaved(selectedIds) {
         :teamId="awayTeamId"
         :matchId="id"
         @save="onSelectionSaved"
+      />
+    </div>
+
+    <!-- Create match actions -->
+    <div class="max-w-3xl mx-auto p-6">
+      <p class="text-center text-gray-600 mb-4">
+        After submitting the players, you can create match actions such as
+        goals, assists, and cards. These actions will be associated with the
+        players you selected for this match. Match details will be revealed when
+        a match status is "Finished".
+      </p>
+      <MatchActionForm
+        v-model="matchAction"
+        @cancel="onCancel"
+        @save="onSave"
       />
     </div>
   </template>
