@@ -1,42 +1,48 @@
 <script setup>
 const props = defineProps({
-  match: {
-    type: Object,
+  matchActions: {
+    type: Array,
     required: true,
   },
+  size: {
+    type: Number,
+    default: 24,
+    required: false,
+  },
 });
-
-const { data: matchActions } = await useFetch(
-  `http://localhost:8000/api/match-actions?matchId=${props.match.id}`,
-);
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto p-6">
-    <NuxtLink
-      to="/match-actions/create"
-      class="inline-block mb-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-    >
-      Create Match Action
-    </NuxtLink>
-    <h1 class="text-2xl font-bold mb-6 text-center">Match Actions</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" v-if="matchActions">
-      <div
+  <div class="bg-white p-4 rounded shadow">
+    <ul class="flex flex-col gap-4">
+      <li
+        class="flex items-center gap-3"
         v-for="action in matchActions"
         :key="action.id"
-        class="bg-white p-4 rounded shadow flex flex-col gap-2"
       >
-        <NuxtLink
-          :to="`/match-actions/${action.id}`"
-          class="font-semibold text-lg hover:text-blue-600"
+        <TeamLogo :team-logo="action.team?.logo" size="w-10 h-10" />
+
+        <span class="text-sm text-gray-600"
+          >{{ action.player?.firstName }} {{ action.player?.lastName }}</span
         >
-          <MatchActionLogo :match-action="action" />
-        </NuxtLink>
-        <p class="text-gray-600 text-sm">
-          Player: {{ action.player?.firstName }} {{ action.player?.lastName }}
-        </p>
-        <TeamLogo :team-logo="action.team?.logo" />
-      </div>
-    </div>
+
+        <MatchActionLogo :match-action="action" :width="size" :height="size" />
+
+        <span class="font-medium tabular-nums">{{ action.minute }}'</span>
+        <span
+          class="text-sm text-gray-600"
+          v-if="action.action === 'Substitution' && action.playerExtra"
+          >({{ action.playerExtra.firstName }}
+          {{ action.playerExtra.lastName }})</span
+        >
+        <span
+          class="text-sm text-gray-600"
+          v-if="action.action === 'Goal' && action.playerExtra"
+          >(
+          {{ action.playerExtra.firstName }}
+          {{ action.playerExtra.lastName }})</span
+        >
+      </li>
+    </ul>
   </div>
 </template>

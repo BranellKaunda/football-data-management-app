@@ -4,10 +4,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  size: {
-    type: Number,
-    default: 24,
-  },
 });
 
 const imageMap = {
@@ -29,12 +25,10 @@ const imageSrc = computed(() => imageMap[props.matchAction.action]);
     <img
       v-if="imageSrc"
       :src="imageSrc"
-      :width="size"
-      :height="size"
+      :width="24"
+      :height="24"
       class="shrink-0"
-      :alt="matchAction.action"
+      alt="Action Icon"
     />
-    <span class="font-medium tabular-nums">{{ matchAction.minute }}'</span>
-    <span>{{ matchAction.action }}</span>
   </div>
 </template>

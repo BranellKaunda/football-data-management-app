@@ -1,4 +1,6 @@
 <script setup>
+import MatchSummary from "~/components/match-action/MatchSummary.vue";
+
 const route = useRoute();
 
 const id = Number(route.params.id);
@@ -77,6 +79,9 @@ function onSelectionSaved(selectedIds) {
     </div>
 
     <!-- MATCH SUMMARY -->
-    <!-- <MatchActionList :match="match" /> -->
+    <div class="max-w-3xl mx-auto p-6">
+      <h2 class="text-xl font-bold mb-4 text-center">Match Summary</h2>
+      <MatchSummary :match-id="match.id" />
+    </div>
   </template>
 </template>

@@ -29,10 +29,12 @@ const { data: matchAction } = await useFetch(
         <p class="text-gray-500 text-sm">Team</p>
         <p class="font-medium">{{ matchAction.team?.name }}</p>
       </div>
+
       <div>
         <p class="text-gray-500 text-sm">Action</p>
         <MatchActionLogo :match-action="matchAction" class="font-medium" />
       </div>
+
       <div>
         <p class="text-gray-500 text-sm">Minute</p>
         <p class="font-medium">{{ matchAction.minute }}</p>

@@ -1,7 +1,5 @@
 <script setup>
-const { data: matchActions } = await useFetch(
-  "http://localhost:8000/api/match-actions/",
-);
+const { data } = await useFetch("http://localhost:8000/api/match-actions/");
 </script>
 
 <template>
@@ -13,23 +11,6 @@ const { data: matchActions } = await useFetch(
       Create Match Action
     </NuxtLink>
     <h1 class="text-2xl font-bold mb-6 text-center">Match Actions</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" v-if="matchActions">
-      <div
-        v-for="action in matchActions"
-        :key="action.id"
-        class="bg-white p-4 rounded shadow flex flex-col gap-2"
-      >
-        <NuxtLink
-          :to="`/match-actions/${action.id}`"
-          class="font-semibold text-lg hover:text-blue-600"
-        >
-          <MatchActionLogo :match-action="action" />
-        </NuxtLink>
-        <p class="text-gray-600 text-sm">
-          Player: {{ action.player?.firstName }} {{ action.player?.lastName }}
-        </p>
-        <TeamLogo :team-logo="action.team?.logo" />
-      </div>
-    </div>
+    <MatchActionList :match-actions="data" />
   </div>
 </template>
