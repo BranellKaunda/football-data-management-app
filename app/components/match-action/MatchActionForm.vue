@@ -1,15 +1,36 @@
 <script setup>
+const props = defineProps({
+  matchId: {
+    type: Number,
+    required: true,
+  },
+});
 const matchAction = defineModel();
 const draft = ref({ ...matchAction.value });
 const emit = defineEmits(["cancel", "save"]);
 
-const { data: matches } = await useFetch("http://localhost:8000/api/matches");
-const { data: players } = await useFetch("http://localhost:8000/api/players");
-const { data: teams } = await useFetch("http://localhost:8000/api/teams");
+const { data: matches } = await useFetch(
+  `http://localhost:8000/api/matches/${props.matchId}`,
+);
+//const { data: players } = await useFetch("http://localhost:8000/api/players/?teamId=");
+//const { data: teams } = await useFetch("http://localhost:8000/api/teams");
+
+const players = computed(() => {
+  return matches.value?.players || [];
+});
+
+const teams = computed(() => {
+  const teamArray = [];
+
+  matches.value?.homeTeam && teamArray.push(matches.value.homeTeam);
+  matches.value?.awayTeam && teamArray.push(matches.value.awayTeam);
+
+  return teamArray;
+});
 
 async function save() {
   const body = {
-    matchId: draft.value.matchId,
+    matchId: props.matchId,
     playerId: draft.value.playerId,
     playerIdExtra: draft.value.playerIdExtra,
     teamId: draft.value.teamId,
@@ -47,16 +68,6 @@ function cancel() {
     class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"
     @submit.prevent="save"
   >
-    <div class="flex flex-col gap-2">
-      <label>Match</label>
-      <select v-model.number="draft.matchId">
-        <option disabled value="">Select a match</option>
-        <option v-for="match in matches" :key="match.id" :value="match.id">
-          Match #{{ match.id }}
-        </option>
-      </select>
-    </div>
-
     <div class="flex flex-col gap-2">
       <label>Player</label>
       <select v-model.number="draft.playerId">

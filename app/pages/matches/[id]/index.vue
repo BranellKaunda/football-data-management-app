@@ -28,7 +28,8 @@ const awayTeamPlayersArray = computed(() => {
 });
 
 function onSelectionSaved(selectedIds) {
-  console.log("Selected player IDs saved:", selectedIds);
+  // After saving the player selection, we can refresh the match data to get the updated players and their associations with the match.
+  reloadNuxtApp();
   navigateTo(`/matches/${id}`);
 }
 
@@ -39,6 +40,7 @@ const onCancel = () => {
 };
 
 const onSave = async () => {
+  //navigateTo(`/matches/${e.res.id}`);
   reloadNuxtApp();
 };
 </script>
@@ -79,6 +81,7 @@ const onSave = async () => {
       </p>
       <MatchActionForm
         v-model="matchAction"
+        :matchId="id"
         @cancel="onCancel"
         @save="onSave"
       />
