@@ -27,6 +27,14 @@ const awayTeamPlayersArray = computed(() => {
   );
 });
 
+const homeTeamExistingPlayerIds = computed(() => {
+  return homeTeamPlayersArray.value?.map((p) => p.id) ?? [];
+});
+
+const awayTeamExistingPlayerIds = computed(() => {
+  return awayTeamPlayersArray.value?.map((p) => p.id) ?? [];
+});
+
 function onSelectionSaved(selectedIds) {
   // After saving the player selection, we can refresh the match data to get the updated players and their associations with the match.
   reloadNuxtApp();
@@ -58,6 +66,7 @@ const onSave = async () => {
       <PlayerSelectionForMatch
         :teamId="homeTeamId"
         :matchId="id"
+        :existingPlayerIds="homeTeamExistingPlayerIds"
         @save="onSelectionSaved"
       />
     </div>
@@ -67,6 +76,7 @@ const onSave = async () => {
       <PlayerSelectionForMatch
         :teamId="awayTeamId"
         :matchId="id"
+        :existingPlayerIds="awayTeamExistingPlayerIds"
         @save="onSelectionSaved"
       />
     </div>

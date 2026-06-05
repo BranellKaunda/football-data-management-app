@@ -8,6 +8,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  existingPlayerIds: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(["save"]);
@@ -16,19 +20,27 @@ const { data: players } = await useFetch(
   `http://localhost:8000/api/players/?teamId=${props.teamId}`,
 );
 
-const selectedPlayerIds = ref([]);
+const newPlayerIds = ref([]);
+
+function isExisting(playerId) {
+  return props.existingPlayerIds.includes(playerId);
+}
 
 function togglePlayer(playerId) {
-  const idx = selectedPlayerIds.value.indexOf(playerId);
+  if (isExisting(playerId)) return;
+
+  const idx = newPlayerIds.value.indexOf(playerId);
   if (idx === -1) {
-    selectedPlayerIds.value.push(playerId);
+    newPlayerIds.value.push(playerId);
   } else {
-    selectedPlayerIds.value.splice(idx, 1);
+    newPlayerIds.value.splice(idx, 1);
   }
 }
 
 async function save() {
-  const promises = selectedPlayerIds.value.map((playerId) =>
+  if (newPlayerIds.value.length === 0) return;
+
+  const promises = newPlayerIds.value.map((playerId) =>
     $fetch("http://localhost:8000/api/player-x-matches/create", {
       method: "POST",
       body: { playerId, matchId: props.matchId },
@@ -36,7 +48,7 @@ async function save() {
   );
 
   await Promise.all(promises);
-  emit("save", [...selectedPlayerIds.value]);
+  emit("save", [...newPlayerIds.value]);
 }
 </script>
 
@@ -55,17 +67,25 @@ async function save() {
           type="checkbox"
           :id="`player-${player.id}`"
           :value="player.id"
-          :checked="selectedPlayerIds.includes(player.id)"
+          :checked="isExisting(player.id) || newPlayerIds.includes(player.id)"
+          :disabled="isExisting(player.id)"
           @change="togglePlayer(player.id)"
         />
-        <label :for="`player-${player.id}`">
+        <label
+          :for="`player-${player.id}`"
+          :class="{ 'text-gray-400': isExisting(player.id) }"
+        >
           {{ player.firstName }} {{ player.lastName }}
+          <span v-if="isExisting(player.id)" class="text-xs text-gray-400 ml-1">
+            (already added)
+          </span>
         </label>
       </div>
       <div class="flex gap-4 justify-end mt-2">
         <button
           type="submit"
           class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+          :disabled="newPlayerIds.length === 0"
         >
           Save Selection
         </button>
