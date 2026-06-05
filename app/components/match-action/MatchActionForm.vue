@@ -1,4 +1,6 @@
 <script setup>
+import createEmptyMatchActions from "~/utils/createEmptyMatchActions";
+
 const props = defineProps({
   matchId: {
     type: Number,
@@ -12,8 +14,6 @@ const emit = defineEmits(["cancel", "save"]);
 const { data: matches } = await useFetch(
   `http://localhost:8000/api/matches/${props.matchId}`,
 );
-//const { data: players } = await useFetch("http://localhost:8000/api/players/?teamId=");
-//const { data: teams } = await useFetch("http://localhost:8000/api/teams");
 
 const players = computed(() => {
   return matches.value?.players || [];
@@ -50,7 +50,8 @@ async function save() {
   const res = await $fetch(url, { method, body });
 
   matchAction.value = res;
-  console.log("Saved match action:", res);
+  //resetting the draft to empty values so that the form is cleared after saving
+  draft.value = { ...createEmptyMatchActions(props.matchId) };
   emit("save", res);
 }
 
