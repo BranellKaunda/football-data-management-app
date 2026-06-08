@@ -31,6 +31,6 @@ const { data } = await useFetch(
     </div>
 
     <!-- MATCHES -->
-    <MatchMatches />
+    <MatchList />
   </div>
 </template>

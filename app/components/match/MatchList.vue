@@ -1,36 +1,22 @@
 <script setup>
 const route = useRoute();
 const props = defineProps({
-  recentMatches: {
-    type: Array,
-    required: false,
-  },
   matches: {
     type: Array,
     required: false,
   },
 });
 
-const url = props.recentMatches
-  ? `http://localhost:8000/api/matches/?teamId=${route.params.id}`
-  : route.params.id
-    ? `http://localhost:8000/api/matches/?competitionId=${route.params.id}`
-    : "http://localhost:8000/api/matches";
+const url = route.params.id
+  ? `http://localhost:8000/api/matches/?competitionId=${route.params.id}`
+  : "http://localhost:8000/api/matches";
 
 const { data } = await useFetch(url);
 </script>
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">
-      {{
-        props.recentMatches
-          ? "Recent Matches"
-          : props.matches
-            ? "Matches"
-            : "All Matches"
-      }}
-    </h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">Matches</h1>
 
     <div class="flex flex-col gap-4" v-if="matches ? matches : data">
       <div

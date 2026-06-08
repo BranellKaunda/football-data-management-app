@@ -1,7 +1,3 @@
-<script setup>
-const { data } = await useFetch("http://localhost:8000/api/matches");
-</script>
-
 <template>
   <div class="max-w-3xl mx-auto p-6">
     <NuxtLink
@@ -20,6 +16,6 @@ const { data } = await useFetch("http://localhost:8000/api/matches");
     </div>
 
     <!-- MATCHES -->
-    <MatchMatches />
+    <MatchList />
   </div>
 </template>

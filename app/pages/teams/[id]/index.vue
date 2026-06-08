@@ -38,5 +38,5 @@ const { data: team } = await useFetch(
   </div>
 
   <!-- RECENT MATCHES -->
-  <MatchMatches :recentMatches="[]" />
+  <MatchRecentMatches :teamId="team.id" />
 </template>
