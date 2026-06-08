@@ -54,7 +54,7 @@ const onSave = async () => {
 </script>
 
 <template>
-  <MatchMatches :match="match" />
+  <Match :match="match" />
 
   <template v-if="match.status === 'Scheduled'">
     <h1 class="text-xl font-bold mb-4 text-center">

@@ -1,87 +1,62 @@
 <script setup>
-const route = useRoute();
 const props = defineProps({
-  recentMatches: {
-    type: Array,
-    required: false,
-  },
-  matches: {
-    type: Array,
-    required: false,
+  match: {
+    type: Object,
+    required: true,
   },
 });
-
-const url = props.recentMatches
-  ? `http://localhost:8000/api/matches/?teamId=${route.params.id}`
-  : route.params.id
-    ? `http://localhost:8000/api/matches/?competitionId=${route.params.id}`
-    : "http://localhost:8000/api/matches";
-
-const { data } = await useFetch(url);
 </script>
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">
-      {{
-        props.recentMatches
-          ? "Recent Matches"
-          : props.matches
-            ? "Matches"
-            : "All Matches"
-      }}
-    </h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">Matches</h1>
 
-    <div class="flex flex-col gap-4" v-if="matches ? matches : data">
-      <div
-        v-for="match in matches ? matches : data"
-        :key="match.id"
-        class="bg-white p-4 rounded shadow flex flex-col gap-3"
-      >
+    <div class="flex flex-col gap-4">
+      <div class="bg-white p-4 rounded shadow flex flex-col gap-3">
         <!-- MAIN MATCH ROW -->
         <div class="flex items-center justify-between gap-4">
           <!-- HOME TEAM -->
           <div class="flex items-center gap-2 w-1/3">
             <TeamLogo
-              :teamLogo="match?.homeTeam.logo"
-              :teamId="match?.homeTeam.id"
+              :teamLogo="match.homeTeam.logo"
+              :teamId="match.homeTeam.id"
             />
 
             <NuxtLink
-              :to="`/teams/${match?.homeTeam.id}`"
+              :to="`/teams/${match.homeTeam.id}`"
               class="font-medium text-sm hover:text-blue-600"
             >
-              {{ match?.homeTeam.name }}
+              {{ match.homeTeam.name }}
             </NuxtLink>
           </div>
 
           <!-- SCORE -->
           <div class="text-lg font-bold text-center w-1/3">
-            {{ match?.homeTeamGoals }}
+            {{ match.homeTeamGoals }}
             <span class="text-gray-500">vs</span>
-            {{ match?.awayTeamGoals }}
+            {{ match.awayTeamGoals }}
           </div>
 
           <!-- AWAY TEAM -->
           <div class="flex items-center justify-end gap-2 w-1/3">
             <NuxtLink
-              :to="`/teams/${match?.awayTeam.id}`"
+              :to="`/teams/${match.awayTeam.id}`"
               class="font-medium text-sm text-right hover:text-blue-600"
             >
-              {{ match?.awayTeam.name }}
+              {{ match.awayTeam.name }}
             </NuxtLink>
 
             <TeamLogo
-              :teamLogo="match?.awayTeam.logo"
-              :teamId="match?.awayTeam.id"
+              :teamLogo="match.awayTeam.logo"
+              :teamId="match.awayTeam.id"
             />
           </div>
         </div>
 
         <!-- COMPETITION + DATE -->
         <div class="text-gray-600 text-sm text-center">
-          {{ match?.competition?.name }} • {{ match?.matchDate }} •
-          {{ match?.status }}
+          {{ match.competition?.name }} • {{ match.matchDate }} •
+          {{ match.status }}
         </div>
 
         <!-- REFEE -->

@@ -1,4 +1,6 @@
 <script setup>
+import createEmptyMatchForm from "@/utils/createEmptyMatchForm";
+
 const match = defineModel();
 const draft = ref({ ...match.value });
 const emit = defineEmits(["cancel", "save"]);
@@ -32,6 +34,7 @@ async function save() {
     body,
   });
 
+  //draft.value = { ...createEmptyMatchForm() };
   emit("save", res);
 }
 

@@ -1,4 +1,6 @@
 <script setup>
+import { reloadNuxtApp } from "#app";
+
 const match = ref({
   homeTeam: { id: "", name: "" },
   awayTeam: { id: "", name: "" },
@@ -10,15 +12,23 @@ const match = ref({
   competition: { id: "", name: "" },
 });
 
+const newCreatedMatch = ref([]);
+
 function onCancel(e) {
   navigateTo("/matches");
 }
 
-function onSave(e) {
-  navigateTo(`/matches/${e.id}`);
+async function onSave(e) {
+  const match = await $fetch(`http://localhost:8000/api/matches/${e.id}`);
+  newCreatedMatch.value.push(match);
 }
 </script>
 
 <template>
   <MatchForm v-model="match" @cancel="onCancel" @save="onSave" />
+
+  <!-- CREATED MATCH -->
+  <div v-if="newCreatedMatch.length">
+    <MatchMatches :matches="newCreatedMatch" />
+  </div>
 </template>
