@@ -5,6 +5,10 @@ const props = defineProps({
     type: Array,
     required: false,
   },
+  deleteButton: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const url = route.params.id
@@ -12,6 +16,8 @@ const url = route.params.id
   : "http://localhost:8000/api/matches";
 
 const { data } = await useFetch(url);
+
+const emit = defineEmits(["deleted"]);
 </script>
 
 <template>
@@ -86,6 +92,10 @@ const { data } = await useFetch(url);
           >
             Details
           </NuxtLink>
+        </div>
+
+        <div v-if="deleteButton" class="relative">
+          <MatchDelete :matchId="match.id" @deleted="emit('deleted', match.id)" />
         </div>
       </div>
     </div>

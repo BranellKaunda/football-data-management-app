@@ -1,6 +1,4 @@
 <script setup>
-import { reloadNuxtApp } from "#app";
-
 const match = ref({
   homeTeam: { id: "", name: "" },
   awayTeam: { id: "", name: "" },
@@ -21,14 +19,19 @@ function onCancel(e) {
 async function onSave(e) {
   const match = await $fetch(`http://localhost:8000/api/matches/${e.id}`);
   newCreatedMatch.value.push(match);
+  //localStorage.setItem("newCreatedMatch", JSON.stringify(newCreatedMatch.value));
+}
+
+function onDelete(matchId) {
+  newCreatedMatch.value = newCreatedMatch.value.filter((m) => m.id !== matchId);
 }
 </script>
 
 <template>
   <MatchForm v-model="match" @cancel="onCancel" @save="onSave" />
 
-  <!-- CREATED MATCH -->
+  <!-- CREATED MATCHES -->
   <div v-if="newCreatedMatch.length">
-    <MatchMatches :matches="newCreatedMatch" />
+    <MatchList :matches="newCreatedMatch" deleteButton="true" @deleted="onDelete" />
   </div>
 </template>
