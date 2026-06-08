@@ -6,7 +6,10 @@ const props = defineProps({
   },
 });
 
-const onDelete = () => {
+const { deleteMatch } = useMatch();
+
+const onDelete = async (matchId) => {
+  await deleteMatch(matchId);
   navigateTo("/matches");
 };
 </script>
@@ -80,7 +83,14 @@ const onDelete = () => {
             Details
           </NuxtLink>
 
-          <MatchDelete :matchId="match.id" @deleted="onDelete" />
+          <div>
+            <button
+              @click="onDelete(match.id)"
+              class="absolute bottom-2 right-6 hover:scale-110"
+            >
+              <img src="/delete-icon.png" alt="Delete" class="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

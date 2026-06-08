@@ -1,5 +1,5 @@
 <script setup>
-import createEmptyMatchActions from "~/utils/createEmptyMatchActions";
+import { createEmptyMatchActions } from "~/utils/Match";
 
 const props = defineProps({
   matchId: {

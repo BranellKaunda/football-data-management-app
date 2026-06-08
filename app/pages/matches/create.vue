@@ -32,6 +32,10 @@ function onDelete(matchId) {
 
   <!-- CREATED MATCHES -->
   <div v-if="newCreatedMatch.length">
-    <MatchList :matches="newCreatedMatch" deleteButton="true" @deleted="onDelete" />
+    <MatchList
+      :matches="newCreatedMatch"
+      :delete-button="true"
+      @deleted="onDelete"
+    />
   </div>
 </template>

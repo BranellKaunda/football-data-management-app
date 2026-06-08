@@ -1,5 +1,5 @@
 <script setup>
-import createEmptyMatchForm from "@/utils/createEmptyMatchForm";
+import { createEmptyMatchForm } from "@/utils/Match";
 
 const match = defineModel();
 const draft = ref({ ...match.value });

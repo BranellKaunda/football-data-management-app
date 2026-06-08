@@ -8,16 +8,23 @@ const props = defineProps({
   deleteButton: {
     type: Boolean,
     default: false,
+    required: false,
   },
 });
+
+const emit = defineEmits(["deleted"]);
+const { deleteMatch } = useMatch();
+
+const onDelete = async (matchId) => {
+  await deleteMatch(matchId);
+  emit("deleted", matchId);
+};
 
 const url = route.params.id
   ? `http://localhost:8000/api/matches/?competitionId=${route.params.id}`
   : "http://localhost:8000/api/matches";
 
 const { data } = await useFetch(url);
-
-const emit = defineEmits(["deleted"]);
 </script>
 
 <template>
@@ -94,14 +101,15 @@ const emit = defineEmits(["deleted"]);
           </NuxtLink>
         </div>
 
-        <div v-if="deleteButton" class="relative">
-          <MatchDelete :matchId="match.id" @deleted="emit('deleted', match.id)" />
+        <div class="relative" v-if="deleteButton">
+          <button
+            @click="onDelete(match.id)"
+            class="absolute bottom-2 right-6 hover:scale-110"
+          >
+            <img src="/delete-icon.png" alt="Delete" class="w-5 h-5" />
+          </button>
         </div>
       </div>
     </div>
-
-    <!-- <div v-else-if="!data">
-      <p class="text-center text-gray-500">No matches found.</p>
-    </div> -->
   </div>
 </template>
