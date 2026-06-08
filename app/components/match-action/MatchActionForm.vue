@@ -50,9 +50,10 @@ async function save() {
   const res = await $fetch(url, { method, body });
 
   matchAction.value = res;
+
+  emit("save", res);
   //resetting the draft to empty values so that the form is cleared after saving
   draft.value = { ...createEmptyMatchActions(props.matchId) };
-  emit("save", res);
 }
 
 function cancel() {

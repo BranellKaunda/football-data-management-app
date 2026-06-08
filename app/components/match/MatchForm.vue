@@ -34,8 +34,8 @@ async function save() {
     body,
   });
 
-  //draft.value = { ...createEmptyMatchForm() };
   emit("save", res);
+  draft.value = { ...createEmptyMatchForm() };
 }
 
 function cancel() {

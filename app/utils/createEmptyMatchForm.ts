@@ -1,12 +1,12 @@
 export default function createEmptyMatchForm() {
   return {
-    homeTeamId: null,
-    awayTeamId: null,
+    homeTeam: { id: null, name: "" },
+    awayTeam: { id: null, name: "" },
     homeTeamGoals: null,
     awayTeamGoals: null,
     matchDate: null,
-    status: null,
-    refereeId: null,
-    competitionId: null,
+    status: "Scheduled",
+    referee: { id: null, firstName: "", lastName: "" },
+    competition: { id: null, name: "" },
   };
 }
