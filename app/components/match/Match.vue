@@ -5,6 +5,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+const onDelete = () => {
+  navigateTo("/matches");
+};
 </script>
 
 <template>
@@ -12,7 +16,7 @@ const props = defineProps({
     <h1 class="text-2xl font-bold mb-6 text-center">Matches</h1>
 
     <div class="flex flex-col gap-4">
-      <div class="bg-white p-4 rounded shadow flex flex-col gap-3">
+      <div class="bg-white p-4 rounded shadow flex flex-col gap-3 relative">
         <!-- MAIN MATCH ROW -->
         <div class="flex items-center justify-between gap-4">
           <!-- HOME TEAM -->
@@ -75,6 +79,8 @@ const props = defineProps({
           >
             Details
           </NuxtLink>
+
+          <MatchDelete :matchId="match.id" @deleted="onDelete" />
         </div>
       </div>
     </div>
