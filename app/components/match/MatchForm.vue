@@ -5,7 +5,9 @@ const match = defineModel();
 const draft = ref({ ...match.value });
 const emit = defineEmits(["cancel", "save"]);
 
-const { data: teams } = await useFetch("http://localhost:8000/api/teams");
+const { getTeams } = useTeam();
+const teams = await getTeams();
+
 const { data: referees } = await useFetch("http://localhost:8000/api/referees");
 const { data: competitions } = await useFetch(
   "http://localhost:8000/api/leagues",
