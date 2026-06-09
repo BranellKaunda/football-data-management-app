@@ -6,11 +6,10 @@ const props = defineProps({
   },
 });
 
-const { data } = await useFetch(
-  `http://localhost:8000/api/matches/?teamId=${props.teamId}`,
-);
+const { getMatchesByTeam } = useMatch();
+const matches = await getMatchesByTeam(props.teamId);
 </script>
 
 <template>
-  <MatchList :matches="data" />
+  <MatchList :matches="matches" />
 </template>

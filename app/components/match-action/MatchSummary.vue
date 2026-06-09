@@ -6,13 +6,12 @@ const props = defineProps({
   },
 });
 
-const { data } = await useFetch(
-  `http://localhost:8000/api/match-actions/?matchId=${props.matchId}`,
-);
+const { getMatchActionsByMatch } = useMatchAction();
+const matchActions = await getMatchActionsByMatch(props.matchId);
 </script>
 
 <template>
   <div class="flex flex-col gap-2">
-    <MatchActionList :match-actions="data ?? []" />
+    <MatchActionList :match-actions="matchActions ?? []" />
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup>
-const { data } = await useFetch("http://localhost:8000/api/match-actions/");
+const { getAllMatchActions } = useMatchAction();
+const matchActions = await getAllMatchActions();
 </script>
 
 <template>
@@ -11,6 +12,6 @@ const { data } = await useFetch("http://localhost:8000/api/match-actions/");
       Create Match Action
     </NuxtLink>
     <h1 class="text-2xl font-bold mb-6 text-center">Match Actions</h1>
-    <MatchActionList :match-actions="data" />
+    <MatchActionList :match-actions="matchActions" />
   </div>
 </template>

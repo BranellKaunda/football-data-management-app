@@ -1,12 +1,8 @@
 <script setup>
 const route = useRoute();
 
-const { data: player } = await useFetch(
-  `http://localhost:8000/api/players/${route.params.id}`,
-  {
-    query: route.query,
-  },
-);
+const { getPlayer } = usePlayer();
+const player = await getPlayer(route.params.id);
 </script>
 
 <template>

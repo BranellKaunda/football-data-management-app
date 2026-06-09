@@ -1,9 +1,8 @@
 <script setup>
 const route = useRoute();
 const playerXmatchId = route.params.id;
-const { data: playerXmatch } = await useFetch(
-  `http://localhost:8000/api/player-x-matches/${playerXmatchId}`,
-);
+const { getPlayerXMatch } = usePlayerXMatch();
+const playerXmatch = await getPlayerXMatch(playerXmatchId);
 const onCancel = () => {
   navigateTo(`/playerXmatches/${playerXmatchId}`);
 };

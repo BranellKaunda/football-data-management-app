@@ -13,18 +13,16 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["deleted"]);
-const { deleteMatch } = useMatch();
+const { getAllMatches, getMatchesByCompetition, deleteMatch } = useMatch();
 
 const onDelete = async (matchId) => {
   await deleteMatch(matchId);
   emit("deleted", matchId);
 };
 
-const url = route.params.id
-  ? `http://localhost:8000/api/matches/?competitionId=${route.params.id}`
-  : "http://localhost:8000/api/matches";
-
-const { data } = await useFetch(url);
+const data = route.params.id
+  ? await getMatchesByCompetition(route.params.id)
+  : await getAllMatches();
 </script>
 
 <template>

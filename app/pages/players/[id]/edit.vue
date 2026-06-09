@@ -2,9 +2,8 @@
 const route = useRoute();
 const playerId = route.params.id;
 
-const { data: player } = await useFetch(
-  `http://localhost:8000/api/players/${playerId}`,
-);
+const { getPlayer } = usePlayer();
+const player = await getPlayer(playerId);
 
 const onCancel = () => {
   navigateTo(`/players/${playerId}`);

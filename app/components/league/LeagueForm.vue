@@ -3,6 +3,8 @@ const league = defineModel();
 const draft = ref({ ...league.value });
 const emit = defineEmits(["cancel", "save"]);
 
+const { createLeague, editLeague } = useLeague();
+
 async function save() {
   const body = {
     name: draft.value.name,
@@ -10,16 +12,9 @@ async function save() {
     rank: draft.value.rank,
   };
 
-  const method = league.value.id ? "PATCH" : "POST";
-
-  const url = league.value.id
-    ? `http://localhost:8000/api/leagues/${league.value.id}`
-    : "http://localhost:8000/api/leagues/create";
-
-  const res = await $fetch(url, {
-    method,
-    body,
-  });
+  const res = league.value.id
+    ? await editLeague(league.value.id, body)
+    : await createLeague(body);
 
   league.value = res;
   emit("save", res);

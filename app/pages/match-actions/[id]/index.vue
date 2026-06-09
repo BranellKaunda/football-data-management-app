@@ -1,9 +1,7 @@
 <script setup>
 const route = useRoute();
-const { data: matchAction } = await useFetch(
-  `http://localhost:8000/api/match-actions/${route.params.id}`,
-  { query: route.query },
-);
+const { getMatchAction } = useMatchAction();
+const matchAction = await getMatchAction(route.params.id);
 </script>
 <template>
   <div

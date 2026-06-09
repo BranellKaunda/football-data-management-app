@@ -11,22 +11,23 @@ const matchAction = defineModel();
 const draft = ref({ ...matchAction.value });
 const emit = defineEmits(["cancel", "save"]);
 
-const { data: matches } = await useFetch(
-  `http://localhost:8000/api/matches/${props.matchId}`,
-);
+const { getMatch } = useMatch();
+const match = await getMatch(props.matchId);
 
 const players = computed(() => {
-  return matches.value?.players || [];
+  return match?.players || [];
 });
 
 const teams = computed(() => {
   const teamArray = [];
 
-  matches.value?.homeTeam && teamArray.push(matches.value.homeTeam);
-  matches.value?.awayTeam && teamArray.push(matches.value.awayTeam);
+  match?.homeTeam && teamArray.push(match.homeTeam);
+  match?.awayTeam && teamArray.push(match.awayTeam);
 
   return teamArray;
 });
+
+const { createMatchAction, editMatchAction } = useMatchAction();
 
 async function save() {
   const body = {
@@ -38,21 +39,17 @@ async function save() {
     minute: draft.value.minute,
   };
 
-  const method = matchAction.value.id ? "PATCH" : "POST";
-  const url = matchAction.value.id
-    ? "http://localhost:8000/api/match-actions/edit"
-    : "http://localhost:8000/api/match-actions/create";
-
   if (matchAction.value.id) {
     body.id = matchAction.value.id;
   }
 
-  const res = await $fetch(url, { method, body });
+  const res = matchAction.value.id
+    ? await editMatchAction(body)
+    : await createMatchAction(body);
 
   matchAction.value = res;
 
   emit("save", res);
-  //resetting the draft to empty values so that the form is cleared after saving
   draft.value = { ...createEmptyMatchActions(props.matchId) };
 }
 

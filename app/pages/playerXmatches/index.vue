@@ -1,7 +1,6 @@
 <script setup>
-const { data: playerXmatches } = await useFetch(
-  "http://localhost:8000/api/player-x-matches",
-);
+const { getAllPlayerXMatches } = usePlayerXMatch();
+const playerXmatches = await getAllPlayerXMatches();
 </script>
 <template>
   <div class="max-w-3xl mx-auto p-6">

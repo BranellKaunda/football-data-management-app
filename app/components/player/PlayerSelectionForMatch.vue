@@ -16,9 +16,8 @@ const props = defineProps({
 
 const emit = defineEmits(["save"]);
 
-const { data: players } = await useFetch(
-  `http://localhost:8000/api/players/?teamId=${props.teamId}`,
-);
+const { getPlayersByTeam } = usePlayer();
+const players = await getPlayersByTeam(props.teamId);
 
 const newPlayerIds = ref([]);
 
@@ -37,14 +36,13 @@ function togglePlayer(playerId) {
   }
 }
 
+const { createPlayerXMatch } = usePlayerXMatch();
+
 async function save() {
   if (newPlayerIds.value.length === 0) return;
 
   const promises = newPlayerIds.value.map((playerId) =>
-    $fetch("http://localhost:8000/api/player-x-matches/create", {
-      method: "POST",
-      body: { playerId, matchId: props.matchId },
-    }),
+    createPlayerXMatch({ playerId, matchId: props.matchId }),
   );
 
   await Promise.all(promises);

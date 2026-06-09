@@ -2,9 +2,8 @@
 const route = useRoute();
 const teamId = route.params.id;
 
-const { data: team } = await useFetch(
-  `http://localhost:8000/api/teams/${teamId}`,
-);
+const { getTeam } = useTeam();
+const team = await getTeam(teamId);
 
 const onCancel = () => {
   navigateTo(`/teams/${teamId}`);

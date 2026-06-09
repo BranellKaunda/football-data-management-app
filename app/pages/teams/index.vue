@@ -1,5 +1,6 @@
 <script setup>
-const { data: teams } = await useFetch("http://localhost:8000/api/teams");
+const { getAllTeams } = useTeam();
+const teams = await getAllTeams();
 </script>
 
 <template>

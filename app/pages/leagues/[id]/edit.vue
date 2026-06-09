@@ -2,9 +2,8 @@
 const route = useRoute();
 const leagueId = route.params.id;
 
-const { data: league } = await useFetch(
-  `http://localhost:8000/api/leagues/${leagueId}`,
-);
+const { getLeague } = useLeague();
+const league = await getLeague(leagueId);
 
 const onCancel = () => {
   navigateTo(`/leagues`);

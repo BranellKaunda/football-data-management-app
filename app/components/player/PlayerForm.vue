@@ -4,7 +4,10 @@ const draft = ref({ ...player.value });
 const emit = defineEmits(["cancel", "save"]);
 const editing = computed(() => !!draft.value.id);
 
-const { data: teams } = await useFetch("http://localhost:8000/api/teams");
+const { getAllTeams } = useTeam();
+const teams = await getAllTeams();
+
+const { createPlayer, editPlayer } = usePlayer();
 
 async function save() {
   const body = {
@@ -17,15 +20,11 @@ async function save() {
     heightCm: draft.value.heightCm,
   };
 
-  const url = editing.value
-    ? `http://localhost:8000/api/players/${player.value.id}`
-    : "http://localhost:8000/api/players/create";
+  const res = editing.value
+    ? await editPlayer(player.value.id, body)
+    : await createPlayer(body);
 
-  const method = editing.value ? "PATCH" : "POST";
-
-  const res = await $fetch(url, { method, body });
-
-  player.value = res; // emit once
+  player.value = res;
   emit("save", res);
 }
 

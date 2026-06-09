@@ -1,9 +1,7 @@
 <script setup>
 const route = useRoute();
-const { data: playerXmatch } = await useFetch(
-  `http://localhost:8000/api/player-x-matches/${route.params.id}`,
-  { query: route.query },
-);
+const { getPlayerXMatch } = usePlayerXMatch();
+const playerXmatch = await getPlayerXMatch(route.params.id);
 </script>
 <template>
   <div

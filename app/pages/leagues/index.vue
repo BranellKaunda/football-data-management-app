@@ -1,5 +1,6 @@
 <script setup>
-const { data: leagues } = await useFetch("http://localhost:8000/api/leagues");
+const { getAllLeagues } = useLeague();
+const leagues = await getAllLeagues();
 </script>
 
 <template>

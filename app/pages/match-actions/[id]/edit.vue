@@ -1,9 +1,8 @@
 <script setup>
 const route = useRoute();
 const matchActionId = route.params.id;
-const { data: matchAction } = await useFetch(
-  `http://localhost:8000/api/match-actions/${matchActionId}`,
-);
+const { getMatchAction } = useMatchAction();
+const matchAction = await getMatchAction(matchActionId);
 const onCancel = () => {
   navigateTo(`/match-actions/${matchActionId}`);
 };

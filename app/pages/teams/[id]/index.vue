@@ -35,6 +35,9 @@ const team = await getTeam(teamId);
     </div>
   </div>
 
+  <!-- TEAM PLAYERS -->
+  <PlayerList :teamId="team.id" />
+
   <!-- RECENT MATCHES -->
   <MatchRecentMatches :teamId="team.id" />
 </template>

@@ -8,17 +8,17 @@ const id = Number(route.params.id);
 const { getMatch } = useMatch();
 const match = await getMatch(id);
 
-const homeTeamId = computed(() => match.value?.homeTeam.id);
-const awayTeamId = computed(() => match.value?.awayTeam.id);
+const homeTeamId = computed(() => match.homeTeam.id);
+const awayTeamId = computed(() => match.awayTeam.id);
 
 const homeTeamPlayersArray = computed(() => {
-  return match.value?.players.filter(
+  return match?.players.filter(
     (player) => player.teamId === homeTeamId.value,
   );
 });
 
 const awayTeamPlayersArray = computed(() => {
-  return match.value?.players.filter(
+  return match?.players.filter(
     (player) => player.teamId === awayTeamId.value,
   );
 });

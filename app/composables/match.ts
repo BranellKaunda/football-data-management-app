@@ -1,7 +1,25 @@
 export const useMatch = () => {
+  const getAllMatches = async () => {
+    const matches = await $fetch("http://localhost:8000/api/matches");
+    return matches;
+  };
+
+  const getMatchesByCompetition = async (competitionId: number) => {
+    const matches = await $fetch(
+      `http://localhost:8000/api/matches/?competitionId=${competitionId}`,
+    );
+    return matches;
+  };
+
+  const getMatchesByTeam = async (teamId: number) => {
+    const matches = await $fetch(
+      `http://localhost:8000/api/matches/?teamId=${teamId}`,
+    );
+    return matches;
+  };
+
   const getMatch = async (matchId: number) => {
     const match = await $fetch(`http://localhost:8000/api/matches/${matchId}`);
-
     return match;
   };
 
@@ -10,7 +28,6 @@ export const useMatch = () => {
       method: "POST",
       body: matchData,
     });
-
     return match;
   };
 
@@ -19,7 +36,6 @@ export const useMatch = () => {
       method: "PATCH",
       body: matchData,
     });
-
     return match;
   };
 
@@ -29,5 +45,13 @@ export const useMatch = () => {
     });
   };
 
-  return { getMatch, createMatch, editMatch, deleteMatch };
+  return {
+    getAllMatches,
+    getMatchesByCompetition,
+    getMatchesByTeam,
+    getMatch,
+    createMatch,
+    editMatch,
+    deleteMatch,
+  };
 };

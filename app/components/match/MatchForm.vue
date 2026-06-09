@@ -5,13 +5,14 @@ const match = defineModel();
 const draft = ref({ ...match.value });
 const emit = defineEmits(["cancel", "save"]);
 
-const { getTeams } = useTeam();
-const teams = await getTeams();
+const { getAllTeams } = useTeam();
+const teams = await getAllTeams();
 
-const { data: referees } = await useFetch("http://localhost:8000/api/referees");
-const { data: competitions } = await useFetch(
-  "http://localhost:8000/api/leagues",
-);
+const { getAllReferees } = useReferee();
+const referees = await getAllReferees();
+
+const { getAllLeagues } = useLeague();
+const competitions = await getAllLeagues();
 
 const { createMatch, editMatch } = useMatch();
 
