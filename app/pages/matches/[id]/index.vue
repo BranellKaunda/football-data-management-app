@@ -3,14 +3,10 @@ import MatchSummary from "~/components/match-action/MatchSummary.vue";
 import { reloadNuxtApp } from "#app";
 
 const route = useRoute();
-
 const id = Number(route.params.id);
-const { data: match, refresh } = await useFetch(
-  `http://localhost:8000/api/matches/${id}`,
-  {
-    query: route.query,
-  },
-);
+
+const { getMatch } = useMatch();
+const match = await getMatch(id);
 
 const homeTeamId = computed(() => match.value?.homeTeam.id);
 const awayTeamId = computed(() => match.value?.awayTeam.id);

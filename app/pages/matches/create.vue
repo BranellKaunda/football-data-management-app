@@ -17,9 +17,10 @@ function onCancel(e) {
 }
 
 async function onSave(e) {
-  const match = await $fetch(`http://localhost:8000/api/matches/${e.id}`);
+  const { getMatch } = useMatch();
+  const match = await getMatch(e.id);
+
   newCreatedMatch.value.push(match);
-  //localStorage.setItem("newCreatedMatch", JSON.stringify(newCreatedMatch.value));
 }
 
 function onDelete(matchId) {

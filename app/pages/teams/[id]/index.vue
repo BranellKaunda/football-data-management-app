@@ -1,16 +1,14 @@
 <script setup>
 const route = useRoute();
-const { data: team } = await useFetch(
-  `http://localhost:8000/api/teams/${route.params.id}`,
-  {
-    query: route.query,
-  },
-);
+const teamId = Number(route.params.id);
+
+const { getTeam } = useTeam();
+const team = await getTeam(teamId);
 </script>
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">Teams</h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">Team</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div

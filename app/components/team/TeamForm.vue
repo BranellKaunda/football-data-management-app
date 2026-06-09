@@ -5,23 +5,18 @@ const team = defineModel();
 const draft = ref({ ...team.value });
 const emit = defineEmits(["cancel", "save"]);
 
+const { createTeam, editTeam } = useTeam();
+
 async function save() {
   const body = {
     name: draft.value.name,
-    logo: draft.value.logo,
     location: draft.value.location,
+    logo: draft.value.logo,
   };
 
-  const url = team.value.id
-    ? `http://localhost:8000/api/teams/${team.value.id}`
-    : `http://localhost:8000/api/teams/create`;
-
-  const method = team.value.id ? "PATCH" : "POST";
-
-  const res = await $fetch(url, {
-    method,
-    body,
-  });
+  const res = team.value.id
+    ? await editTeam(team.value.id, body)
+    : await createTeam(body);
 
   team.value = res; // emit once
   emit("save", res);

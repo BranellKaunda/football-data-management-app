@@ -20,7 +20,11 @@ const props = defineProps({
         v-for="action in matchActions"
         :key="action.id"
       >
-        <TeamLogo :team-logo="action.team?.logo" size="w-10 h-10" />
+        <TeamLogo
+          :team-logo="action.team?.logo"
+          size="w-10 h-10"
+          :team-id="action.team.id"
+        />
 
         <span class="text-sm text-gray-600"
           >{{ action.player?.firstName }} {{ action.player?.lastName }}</span

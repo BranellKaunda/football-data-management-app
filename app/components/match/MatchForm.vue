@@ -1,5 +1,5 @@
 <script setup>
-import { createEmptyMatchForm } from "@/utils/Match";
+import { createEmptyMatchForm } from "#shared/utils/Match";
 
 const match = defineModel();
 const draft = ref({ ...match.value });
@@ -10,6 +10,8 @@ const { data: referees } = await useFetch("http://localhost:8000/api/referees");
 const { data: competitions } = await useFetch(
   "http://localhost:8000/api/leagues",
 );
+
+const { createMatch, editMatch } = useMatch();
 
 async function save() {
   const body = {
@@ -23,16 +25,9 @@ async function save() {
     competitionId: draft.value.competition.id,
   };
 
-  const method = match.value.id ? "PATCH" : "POST";
-
-  const url = match.value.id
-    ? `http://localhost:8000/api/matches/${match.value.id}`
-    : `http://localhost:8000/api/matches/create`;
-
-  const res = await $fetch(url, {
-    method,
-    body,
-  });
+  const res = match.value.id
+    ? await editMatch(match.value.id, body)
+    : await createMatch(body);
 
   emit("save", res);
   draft.value = { ...createEmptyMatchForm() };
