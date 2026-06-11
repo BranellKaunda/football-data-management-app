@@ -1,0 +1,10 @@
+import { useDrizzle } from "#server/utils/drizzle";
+import { defineEventHandler } from "h3";
+
+export default defineEventHandler(async (event) => {
+  return await useDrizzle().query.leagues.findFirst({
+    where: {
+      id: Number(event.context.params!.id),
+    },
+  });
+});

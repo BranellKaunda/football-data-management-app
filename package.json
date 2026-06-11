@@ -15,10 +15,19 @@
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.3.0",
     "vue": "^3.5.33",
-    "vue-router": "^5.0.6"
+    "vue-router": "^5.0.6",
+    "@vercel/blob": "^2.3.3",
+    "csv-parse": "^6.2.1",
+    "drizzle-orm": "^1.0.0-beta.22",
+    "es-toolkit": "^1.45.1",
+    "jiti": "^2.6.1",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",
-    "@tailwindcss/forms": "^0.5.11"
+    "@tailwindcss/forms": "^0.5.11",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^1.0.0-beta.22"
   }
 }

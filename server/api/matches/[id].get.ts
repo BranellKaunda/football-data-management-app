@@ -1,0 +1,29 @@
+import { defineEventHandler } from "h3";
+import { useDrizzle } from "#server/utils/drizzle";
+
+export default defineEventHandler(async (event) => {
+  const results = await useDrizzle().query.matches.findFirst({
+    columns: {
+      id: true,
+      matchDate: true,
+      status: true,
+      homeTeamGoals: true,
+      awayTeamGoals: true,
+    },
+    with: {
+      homeTeam: true,
+      awayTeam: true,
+      competition: true,
+      referee: true,
+      players: {
+        columns: { id: true, firstName: true, lastName: true, teamId: true },
+      },
+    },
+
+    where: {
+      id: Number(event.context.params!.id),
+    },
+  });
+
+  return results;
+});

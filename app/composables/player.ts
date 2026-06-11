@@ -1,11 +1,13 @@
 export const usePlayer = () => {
   const getAllPlayers = async () => {
-    const players = await $fetch("http://localhost:8000/api/players");
+    const players = await $fetch("/api/players");
     return players;
   };
 
   const getPlayer = async (playerId: number) => {
-    const player = await $fetch(`http://localhost:8000/api/players/${playerId}`);
+    const player = await $fetch(
+      `http://localhost:8000/api/players/${playerId}`,
+    );
     return player;
   };
 

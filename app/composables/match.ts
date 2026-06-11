@@ -1,6 +1,6 @@
 export const useMatch = () => {
   const getAllMatches = async () => {
-    const matches = await $fetch("http://localhost:8000/api/matches");
+    const matches = await $fetch("/api/matches");
     return matches;
   };
 
