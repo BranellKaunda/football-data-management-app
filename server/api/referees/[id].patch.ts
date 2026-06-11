@@ -17,7 +17,7 @@ const partialSchema = schema.partial();
 
 export default defineEventHandler(async (event) => {
   const db = useDrizzle();
-  const body = await readValidatedBody(event, partialSchema);
+  const body = partialSchema.parse(await readBody(event));
   const id = event.context.params?.id;
 
   const result = await db

@@ -1,5 +1,4 @@
-import { defineEventHandler } from "h3";
-import { readValidatedBody } from "h3";
+import { defineEventHandler, readBody, setResponseStatus } from "h3";
 import * as z from "zod";
 import { capitalize } from "es-toolkit/string";
 import { useDrizzle } from "#server/utils/drizzle";
@@ -13,11 +12,10 @@ const teamSchema = z.object({
 
 export default defineEventHandler(async (event) => {
   const db = useDrizzle();
-  const body = await readValidatedBody(event, teamSchema);
-
+  const body = teamSchema.parse(await readBody(event));
   const result = await db.insert(teams).values(body).returning();
 
-  event.res.status = 201;
+  if (event) setResponseStatus(event, 201);
 
   return result[0];
 });

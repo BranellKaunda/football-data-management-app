@@ -1,18 +1,16 @@
 export const useLeague = () => {
   const getAllLeagues = async () => {
-    const leagues = await $fetch("http://localhost:8000/api/leagues");
+    const leagues = await $fetch("/api/leagues");
     return leagues;
   };
 
   const getLeague = async (leagueId: number) => {
-    const league = await $fetch(
-      `http://localhost:8000/api/leagues/${leagueId}`,
-    );
+    const league = await $fetch(`/api/leagues/${leagueId}`);
     return league;
   };
 
   const createLeague = async (leagueData: object) => {
-    const res = await $fetch(`http://localhost:8000/api/leagues/create`, {
+    const res = await $fetch(`/api/leagues/create`, {
       method: "POST",
       body: leagueData,
     });
@@ -20,7 +18,7 @@ export const useLeague = () => {
   };
 
   const editLeague = async (leagueId: number, leagueData: object) => {
-    const res = await $fetch(`http://localhost:8000/api/leagues/${leagueId}`, {
+    const res = await $fetch(`/api/leagues/${leagueId}`, {
       method: "PATCH",
       body: leagueData,
     });
@@ -28,7 +26,7 @@ export const useLeague = () => {
   };
 
   const deleteLeague = async (leagueId: number) => {
-    await $fetch(`http://localhost:8000/api/leagues/${leagueId}`, {
+    await $fetch(`/api/leagues/${leagueId}`, {
       method: "DELETE",
     });
   };

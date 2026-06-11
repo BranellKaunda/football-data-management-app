@@ -1,4 +1,4 @@
-import { defineEventHandler } from "h3";
+import { defineEventHandler, setResponseStatus } from "h3";
 import { useDrizzle } from "#server/utils/drizzle";
 import { matches } from "#server/database/schema";
 import { eq } from "drizzle-orm";

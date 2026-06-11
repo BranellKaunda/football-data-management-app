@@ -13,7 +13,7 @@ async function handleFileUpload() {
   formData.append("file", selectedFile.value);
   formData.append("competitionId", competitionId.value);
 
-  const res = await $fetch("http://localhost:8000/api/import/matches", {
+  const res = await $fetch("/api/import/matches", {
     method: "POST",
     body: formData,
   });

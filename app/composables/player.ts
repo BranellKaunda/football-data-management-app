@@ -5,21 +5,17 @@ export const usePlayer = () => {
   };
 
   const getPlayer = async (playerId: number) => {
-    const player = await $fetch(
-      `http://localhost:8000/api/players/${playerId}`,
-    );
+    const player = await $fetch(`/api/players/${playerId}`);
     return player;
   };
 
   const getPlayersByTeam = async (teamId: number) => {
-    const players = await $fetch(
-      `http://localhost:8000/api/players/?teamId=${teamId}`,
-    );
+    const players = await $fetch(`/api/players/?teamId=${teamId}`);
     return players;
   };
 
   const createPlayer = async (playerData: object) => {
-    const res = await $fetch(`http://localhost:8000/api/players/create`, {
+    const res = await $fetch(`/api/players/create`, {
       method: "POST",
       body: playerData,
     });
@@ -27,7 +23,7 @@ export const usePlayer = () => {
   };
 
   const editPlayer = async (playerId: number, playerData: object) => {
-    const res = await $fetch(`http://localhost:8000/api/players/${playerId}`, {
+    const res = await $fetch(`/api/players/${playerId}`, {
       method: "PATCH",
       body: playerData,
     });
@@ -35,7 +31,7 @@ export const usePlayer = () => {
   };
 
   const deletePlayer = async (playerId: number) => {
-    await $fetch(`http://localhost:8000/api/players/${playerId}`, {
+    await $fetch(`/api/players/${playerId}`, {
       method: "DELETE",
     });
   };

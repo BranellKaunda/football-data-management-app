@@ -5,13 +5,13 @@ const teams = await getAllTeams();
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <div>
+    <!-- <div>
       <NuxtLink
         to="/import/teams"
         class="inline-block mb-6 px-4 py-2 font-semibold hover:text-blue-800"
         >Import Teams</NuxtLink
       >
-    </div>
+    </div> -->
 
     <div>
       <NuxtLink

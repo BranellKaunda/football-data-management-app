@@ -6,25 +6,23 @@ export const useMatch = () => {
 
   const getMatchesByCompetition = async (competitionId: number) => {
     const matches = await $fetch(
-      `http://localhost:8000/api/matches/?competitionId=${competitionId}`,
+      `/api/matches/?competitionId=${competitionId}`,
     );
     return matches;
   };
 
   const getMatchesByTeam = async (teamId: number) => {
-    const matches = await $fetch(
-      `http://localhost:8000/api/matches/?teamId=${teamId}`,
-    );
+    const matches = await $fetch(`/api/matches/?teamId=${teamId}`);
     return matches;
   };
 
   const getMatch = async (matchId: number) => {
-    const match = await $fetch(`http://localhost:8000/api/matches/${matchId}`);
+    const match = await $fetch(`/api/matches/${matchId}`);
     return match;
   };
 
   const createMatch = async (matchData: object) => {
-    const match = await $fetch(`http://localhost:8000/api/matches/create`, {
+    const match = await $fetch(`/api/matches/create`, {
       method: "POST",
       body: matchData,
     });
@@ -32,7 +30,7 @@ export const useMatch = () => {
   };
 
   const editMatch = async (matchId: number, matchData: object) => {
-    const match = await $fetch(`http://localhost:8000/api/matches/${matchId}`, {
+    const match = await $fetch(`/api/matches/${matchId}`, {
       method: "PATCH",
       body: matchData,
     });
@@ -40,7 +38,7 @@ export const useMatch = () => {
   };
 
   const deleteMatch = async (matchId: number) => {
-    await $fetch(`http://localhost:8000/api/matches/${matchId}`, {
+    await $fetch(`/api/matches/${matchId}`, {
       method: "DELETE",
     });
   };

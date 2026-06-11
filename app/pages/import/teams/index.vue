@@ -11,7 +11,7 @@ async function handleFileUpload() {
   const formData = new FormData();
   formData.append("file", selectedFile.value);
 
-  const res = await $fetch("http://localhost:8000/api/import/teams", {
+  const res = await $fetch("/api/import/teams", {
     method: "POST",
     body: formData,
   });
@@ -39,13 +39,13 @@ async function handleFileUpload() {
         />
       </div>
 
-      <button
+      <!-- <button
         type="submit"
         class="self-start px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         :disabled="!selectedFile"
       >
         Import Teams
-      </button>
+      </button> -->
     </form>
   </div>
 </template>

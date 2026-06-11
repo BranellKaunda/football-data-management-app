@@ -1,5 +1,5 @@
 import { defineEventHandler } from "h3";
-import { readValidatedBody } from "h3";
+import { readBody } from "h3";
 import * as z from "zod";
 import { useDrizzle } from "#server/utils/drizzle";
 import { match_actions } from "#server/database/schema";
@@ -25,7 +25,7 @@ const schema = z.object({
 
 export default defineEventHandler(async (event) => {
   const db = useDrizzle();
-  const body = await readValidatedBody(event, schema);
+  const body = schema.parse(await readBody(event));
   const id = event.context.params?.id;
 
   const result = await db

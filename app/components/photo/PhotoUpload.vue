@@ -13,7 +13,7 @@ async function handleFileUpload() {
   const formData = new FormData();
   formData.append("file", selectedFile.value);
 
-  const res = await $fetch("http://localhost:8000/api/upload/photo", {
+  const res = await $fetch("/api/upload/photo", {
     method: "POST",
     body: formData,
   });

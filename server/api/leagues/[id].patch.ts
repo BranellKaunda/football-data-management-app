@@ -1,6 +1,6 @@
 import { useDrizzle } from "#server/utils/drizzle";
 import { defineEventHandler } from "h3";
-import { readValidatedBody } from "h3";
+import { readBody } from "h3";
 import * as z from "zod";
 import { capitalize } from "es-toolkit";
 import { leagues } from "#server/database/schema";
@@ -17,7 +17,7 @@ const patchLeague = leagueSchema.partial();
 export default defineEventHandler(async (event) => {
   const db = useDrizzle();
   const id = event.context.params?.id;
-  const body = await readValidatedBody(event, patchLeague);
+  const body = patchLeague.parse(await readBody(event));
 
   const result = await db
     .update(leagues)

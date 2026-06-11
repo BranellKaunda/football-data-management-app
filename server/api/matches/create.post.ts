@@ -1,6 +1,6 @@
 import { defineEventHandler } from "h3";
 import { useDrizzle } from "#server/utils/drizzle";
-import { readValidatedBody } from "h3";
+import { readBody, setResponseStatus } from "h3";
 import { matches } from "#server/database/schema";
 import { matchSchema } from "#server/utils/validation/matchSchema";
 
@@ -8,7 +8,7 @@ const schema = matchSchema;
 
 export default defineEventHandler(async (event) => {
   const db = useDrizzle();
-  const body = await readValidatedBody(event, schema);
+  const body = schema.parse(await readBody(event));
 
   const result = await db
     .insert(matches)
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     })
     .returning();
 
-  event.res.status = 201;
+  setResponseStatus(event, 201);
 
   return result[0];
 });

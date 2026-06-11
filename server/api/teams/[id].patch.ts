@@ -16,7 +16,7 @@ const patchTeamSchema = teamSchema.partial();
 
 export default defineEventHandler(async (event) => {
   const db = useDrizzle();
-  const body = await readValidatedBody(event, patchTeamSchema);
+  const body = patchTeamSchema.parse(await readBody(event));
   const id = event.context.params?.id;
 
   const result = await db

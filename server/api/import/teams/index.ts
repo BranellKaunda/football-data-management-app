@@ -1,4 +1,4 @@
-import { defineEventHandler } from "h3";
+import { defineEventHandler, readMultipartFormData } from "h3";
 import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse/sync";
@@ -13,20 +13,27 @@ type MatchRecord = {
 };
 
 export default defineEventHandler(async (event) => {
-  const form = await event.req.formData();
+  const form = await readMultipartFormData(event);
 
-  const file = form.get("file");
+  const fileField = form?.find((field) => field.name === "file") as
+    | {
+        name: string;
+        filename?: string;
+        data?: Buffer | ArrayBuffer | string;
+      }
+    | undefined;
 
-  if (!file || typeof file === "string") {
+  if (!fileField || !fileField.data) {
     return { error: "No file uploaded" };
   }
 
-  // 1. Convert Blob → Buffer
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const fileName = fileField.filename ?? fileField.name;
+  const buffer = Buffer.isBuffer(fileField.data)
+    ? fileField.data
+    : Buffer.from(fileField.data as ArrayBuffer);
 
   // 2. Build path inside /data folder
-  const filePath = path.join(process.cwd(), "data", file.name);
+  const filePath = path.join(process.cwd(), "data", fileName);
 
   // 3. Save file to disk
   fs.writeFileSync(filePath, buffer);
