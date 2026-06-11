@@ -12,7 +12,7 @@ export default async function createTeam(name: string) {
   if (!team) {
     [team] = await db
       .insert(teams)
-      .values({ name: name, logo: "img.png", location: "malawi" })
+      .values({ name: name, logo: "img.png", location: "Malawi" })
       .returning();
     created = true;
   }

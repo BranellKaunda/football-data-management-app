@@ -8,5 +8,8 @@ export default defineNuxtConfig({
   css: ["./app/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ["@vue/devtools-core", "@vue/devtools-kit"],
+    },
   },
 });

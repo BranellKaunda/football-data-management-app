@@ -1,15 +1,15 @@
 import { defineEventHandler } from "h3";
 import { readValidatedBody } from "h3";
 import * as z from "zod";
-import { capitalize } from "es-toolkit/string";
+import { startCase } from "es-toolkit/string";
 import { useDrizzle } from "#server/utils/drizzle";
 import { teams } from "#server/database/schema";
 import { eq } from "drizzle-orm/sql/expressions/conditions";
 
 const teamSchema = z.object({
-  name: z.string().min(2).transform(capitalize),
+  name: z.string().min(2).transform(startCase),
   logo: z.string(),
-  location: z.string().min(2).transform(capitalize),
+  location: z.string().min(2).transform(startCase),
 });
 
 const patchTeamSchema = teamSchema.partial();

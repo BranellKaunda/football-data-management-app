@@ -2,6 +2,9 @@
 const selectedFile = ref(null);
 const competitionId = ref(null);
 
+const { getAllLeagues } = useLeague();
+const competitions = await getAllLeagues();
+
 function handleFileChange(event) {
   selectedFile.value = event.target.files[0];
 }
@@ -45,14 +48,18 @@ async function handleFileUpload() {
         <label
           for="competitionId"
           class="block text-sm font-medium text-gray-700"
-          >Competition ID</label
+          >Competition</label
         >
-        <input
-          type="number"
-          id="competitionId"
-          v-model="competitionId"
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
+        <select v-model="competitionId" placeholder="select a competion">
+          <option disabled value="">Select a competition</option>
+          <option
+            v-for="league in competitions"
+            :key="league.id"
+            :value="league.id"
+          >
+            {{ league.name }} {{ league.season }}
+          </option>
+        </select>
       </div>
 
       <button

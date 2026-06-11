@@ -1,4 +1,4 @@
-import { defineEventHandler } from "h3";
+import { defineEventHandler, readMultipartFormData } from "h3";
 import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse/sync";
@@ -13,29 +13,33 @@ type MatchRecord = {
 };
 
 export default defineEventHandler(async (event) => {
-  const form = await event.req.formData();
+  const form = await readMultipartFormData(event);
 
-  const file = form.get("file");
-  const competitionId = Number(form.get("competitionId"));
+  const fileField = form?.find((field) => field.name === "file");
+  const compField = form?.find((field) => field.name === "competitionId");
 
-  if (!file || typeof file === "string") {
+  if (!fileField || !fileField.data) {
     return { error: "No file uploaded" };
   }
 
-  // 1. Convert Blob → Buffer
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const rawCompetitionId = compField?.data?.toString()?.trim() || "";
+  const competitionId = rawCompetitionId ? Number(rawCompetitionId) : 0;
 
-  // 2. Build path inside /data folder
-  const filePath = path.join(process.cwd(), "data", file.name);
+  if (!competitionId || isNaN(competitionId)) {
+    return { error: "Invalid competition ID" };
+  }
 
-  // 3. Save file to disk
+  const fileName = fileField.filename ?? fileField.name;
+  const buffer = Buffer.isBuffer(fileField.data)
+    ? fileField.data
+    : Buffer.from(fileField.data as ArrayBuffer);
+
+  const filePath = path.join(process.cwd(), "data", fileName);
+
   fs.writeFileSync(filePath, buffer);
 
-  // 4. (Optional) Read file again
   const fileContent = fs.readFileSync(filePath, "utf8");
 
-  // 5. change to object
   const records: MatchRecord[] = parse(fileContent, {
     columns: true,
     skip_empty_lines: true,
@@ -45,13 +49,21 @@ export default defineEventHandler(async (event) => {
   let skipped = 0;
 
   for (const match of records) {
+    const homeGoals = parseInt(match.home_goals, 10);
+    const awayGoals = parseInt(match.away_goals, 10);
+
+    if (isNaN(homeGoals) || isNaN(awayGoals)) {
+      skipped++;
+      continue;
+    }
+
     const result = await createMatch(
       match.home_team,
       match.away_team,
       match.date,
-      match.home_goals,
-      match.away_goals,
-      Number(competitionId),
+      homeGoals,
+      awayGoals,
+      competitionId,
     );
 
     if (result.created) {

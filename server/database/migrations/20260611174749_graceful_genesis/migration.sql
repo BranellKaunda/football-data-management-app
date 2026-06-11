@@ -9,11 +9,11 @@ CREATE TABLE "leagues" (
 --> statement-breakpoint
 CREATE TABLE "match_actions" (
 	"id" serial PRIMARY KEY,
-	"player_id" integer,
-	"player_id_extra" integer,
+	"player_id" integer NOT NULL,
+	"player_id_extra" integer DEFAULT NULL,
 	"team_id" integer,
 	"match_id" integer NOT NULL,
-	"action" "match_action_type",
+	"action" "match_action_type" NOT NULL,
 	"minute" integer NOT NULL
 );
 --> statement-breakpoint

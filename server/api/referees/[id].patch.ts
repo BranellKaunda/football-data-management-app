@@ -4,13 +4,13 @@ import { referees } from "#server/database/schema";
 import { eq } from "drizzle-orm";
 import { readValidatedBody } from "h3";
 import * as z from "zod";
-import { capitalize } from "es-toolkit/string";
+import { startCase } from "es-toolkit/string";
 
 const schema = z.object({
-  firstName: z.string().min(2).transform(capitalize),
-  lastName: z.string().min(2).transform(capitalize),
+  firstName: z.string().min(2).transform(startCase),
+  lastName: z.string().min(2).transform(startCase),
   dob: z.coerce.date(),
-  location: z.string().min(2).transform(capitalize),
+  location: z.string().min(2).transform(startCase),
 });
 
 const partialSchema = schema.partial();
