@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const limit = query.limit ? Number(query.limit) : undefined;
   const offset = query.offset ? Number(query.offset) : undefined;
 
-  const results = await useDrizzle().query.matches.findMany({
+  const results = await useDrizzle().query.matches?.findMany({
     columns: {
       id: true,
       matchDate: true,

@@ -15,5 +15,5 @@ function onSave(e) {
 </script>
 
 <template>
-  <LeagueForm v-model="league" @save="onSave" @cancel="onCancel" />
+  <LeagueApplicationForm v-model="league" @save="onSave" @cancel="onCancel" />
 </template>
