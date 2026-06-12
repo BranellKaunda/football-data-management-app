@@ -35,10 +35,22 @@ const matchedLeague = computed(() => {
 });
 
 const leagueMatches = ref([]);
+const visibleCount = ref(20);
+
+const visibleMatches = computed(() =>
+  leagueMatches.value.slice(0, visibleCount.value),
+);
+
+const allLoaded = computed(() => visibleCount.value >= leagueMatches.value.length);
+
+const showMoreMatches = () => {
+  visibleCount.value += 20;
+};
 
 const activeTab = ref("matches");
 
 watch(matchedLeague, async (league) => {
+  visibleCount.value = 20;
   if (league) {
     leagueMatches.value = await getMatchesByCompetition(league.id);
   } else {
@@ -152,9 +164,20 @@ watch(matchedLeague, async (league) => {
 
   <!-- DYNAMIC CONTENT -->
   <MatchList
-    v-if="activeTab === 'matches' && leagueMatches.length"
-    :matches="leagueMatches"
+    v-if="activeTab === 'matches' && visibleMatches.length"
+    :matches="visibleMatches"
   />
+  <div
+    v-if="activeTab === 'matches' && !allLoaded"
+    class="max-w-3xl mx-auto px-6 text-center"
+  >
+    <button
+      @click="showMoreMatches"
+      class="text-blue-600 hover:text-blue-800 text-sm font-semibold underline"
+    >
+      Show more matches
+    </button>
+  </div>
   <LeagueTable
     v-if="activeTab === 'table' && leagueMatches.length"
     :matches="leagueMatches"

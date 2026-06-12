@@ -13,6 +13,9 @@ export default defineEventHandler(async (event) => {
     query.status && { status: query.status },
   ].filter(Boolean);
 
+  const limit = query.limit ? Number(query.limit) : undefined;
+  const offset = query.offset ? Number(query.offset) : undefined;
+
   const results = await useDrizzle().query.matches.findMany({
     columns: {
       id: true,
@@ -35,6 +38,8 @@ export default defineEventHandler(async (event) => {
       OR: OR as any,
     },
     orderBy: { matchDate: "desc" },
+    ...(limit && { limit }),
+    ...(offset && { offset }),
   });
 
   return results;

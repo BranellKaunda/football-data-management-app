@@ -9,7 +9,7 @@ const props = defineProps({
 const teamsData = computed(() => {
   const allTeams = {};
 
-  const finishedMatches = props.matches.filter((m) => m.status === "Finished");
+  const finishedMatches = props.matches?.filter((m) => m.status === "Finished");
 
   const sortedMatches = [...finishedMatches].sort(
     (a, b) => new Date(b.matchDate) - new Date(a.matchDate),
@@ -24,7 +24,14 @@ const teamsData = computed(() => {
         id: homeId,
         name: match.homeTeam.name,
         logo: match.homeTeam.logo,
-        mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0,
+        mp: 0,
+        w: 0,
+        d: 0,
+        l: 0,
+        gf: 0,
+        ga: 0,
+        gd: 0,
+        pts: 0,
         form: [],
       };
     }
@@ -33,7 +40,14 @@ const teamsData = computed(() => {
         id: awayId,
         name: match.awayTeam.name,
         logo: match.awayTeam.logo,
-        mp: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, gd: 0, pts: 0,
+        mp: 0,
+        w: 0,
+        d: 0,
+        l: 0,
+        gf: 0,
+        ga: 0,
+        gd: 0,
+        pts: 0,
         form: [],
       };
     }
@@ -50,9 +64,18 @@ const teamsData = computed(() => {
       home.ga += awayGoals;
 
       let homeResult;
-      if (homeGoals > awayGoals) { home.w++; home.pts += 3; homeResult = "W"; }
-      else if (homeGoals < awayGoals) { home.l++; homeResult = "L"; }
-      else { home.d++; home.pts += 1; homeResult = "D"; }
+      if (homeGoals > awayGoals) {
+        home.w++;
+        home.pts += 3;
+        homeResult = "W";
+      } else if (homeGoals < awayGoals) {
+        home.l++;
+        homeResult = "L";
+      } else {
+        home.d++;
+        home.pts += 1;
+        homeResult = "D";
+      }
 
       home.form.push({
         result: homeResult,
@@ -74,9 +97,18 @@ const teamsData = computed(() => {
       away.ga += homeGoals;
 
       let awayResult;
-      if (awayGoals > homeGoals) { away.w++; away.pts += 3; awayResult = "W"; }
-      else if (awayGoals < homeGoals) { away.l++; awayResult = "L"; }
-      else { away.d++; away.pts += 1; awayResult = "D"; }
+      if (awayGoals > homeGoals) {
+        away.w++;
+        away.pts += 3;
+        awayResult = "W";
+      } else if (awayGoals < homeGoals) {
+        away.l++;
+        awayResult = "L";
+      } else {
+        away.d++;
+        away.pts += 1;
+        awayResult = "D";
+      }
 
       away.form.push({
         result: awayResult,
@@ -187,10 +219,7 @@ const tooltipText = (entry) => {
                   :key="i"
                   class="relative group"
                 >
-                  <NuxtLink
-                    :to="`/matches/${entry.matchId}`"
-                    class="block"
-                  >
+                  <NuxtLink :to="`/matches/${entry.matchId}`" class="block">
                     <div
                       class="w-6 h-6 rounded text-xs font-bold flex items-center justify-center cursor-pointer"
                       :class="resultClass(entry.result)"

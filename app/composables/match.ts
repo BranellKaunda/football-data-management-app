@@ -4,10 +4,17 @@ export const useMatch = () => {
     return matches;
   };
 
-  const getMatchesByCompetition = async (competitionId: number) => {
-    const matches = await $fetch(
-      `/api/matches/?competitionId=${competitionId}`,
-    );
+  const getMatchesByCompetition = async (
+    competitionId: number,
+    limit?: number,
+    offset?: number,
+  ) => {
+    const params = new URLSearchParams({
+      competitionId: String(competitionId),
+    });
+    if (limit) params.set("limit", String(limit));
+    if (offset) params.set("offset", String(offset));
+    const matches = await $fetch(`/api/matches/?${params}`);
     return matches;
   };
 
