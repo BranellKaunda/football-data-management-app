@@ -27,7 +27,7 @@ const data = route.params.id
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">Matches</h1>
+    <h1 class="text-lg font-semibold mb-6 text-center">Matches</h1>
 
     <div class="flex flex-col gap-4" v-if="matches ? matches : data">
       <div

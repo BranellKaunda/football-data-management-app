@@ -36,6 +36,8 @@ const matchedLeague = computed(() => {
 
 const leagueMatches = ref([]);
 
+const activeTab = ref("matches");
+
 watch(matchedLeague, async (league) => {
   if (league) {
     leagueMatches.value = await getMatchesByCompetition(league.id);
@@ -54,9 +56,9 @@ watch(matchedLeague, async (league) => {
       Create New League
     </NuxtLink>
 
-    <h1 class="text-2xl font-bold mb-6 text-center">Competition</h1>
+    <h1 class="text-lg font-bold mb-6 text-center">Competition</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 gap-4">
       <div class="bg-white p-8 rounded shadow flex items-center gap-6">
         <!-- LEAGUE LOGO -->
         <NuxtLink v-if="matchedLeague" :to="`/leagues/${matchedLeague.id}`">
@@ -111,6 +113,39 @@ watch(matchedLeague, async (league) => {
     </div>
   </div>
 
-  <!-- MATCHES -->
-  <MatchList v-if="leagueMatches.length" :matches="leagueMatches" />
+  <!-- TABS -->
+  <div v-if="leagueMatches.length" class="max-w-3xl mx-auto px-6 flex border-b">
+    <button
+      @click="activeTab = 'matches'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition"
+      :class="
+        activeTab === 'matches'
+          ? 'border-blue-600 text-blue-600'
+          : 'border-transparent text-gray-500 hover:text-gray-700'
+      "
+    >
+      Matches
+    </button>
+    <button
+      @click="activeTab = 'table'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition"
+      :class="
+        activeTab === 'table'
+          ? 'border-blue-600 text-blue-600'
+          : 'border-transparent text-gray-500 hover:text-gray-700'
+      "
+    >
+      League Table
+    </button>
+  </div>
+
+  <!-- DYNAMIC CONTENT -->
+  <MatchList
+    v-if="activeTab === 'matches' && leagueMatches.length"
+    :matches="leagueMatches"
+  />
+  <LeagueTable
+    v-if="activeTab === 'table' && leagueMatches.length"
+    :matches="leagueMatches"
+  />
 </template>
