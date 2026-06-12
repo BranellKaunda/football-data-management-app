@@ -53,6 +53,9 @@ export const players = pgTable("players", {
 export const leagues = pgTable("leagues", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  logo: text("logo").default(
+    "https://2eplfxdllfu3rwyt.public.blob.vercel-storage.com/super-league.png",
+  ),
   season: text("season").notNull(),
   rank: integer("rank").notNull(),
 });

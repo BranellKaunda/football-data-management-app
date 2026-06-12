@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
     columns: {
       id: true,
       name: true,
+      logo: true,
       season: true,
       rank: true,
     },

@@ -12,7 +12,7 @@ export default async function createMatch(
   const db = useDrizzle();
 
   //Finding home team
-  const home = await db.query.teams.findFirst({
+  const home = await db.query.teams?.findFirst({
     where: { name: homeTeam },
   });
 
@@ -21,7 +21,7 @@ export default async function createMatch(
   }
 
   // 2. Finding away team
-  const away = await db.query.teams.findFirst({
+  const away = await db.query.teams?.findFirst({
     where: { name: awayTeam },
   });
 
@@ -30,7 +30,7 @@ export default async function createMatch(
   }
 
   //if match already exists (same teams + same date)
-  const existingMatch = await db.query.matches.findFirst({
+  const existingMatch = await db.query.matches?.findFirst({
     where: {
       homeTeamId: home.id,
       awayTeamId: away.id,
