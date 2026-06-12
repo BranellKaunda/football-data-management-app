@@ -115,7 +115,17 @@ const tableData = computed(() => {
             :key="team.id"
             class="border-b border-gray-200 last:border-b-0 hover:bg-gray-50"
           >
-            <td class="p-3 text-gray-500">{{ index + 1 }}</td>
+            <td
+              :class="
+                index == 0
+                  ? 'p-3 text-yellow-500'
+                  : index >= 13
+                    ? 'p-3 text-red-500'
+                    : 'p-3 text-gray-500'
+              "
+            >
+              {{ index + 1 }}
+            </td>
             <td class="p-3">
               <div class="flex items-center gap-2">
                 <img

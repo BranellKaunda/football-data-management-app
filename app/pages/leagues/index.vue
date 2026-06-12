@@ -137,6 +137,17 @@ watch(matchedLeague, async (league) => {
     >
       League Table
     </button>
+    <button
+      @click="activeTab = 'form'"
+      class="px-6 py-3 text-sm font-semibold border-b-2 transition"
+      :class="
+        activeTab === 'form'
+          ? 'border-blue-600 text-blue-600'
+          : 'border-transparent text-gray-500 hover:text-gray-700'
+      "
+    >
+      Form
+    </button>
   </div>
 
   <!-- DYNAMIC CONTENT -->
@@ -146,6 +157,10 @@ watch(matchedLeague, async (league) => {
   />
   <LeagueTable
     v-if="activeTab === 'table' && leagueMatches.length"
+    :matches="leagueMatches"
+  />
+  <LeagueForm
+    v-if="activeTab === 'form' && leagueMatches.length"
     :matches="leagueMatches"
   />
 </template>
