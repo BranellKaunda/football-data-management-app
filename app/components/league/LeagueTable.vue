@@ -4,6 +4,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  highlightTeamId: {
+    type: Number,
+    default: null,
+  },
 });
 
 const tableData = computed(() => {
@@ -114,6 +118,7 @@ const tableData = computed(() => {
             v-for="(team, index) in tableData"
             :key="team.id"
             class="border-b border-gray-200 last:border-b-0 hover:bg-gray-50"
+            :class="team.id === highlightTeamId ? 'bg-blue-100' : ''"
           >
             <td
               :class="
