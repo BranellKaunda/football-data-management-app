@@ -12,7 +12,7 @@ const teams = await getAllTeams();
 const { getAllLeagues } = useLeague();
 const leagues = await getAllLeagues();
 
-const { getMatchesByTeamAndCompetition } = useMatch();
+const { getMatchesByTeamAndCompetition, getMatchesByCompetition } = useMatch();
 
 const selectedTeamId = ref(null);
 const selectedLeagueId = ref("");
@@ -27,6 +27,7 @@ const selectedTeam = computed(() => {
 });
 
 const teamMatches = ref([]);
+const leagueMatches = ref([]);
 
 const fetchMatches = async () => {
   if (!selectedTeamId.value) {
@@ -37,6 +38,14 @@ const fetchMatches = async () => {
     selectedTeamId.value,
     selectedLeagueId.value ? Number(selectedLeagueId.value) : undefined,
   );
+};
+
+const fetchLeagueMatches = async () => {
+  if (!selectedLeagueId.value) {
+    leagueMatches.value = [];
+    return;
+  }
+  leagueMatches.value = await getMatchesByCompetition(Number(selectedLeagueId.value));
 };
 
 const visibleCount = ref(20);
@@ -62,7 +71,7 @@ watch(selectedTeamId, async () => {
 
 watch(selectedLeagueId, async () => {
   visibleCount.value = 20;
-  await fetchMatches();
+  await Promise.all([fetchMatches(), fetchLeagueMatches()]);
 });
 </script>
 
@@ -137,7 +146,7 @@ watch(selectedLeagueId, async () => {
   </div>
 
   <!-- TABS -->
-  <div v-if="teamMatches.length" class="max-w-3xl mx-auto px-6 flex border-b">
+  <div v-if="selectedTeamId" class="max-w-3xl mx-auto px-6 flex border-b">
     <button
       @click="activeTab = 'matches'"
       class="px-6 py-3 text-sm font-semibold border-b-2 transition"
@@ -190,13 +199,13 @@ watch(selectedLeagueId, async () => {
     </button>
   </div>
   <LeagueTable
-    v-if="activeTab === 'table' && teamMatches.length"
-    :matches="teamMatches"
+    v-if="activeTab === 'table' && selectedLeagueId && leagueMatches.length"
+    :matches="leagueMatches"
     :highlightTeamId="selectedTeamId"
   />
   <LeagueForm
-    v-if="activeTab === 'form' && teamMatches.length"
-    :matches="teamMatches"
+    v-if="activeTab === 'form' && selectedLeagueId && leagueMatches.length"
+    :matches="leagueMatches"
     :highlightTeamId="selectedTeamId"
   />
 </template>
