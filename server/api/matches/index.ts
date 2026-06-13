@@ -1,22 +1,22 @@
-import { useDrizzle } from "#server/utils/drizzle";
-import { defineEventHandler } from "h3";
 import { getQuery } from "h3";
+import { useDrizzle } from "#server/utils/drizzle";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  const OR = [
-    query.teamId && { homeTeamId: query.teamId },
-    query.teamId && { awayTeamId: query.teamId },
-    query.date && { matchDate: query.date },
+  const AND = [
+    query.teamId && {
+      OR: [{ homeTeamId: query.teamId }, { awayTeamId: query.teamId }],
+    },
     query.competitionId && { competitionId: query.competitionId },
+    query.date && { matchDate: query.date },
     query.status && { status: query.status },
   ].filter(Boolean);
 
   const limit = query.limit ? Number(query.limit) : undefined;
   const offset = query.offset ? Number(query.offset) : undefined;
 
-  const results = await useDrizzle().query.matches?.findMany({
+  const results = await useDrizzle().query.matches.findMany({
     columns: {
       id: true,
       matchDate: true,
@@ -33,10 +33,7 @@ export default defineEventHandler(async (event) => {
         columns: { id: true, firstName: true, lastName: true, teamId: true },
       },
     },
-
-    where: {
-      OR: OR as any,
-    },
+    where: AND.length > 0 ? { AND: AND as any } : undefined,
     orderBy: { matchDate: "desc" },
     ...(limit && { limit }),
     ...(offset && { offset }),

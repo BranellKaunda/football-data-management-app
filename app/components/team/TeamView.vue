@@ -9,10 +9,13 @@ const props = defineProps({
 const { getAllTeams } = useTeam();
 const teams = await getAllTeams();
 
-const { getMatchesByTeam } = useMatch();
+const { getAllLeagues } = useLeague();
+const leagues = await getAllLeagues();
+
+const { getMatchesByTeamAndCompetition } = useMatch();
 
 const selectedTeamId = ref(null);
-const selectedYear = ref("");
+const selectedLeagueId = ref("");
 
 if (props.initialTeamId && teams) {
   selectedTeamId.value = props.initialTeamId;
@@ -25,36 +28,25 @@ const selectedTeam = computed(() => {
 
 const teamMatches = ref([]);
 
-const availableYears = computed(() => {
-  if (!teamMatches.value.length) return [];
-  const years = new Set(
-    teamMatches.value.map((m) => {
-      if (!m.matchDate) return null;
-      const year = new Date(m.matchDate).getFullYear();
-      return isNaN(year) ? null : year;
-    }),
+const fetchMatches = async () => {
+  if (!selectedTeamId.value) {
+    teamMatches.value = [];
+    return;
+  }
+  teamMatches.value = await getMatchesByTeamAndCompetition(
+    selectedTeamId.value,
+    selectedLeagueId.value ? Number(selectedLeagueId.value) : undefined,
   );
-  years.delete(null);
-  return [...years].sort((a, b) => b - a);
-});
-
-const filteredMatches = computed(() => {
-  if (!selectedYear.value) return teamMatches.value;
-  return teamMatches.value.filter((m) => {
-    if (!m.matchDate) return false;
-    const year = new Date(m.matchDate).getFullYear();
-    return year === Number(selectedYear.value);
-  });
-});
+};
 
 const visibleCount = ref(20);
 
 const visibleMatches = computed(() =>
-  filteredMatches.value.slice(0, visibleCount.value),
+  teamMatches.value.slice(0, visibleCount.value),
 );
 
 const allLoaded = computed(
-  () => visibleCount.value >= filteredMatches.value.length,
+  () => visibleCount.value >= teamMatches.value.length,
 );
 
 const showMoreMatches = () => {
@@ -63,14 +55,14 @@ const showMoreMatches = () => {
 
 const activeTab = ref("matches");
 
-watch(selectedTeamId, async (teamId) => {
+watch(selectedTeamId, async () => {
   visibleCount.value = 20;
-  selectedYear.value = "";
-  if (teamId) {
-    teamMatches.value = await getMatchesByTeam(teamId);
-  } else {
-    teamMatches.value = [];
-  }
+  selectedLeagueId.value = "";
+});
+
+watch(selectedLeagueId, async () => {
+  visibleCount.value = 20;
+  await fetchMatches();
 });
 </script>
 
@@ -119,12 +111,16 @@ watch(selectedTeamId, async (teamId) => {
           </select>
 
           <select
-            v-model="selectedYear"
+            v-model="selectedLeagueId"
             class="border rounded px-8 text-gray-600 text-sm mt-2"
           >
-            <option value="">All years</option>
-            <option v-for="year in availableYears" :key="year" :value="year">
-              {{ year }}
+            <option value="">All leagues</option>
+            <option
+              v-for="league in leagues"
+              :key="league.id"
+              :value="league.id"
+            >
+              {{ league.season }}
             </option>
           </select>
 
@@ -141,10 +137,7 @@ watch(selectedTeamId, async (teamId) => {
   </div>
 
   <!-- TABS -->
-  <div
-    v-if="filteredMatches.length"
-    class="max-w-3xl mx-auto px-6 flex border-b"
-  >
+  <div v-if="teamMatches.length" class="max-w-3xl mx-auto px-6 flex border-b">
     <button
       @click="activeTab = 'matches'"
       class="px-6 py-3 text-sm font-semibold border-b-2 transition"
@@ -197,13 +190,13 @@ watch(selectedTeamId, async (teamId) => {
     </button>
   </div>
   <LeagueTable
-    v-if="activeTab === 'table' && filteredMatches.length"
-    :matches="filteredMatches"
+    v-if="activeTab === 'table' && teamMatches.length"
+    :matches="teamMatches"
     :highlightTeamId="selectedTeamId"
   />
   <LeagueForm
-    v-if="activeTab === 'form' && filteredMatches.length"
-    :matches="filteredMatches"
+    v-if="activeTab === 'form' && teamMatches.length"
+    :matches="teamMatches"
     :highlightTeamId="selectedTeamId"
   />
 </template>

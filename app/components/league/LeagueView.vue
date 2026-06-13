@@ -56,7 +56,9 @@ const visibleMatches = computed(() =>
   leagueMatches.value.slice(0, visibleCount.value),
 );
 
-const allLoaded = computed(() => visibleCount.value >= leagueMatches.value.length);
+const allLoaded = computed(
+  () => visibleCount.value >= leagueMatches.value.length,
+);
 
 const showMoreMatches = () => {
   visibleCount.value += 20;

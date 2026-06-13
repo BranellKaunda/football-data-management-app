@@ -23,6 +23,18 @@ export const useMatch = () => {
     return matches;
   };
 
+  const getMatchesByTeamAndCompetition = async (
+    teamId: number,
+    competitionId?: number,
+  ) => {
+    let url = `/api/matches/?teamId=${teamId}`;
+    if (competitionId) {
+      url += `&competitionId=${competitionId}`;
+    }
+    const matches = await $fetch(url);
+    return matches;
+  };
+
   const getMatch = async (matchId: number) => {
     const match = await $fetch(`/api/matches/${matchId}`);
     return match;
@@ -54,6 +66,7 @@ export const useMatch = () => {
     getAllMatches,
     getMatchesByCompetition,
     getMatchesByTeam,
+    getMatchesByTeamAndCompetition,
     getMatch,
     createMatch,
     editMatch,
