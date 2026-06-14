@@ -13,12 +13,9 @@ const players = ref({
         <li class="hover:text-blue-600">
           <NuxtLink to="/">Home</NuxtLink>
         </li>
-        <li class="hover:text-blue-600">
+        <!-- <li class="hover:text-blue-600">
           <NuxtLink to="/players">Players</NuxtLink>
-        </li>
-        <li class="hover:text-blue-600">
-          <NuxtLink to="/matches">Matches</NuxtLink>
-        </li>
+        </li> -->
         <li class="hover:text-blue-600">
           <NuxtLink to="/teams">Teams</NuxtLink>
         </li>

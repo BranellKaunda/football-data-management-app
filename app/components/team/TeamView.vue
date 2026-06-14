@@ -138,7 +138,7 @@ watch(selectedLeagueId, async () => {
             v-model="selectedLeagueId"
             class="border rounded px-8 text-gray-600 text-sm mt-2"
           >
-            <option value="">All leagues</option>
+            <option value="">Season</option>
             <option
               v-for="league in teamLeagues"
               :key="league.id"

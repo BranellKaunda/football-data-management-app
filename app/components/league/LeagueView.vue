@@ -4,17 +4,29 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  initialLeague: {
+    type: Object,
+    default: null,
+  },
 });
 
 const { getAllLeagues } = useLeague();
-const leagues = await getAllLeagues();
-
 const { getMatchesByCompetition } = useMatch();
 
 const selectedName = ref("");
 const selectedSeason = ref("");
+const leagueMatches = ref([]);
+const visibleCount = ref(20);
 
-if (props.initialLeagueId && leagues) {
+if (props.initialLeague) {
+  selectedName.value = props.initialLeague.name;
+  selectedSeason.value = props.initialLeague.season;
+  leagueMatches.value = await getMatchesByCompetition(props.initialLeague.id);
+}
+
+const leagues = await getAllLeagues();
+
+if (!props.initialLeague && props.initialLeagueId && leagues) {
   const league = leagues.find((l) => l.id === props.initialLeagueId);
   if (league) {
     selectedName.value = league.name;
@@ -49,9 +61,6 @@ const matchedLeague = computed(() => {
   );
 });
 
-const leagueMatches = ref([]);
-const visibleCount = ref(20);
-
 const visibleMatches = computed(() =>
   leagueMatches.value.slice(0, visibleCount.value),
 );
@@ -69,7 +78,9 @@ const activeTab = ref("matches");
 watch(matchedLeague, async (league) => {
   visibleCount.value = 20;
   if (league) {
-    leagueMatches.value = await getMatchesByCompetition(league.id);
+    if (!props.initialLeague || league.id !== props.initialLeague.id) {
+      leagueMatches.value = await getMatchesByCompetition(league.id);
+    }
   } else {
     leagueMatches.value = [];
   }
