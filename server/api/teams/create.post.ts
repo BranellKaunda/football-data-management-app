@@ -5,7 +5,9 @@ import { useDrizzle } from "#server/utils/drizzle";
 import { teams } from "#server/database/schema";
 
 const teamSchema = z.object({
-  name: z.string().min(2).transform(startCase),
+  name: z.string().min(2).transform((val) =>
+    val === val.toUpperCase() ? val : startCase(val),
+  ),
   logo: z.string(),
   location: z.string().min(2).transform(startCase),
 });

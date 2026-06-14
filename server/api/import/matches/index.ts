@@ -69,14 +69,15 @@ export default defineEventHandler(async (event) => {
 
     if (result.created) {
       inserted++;
-      const { homeTeamId, awayTeamId, competitionId: leagueId } = result.record;
-      await Promise.all([
-        addTeamToLeague(homeTeamId, leagueId),
-        addTeamToLeague(awayTeamId, leagueId),
-      ]);
     } else {
       skipped++;
     }
+
+    const { homeTeamId, awayTeamId, competitionId: leagueId } = result.record;
+    await Promise.all([
+      addTeamToLeague(homeTeamId, leagueId),
+      addTeamToLeague(awayTeamId, leagueId),
+    ]);
   }
 
   return {

@@ -1,5 +1,6 @@
 import { useDrizzle } from "#server/utils/drizzle";
 import { teamsXleagues } from "#server/database/schema";
+import { and, eq } from "drizzle-orm";
 
 export default async function addTeamToLeague(
   teamId: number,
@@ -7,12 +8,17 @@ export default async function addTeamToLeague(
 ) {
   const db = useDrizzle();
 
-  const existing = await db.query.teamsXleagues.findFirst({
-    where: { teamId, leagueId },
-  });
+  const existing = await db
+    .select()
+    .from(teamsXleagues)
+    .where(and(
+      eq(teamsXleagues.teamId, teamId),
+      eq(teamsXleagues.leagueId, leagueId),
+    ))
+    .limit(1);
 
-  if (existing) {
-    return { created: false, record: existing };
+  if (existing.length > 0) {
+    return { created: false, record: existing[0] };
   }
 
   const [record] = await db
