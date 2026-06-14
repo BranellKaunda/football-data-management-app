@@ -45,7 +45,9 @@ const fetchLeagueMatches = async () => {
     leagueMatches.value = [];
     return;
   }
-  leagueMatches.value = await getMatchesByCompetition(Number(selectedLeagueId.value));
+  leagueMatches.value = await getMatchesByCompetition(
+    Number(selectedLeagueId.value),
+  );
 };
 
 const visibleCount = ref(20);

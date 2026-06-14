@@ -1,43 +1,8 @@
 <script setup>
 const route = useRoute();
 const teamId = Number(route.params.id);
-
-const { getTeam } = useTeam();
-const team = await getTeam(teamId);
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center">Team</h1>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div
-        :key="team.id"
-        class="bg-white p-4 rounded shadow flex items-center gap-4"
-      >
-        <!-- TEAM LOGO -->
-        <TeamLogo :teamLogo="team.logo" :teamId="team.id" />
-
-        <!-- TEAM INFO -->
-        <div class="flex flex-col">
-          <NuxtLink :to="`/teams/${team.id}`" class="font-semibold text-lg">
-            {{ team.name }}
-          </NuxtLink>
-          <p class="text-gray-600 text-sm capitalize">{{ team.location }}</p>
-          <NuxtLink
-            :to="`/teams/${team.id}/edit`"
-            class="text-blue-600 text-sm mt-2 hover:underline"
-          >
-            Edit Team
-          </NuxtLink>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TEAM PLAYERS -->
-  <PlayerList :teamId="team.id" />
-
-  <!-- RECENT MATCHES -->
-  <MatchRecentMatches :teamId="team.id" />
+  <TeamView :initialTeamId="teamId" />
 </template>
