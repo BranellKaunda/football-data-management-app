@@ -9,16 +9,28 @@ const props = defineProps({
 const { getAllTeams } = useTeam();
 const teams = await getAllTeams();
 
-const { getAllLeagues } = useLeague();
-const leagues = await getAllLeagues();
-
 const { getMatchesByTeamAndCompetition, getMatchesByCompetition } = useMatch();
+const { getLeaguesByTeam } = useTeamXLeague();
 
 const selectedTeamId = ref(null);
 const selectedLeagueId = ref("");
+const teamLeagues = ref([]);
 
 if (props.initialTeamId && teams) {
   selectedTeamId.value = props.initialTeamId;
+}
+
+async function loadTeamLeagues(teamId) {
+  if (!teamId) {
+    teamLeagues.value = [];
+    return;
+  }
+  const records = await getLeaguesByTeam(teamId);
+  teamLeagues.value = records.map((r) => r.league);
+}
+
+if (selectedTeamId.value) {
+  await loadTeamLeagues(selectedTeamId.value);
 }
 
 const selectedTeam = computed(() => {
@@ -69,6 +81,7 @@ const activeTab = ref("matches");
 watch(selectedTeamId, async () => {
   visibleCount.value = 20;
   selectedLeagueId.value = "";
+  await loadTeamLeagues(selectedTeamId.value);
 });
 
 watch(selectedLeagueId, async () => {
@@ -127,7 +140,7 @@ watch(selectedLeagueId, async () => {
           >
             <option value="">All leagues</option>
             <option
-              v-for="league in leagues"
+              v-for="league in teamLeagues"
               :key="league.id"
               :value="league.id"
             >

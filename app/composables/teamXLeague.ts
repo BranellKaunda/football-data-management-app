@@ -9,6 +9,11 @@ export const useTeamXLeague = () => {
     return record;
   };
 
+  const getLeaguesByTeam = async (teamId: number) => {
+    const records = await $fetch(`/api/teams-x-leagues?teamId=${teamId}`);
+    return records;
+  };
+
   const createTeamXLeague = async (recordData: object) => {
     const res = await $fetch(`/api/teams-x-leagues/create`, {
       method: "POST",
@@ -26,7 +31,8 @@ export const useTeamXLeague = () => {
   return {
     getAllTeamXLeagues,
     getTeamXLeague,
+    getLeaguesByTeam,
     createTeamXLeague,
     deleteTeamXLeague,
-};
+  };
 };

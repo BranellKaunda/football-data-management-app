@@ -1,25 +1,44 @@
-import { defineEventHandler } from "h3";
+import { defineEventHandler, getQuery } from "h3";
 import { useDrizzle } from "#server/utils/drizzle";
+import { teamsXleagues, teams, leagues } from "#server/database/schema";
+import { eq, and } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const OR = [
-    query.teamId && { teamId: Number(query.teamId) },
-    query.leagueId && { leagueId: Number(query.leagueId) },
-  ].filter(Boolean);
 
-  const result = await useDrizzle().query.teamsXleagues?.findMany({
-    columns: {},
-    with: {
+  const conditions = [];
+  if (query.teamId) {
+    conditions.push(eq(teamsXleagues.teamId, Number(query.teamId)));
+  }
+  if (query.leagueId) {
+    conditions.push(eq(teamsXleagues.leagueId, Number(query.leagueId)));
+  }
+
+  const db = useDrizzle();
+
+  const result = await db
+    .select({
+      id: teamsXleagues.id,
+      teamId: teamsXleagues.teamId,
+      leagueId: teamsXleagues.leagueId,
       team: {
-        columns: { id: true, name: true, logo: true, location: true },
+        id: teams.id,
+        name: teams.name,
+        logo: teams.logo,
+        location: teams.location,
       },
       league: {
-        columns: { id: true, name: true, season: true, logo: true, rank: true },
+        id: leagues.id,
+        name: leagues.name,
+        season: leagues.season,
+        logo: leagues.logo,
+        rank: leagues.rank,
       },
-    },
-    where: { OR: OR as any },
-  });
+    })
+    .from(teamsXleagues)
+    .innerJoin(teams, eq(teamsXleagues.teamId, teams.id))
+    .innerJoin(leagues, eq(teamsXleagues.leagueId, leagues.id))
+    .where(conditions.length > 0 ? and(...conditions) : undefined);
 
   return result;
 });
