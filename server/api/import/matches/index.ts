@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse/sync";
 import createMatch from "#server/utils/match";
+import addTeamToLeague from "#server/utils/teamsXleagues";
 
 type MatchRecord = {
   date: string;
@@ -68,6 +69,11 @@ export default defineEventHandler(async (event) => {
 
     if (result.created) {
       inserted++;
+      const { homeTeamId, awayTeamId, competitionId: leagueId } = result.record;
+      await Promise.all([
+        addTeamToLeague(homeTeamId, leagueId),
+        addTeamToLeague(awayTeamId, leagueId),
+      ]);
     } else {
       skipped++;
     }
