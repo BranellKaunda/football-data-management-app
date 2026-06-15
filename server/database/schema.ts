@@ -5,6 +5,8 @@ import {
   text,
   integer,
   date,
+  boolean,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
@@ -38,9 +40,7 @@ export const teams = pgTable("teams", {
 
 export const players = pgTable("players", {
   id: serial("id").primaryKey(),
-  teamId: integer("team_id")
-    .notNull()
-    .references(() => teams.id),
+  teamId: integer("team_id").references(() => teams.id),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   photo: text("photo"),
@@ -49,6 +49,29 @@ export const players = pgTable("players", {
   weightKg: integer("weight_kg").notNull(),
   heightCm: integer("height_cm").notNull(),
 });
+
+export const playerTeams = pgTable(
+  "player_teams",
+  {
+    id: serial("id").primaryKey(),
+    playerId: integer("player_id")
+      .notNull()
+      .references(() => players.id),
+    teamId: integer("team_id")
+      .notNull()
+      .references(() => teams.id),
+    startDate: date("start_date").notNull(),
+    endDate: date("end_date"),
+    transfer: boolean("transfer").notNull().default(false),
+    loan: boolean("loan").notNull().default(false),
+  },
+  (table) => ({
+    uniquePlayerStartDate: uniqueIndex("uq_player_start_date").on(
+      table.playerId,
+      table.startDate,
+    ),
+  }),
+);
 
 export const leagues = pgTable("leagues", {
   id: serial("id").primaryKey(),

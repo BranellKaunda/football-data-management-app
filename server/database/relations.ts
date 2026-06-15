@@ -30,6 +30,28 @@ export const relations = defineRelations(schema, (r) => ({
       from: r.players.teamId,
       to: r.teams.id,
     }),
+    playerTeams: r.many.playerTeams({
+      from: r.players.id,
+      to: r.playerTeams.playerId,
+    }),
+  },
+
+  teams: {
+    playerTeams: r.many.playerTeams({
+      from: r.teams.id,
+      to: r.playerTeams.teamId,
+    }),
+  },
+
+  playerTeams: {
+    player: r.one.players({
+      from: r.playerTeams.playerId,
+      to: r.players.id,
+    }),
+    team: r.one.teams({
+      from: r.playerTeams.teamId,
+      to: r.teams.id,
+    }),
   },
 
   playersXmatches: {
