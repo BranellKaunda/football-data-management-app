@@ -9,4 +9,8 @@ export const playerSchema = z.object({
   position: z.string().min(2).transform(startCase),
   weightKg: z.number().int().positive(),
   heightCm: z.number().int().positive(),
+  startDate: z.coerce.date().optional(),
+  endDate: z.coerce.date().optional(),
+  transfer: z.boolean().optional(),
+  loan: z.boolean().optional(),
 });

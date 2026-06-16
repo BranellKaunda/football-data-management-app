@@ -9,8 +9,10 @@ export const usePlayer = () => {
     return player;
   };
 
-  const getPlayersByTeam = async (teamId: number) => {
-    const players = await $fetch(`/api/players/?teamId=${teamId}`);
+  const getPlayersByTeam = async (teamId: number, year?: number) => {
+    const params = new URLSearchParams({ teamId: String(teamId) });
+    if (year) params.set("year", String(year));
+    const players = await $fetch(`/api/players/?${params}`);
     return players;
   };
 

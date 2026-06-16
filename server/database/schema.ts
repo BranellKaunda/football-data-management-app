@@ -40,7 +40,6 @@ export const teams = pgTable("teams", {
 
 export const players = pgTable("players", {
   id: serial("id").primaryKey(),
-  teamId: integer("team_id").references(() => teams.id),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   photo: text("photo"),

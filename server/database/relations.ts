@@ -26,10 +26,10 @@ export const relations = defineRelations(schema, (r) => ({
   },
 
   players: {
-    team: r.one.teams({
+    /* team: r.one.teams({
       from: r.players.teamId,
       to: r.teams.id,
-    }),
+    }), */
     playerTeams: r.many.playerTeams({
       from: r.players.id,
       to: r.playerTeams.playerId,

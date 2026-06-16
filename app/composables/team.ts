@@ -31,10 +31,10 @@ export const useTeam = () => {
     });
   };
 
-  const getTeamPlayers = async (teamId: number) => {
-    const players = await $fetch(
-      `/api/players?teamId=${teamId}`,
-    );
+  const getTeamPlayers = async (teamId: number, year?: number) => {
+    const params = new URLSearchParams({ teamId: String(teamId) });
+    if (year) params.set("year", String(year));
+    const players = await $fetch(`/api/players?${params}`);
     return players;
   };
 
