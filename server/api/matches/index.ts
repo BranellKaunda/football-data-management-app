@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
       competition: true,
       referee: true,
       players: {
-        columns: { id: true, firstName: true, lastName: true, teamId: true },
+        columns: { id: true, firstName: true, lastName: true },
       },
     },
     where: AND.length > 0 ? { AND: AND as any } : undefined,

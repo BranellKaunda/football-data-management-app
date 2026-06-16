@@ -10,6 +10,13 @@ export default defineEventHandler(async (event) => {
     const AND = [
       query.teamId && { teamId: Number(query.teamId) },
       query.endDate && { endDate: { isNull: true } },
+      query.year && { startDate: { lte: `${query.year}-12-31` } },
+      query.year && {
+        OR: [
+          { endDate: { gte: `${query.year}-01-01` } },
+          { endDate: { isNull: true } },
+        ],
+      },
     ].filter(Boolean);
 
     const results = await useDrizzle().query.playerTeams?.findMany({

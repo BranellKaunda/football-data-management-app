@@ -64,12 +64,9 @@ export const playerTeams = pgTable(
     transfer: boolean("transfer").notNull().default(false),
     loan: boolean("loan").notNull().default(false),
   },
-  (table) => ({
-    uniquePlayerStartDate: uniqueIndex("uq_player_start_date").on(
-      table.playerId,
-      table.startDate,
-    ),
-  }),
+  (table) => [
+    uniqueIndex("uq_player_start_date").on(table.playerId, table.startDate),
+  ],
 );
 
 export const leagues = pgTable("leagues", {

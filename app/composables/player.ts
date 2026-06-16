@@ -9,10 +9,14 @@ export const usePlayer = () => {
     return player;
   };
 
-  const getPlayersByTeam = async (teamId: number, year?: number) => {
-    const params = new URLSearchParams({ teamId: String(teamId) });
-    if (year) params.set("year", String(year));
+  const getPlayersByTeamAndYear = async (teamId: number, year: number) => {
+    const params = new URLSearchParams({
+      teamId: String(teamId),
+      year: String(year),
+    });
+
     const players = await $fetch(`/api/players/?${params}`);
+
     return players;
   };
 
@@ -41,7 +45,7 @@ export const usePlayer = () => {
   return {
     getAllPlayers,
     getPlayer,
-    getPlayersByTeam,
+    getPlayersByTeamAndYear,
     createPlayer,
     editPlayer,
     deletePlayer,
