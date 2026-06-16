@@ -6,10 +6,10 @@ import { isNull } from "drizzle-orm";
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  if (query.teamId) {
+  if (query.team_id) {
     const AND = [
-      query.teamId && { teamId: Number(query.teamId) },
-      query.endDate && { endDate: { isNull: true } },
+      query.team_id && { teamId: Number(query.team_id) },
+      query.end_date && { endDate: { isNull: true } },
       query.year && { startDate: { lte: `${query.year}-12-31` } },
       query.year && {
         OR: [

@@ -6,12 +6,12 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
   const OR = [
-    query.playerId && { playerId: query.playerId },
-    query.playerId && { playerIdExtra: query.playerId },
+    query.player_id && { playerId: query.player_id },
+    query.player_id && { playerIdExtra: query.player_id },
     query.action && { action: `%${query.action}%` },
     query.minute && { minute: query.minute },
-    query.matchId && { matchId: query.matchId },
-    query.teamId && { teamId: query.teamId },
+    query.match_id && { matchId: query.match_id },
+    query.team_id && { teamId: query.team_id },
   ].filter(Boolean);
 
   const results = await useDrizzle().query.match_actions.findMany({

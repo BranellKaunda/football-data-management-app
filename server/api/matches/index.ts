@@ -5,10 +5,10 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
   const AND = [
-    query.teamId && {
-      OR: [{ homeTeamId: query.teamId }, { awayTeamId: query.teamId }],
+    query.team_id && {
+      OR: [{ homeTeamId: query.team_id }, { awayTeamId: query.team_id }],
     },
-    query.competitionId && { competitionId: query.competitionId },
+    query.competition_id && { competitionId: query.competition_id },
     query.date && { matchDate: query.date },
     query.status && { status: query.status },
   ].filter(Boolean);

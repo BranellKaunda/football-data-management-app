@@ -11,7 +11,7 @@ export const usePlayer = () => {
 
   const getPlayersByTeamAndYear = async (teamId: number, year: number) => {
     const params = new URLSearchParams({
-      teamId: String(teamId),
+      team_id: String(teamId),
       year: String(year),
     });
 

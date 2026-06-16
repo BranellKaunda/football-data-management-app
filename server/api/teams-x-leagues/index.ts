@@ -5,8 +5,8 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
   const OR = [
-    query.teamId && { teamId: Number(query.teamId) },
-    query.leagueId && { leagueId: Number(query.leagueId) },
+    query.team_id && { teamId: Number(query.team_id) },
+    query.league_id && { leagueId: Number(query.league_id) },
   ].filter(Boolean);
 
   const db = useDrizzle();

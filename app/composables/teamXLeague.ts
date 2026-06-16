@@ -10,7 +10,7 @@ export const useTeamXLeague = () => {
   };
 
   const getLeaguesByTeam = async (teamId: number) => {
-    const records = await $fetch(`/api/teams-x-leagues?teamId=${teamId}`);
+    const records = await $fetch(`/api/teams-x-leagues?team_id=${teamId}`);
     return records;
   };
 

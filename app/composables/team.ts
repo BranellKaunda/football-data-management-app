@@ -32,7 +32,7 @@ export const useTeam = () => {
   };
 
   const getTeamPlayers = async (teamId: number, year?: number) => {
-    const params = new URLSearchParams({ teamId: String(teamId) });
+    const params = new URLSearchParams({ team_id: String(teamId) });
     if (year) params.set("year", String(year));
     const players = await $fetch(`/api/players?${params}`);
     return players;

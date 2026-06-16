@@ -10,7 +10,7 @@ export const useMatch = () => {
     offset?: number,
   ) => {
     const params = new URLSearchParams({
-      competitionId: String(competitionId),
+      competition_id: String(competitionId),
     });
     if (limit) params.set("limit", String(limit));
     if (offset) params.set("offset", String(offset));
@@ -19,7 +19,7 @@ export const useMatch = () => {
   };
 
   const getMatchesByTeam = async (teamId: number) => {
-    const matches = await $fetch(`/api/matches/?teamId=${teamId}`);
+    const matches = await $fetch(`/api/matches/?team_id=${teamId}`);
     return matches;
   };
 
@@ -27,9 +27,9 @@ export const useMatch = () => {
     teamId: number,
     competitionId?: number,
   ) => {
-    let url = `/api/matches/?teamId=${teamId}`;
+    let url = `/api/matches/?team_id=${teamId}`;
     if (competitionId) {
-      url += `&competitionId=${competitionId}`;
+      url += `&competition_id=${competitionId}`;
     }
     const matches = await $fetch(url);
     return matches;
