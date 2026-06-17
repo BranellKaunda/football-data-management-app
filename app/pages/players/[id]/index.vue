@@ -3,6 +3,11 @@ const route = useRoute();
 
 const { getPlayer } = usePlayer();
 const player = await getPlayer(route.params.id);
+
+const currentTeam = computed(() => {
+  const active = player.playerTeams?.find((pt) => pt.endDate === null);
+  return active?.team ?? null;
+});
 </script>
 
 <template>
@@ -12,18 +17,18 @@ const player = await getPlayer(route.params.id);
     <h1 class="text-2xl font-bold text-center">Player Details</h1>
 
     <!-- TEAM LOGO + NAME -->
-    <div class="flex items-center gap-4">
-      <TeamLogo :teamLogo="player.team.logo" :teamId="player.team.id" />
+    <div class="flex items-center gap-4" v-if="currentTeam">
+      <TeamLogo :teamLogo="currentTeam.logo" :teamId="currentTeam.id" />
       <div>
-        <p class="text-lg font-semibold">{{ player.team.name }}</p>
-        <p class="text-gray-600 text-sm">{{ player.team.location }}</p>
+        <p class="text-lg font-semibold">{{ currentTeam.name }}</p>
+        <p class="text-gray-600 text-sm">{{ currentTeam.location }}</p>
       </div>
     </div>
 
     <hr />
 
     <!-- PLAYER INFO -->
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2" v-if="player">
       <div>
         <p class="text-gray-500 text-sm">First Name</p>
         <p class="font-medium">{{ player.firstName }}</p>

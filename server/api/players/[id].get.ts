@@ -2,7 +2,7 @@ import { defineEventHandler } from "h3";
 import { useDrizzle } from "#server/utils/drizzle";
 
 export default defineEventHandler(async (event) => {
-  const result = await useDrizzle().query.players.findFirst({
+  const result = await useDrizzle().query.players?.findFirst({
     columns: {
       id: true,
       firstName: true,
