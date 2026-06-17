@@ -11,7 +11,6 @@ const { createPlayer, editPlayer } = usePlayer();
 
 async function save() {
   const body = {
-    teamId: draft.value.teamId,
     firstName: draft.value.firstName,
     lastName: draft.value.lastName,
     dob: draft.value.dob,
@@ -43,16 +42,6 @@ function cancel() {
     class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"
     @submit.prevent="save"
   >
-    <div class="flex flex-col gap-2">
-      <label>Team</label>
-      <select v-model.number="draft.teamId" placeholder="select a team">
-        <option disabled value="">Select a team</option>
-        <option v-for="team in teams" :key="team.id" :value="team.id">
-          {{ team.name }}
-        </option>
-      </select>
-    </div>
-
     <div class="flex flex-col gap-2">
       <label>First name</label>
       <input v-model="draft.firstName" placeholder="firstName" />

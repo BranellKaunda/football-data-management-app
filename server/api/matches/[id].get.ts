@@ -2,7 +2,7 @@ import { defineEventHandler } from "h3";
 import { useDrizzle } from "#server/utils/drizzle";
 
 export default defineEventHandler(async (event) => {
-  const results = await useDrizzle().query.matches.findFirst({
+  const results = await useDrizzle().query.matches?.findFirst({
     columns: {
       id: true,
       matchDate: true,
@@ -16,12 +16,12 @@ export default defineEventHandler(async (event) => {
       competition: true,
       referee: true,
       players: {
-        columns: { id: true, firstName: true, lastName: true, teamId: true },
+        columns: { id: true, firstName: true, lastName: true },
       },
     },
 
     where: {
-      id: Number(event.context.params!.id),
+      id: Number(event.context.params?.id),
     },
   });
 

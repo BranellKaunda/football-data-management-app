@@ -70,4 +70,7 @@ const currentTeam = computed(() => {
       </NuxtLink>
     </div>
   </div>
+
+  <!-- PLAYER HISTORY -->
+  <PlayerHistory :player-id="player.id" :player-teams="player.playerTeams" />
 </template>
