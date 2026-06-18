@@ -1,4 +1,9 @@
 <script setup>
+const route = useRoute();
+const competitionId = route.query.competitionId
+  ? Number(route.query.competitionId)
+  : null;
+
 const match = ref({
   homeTeam: { id: "", name: "" },
   awayTeam: { id: "", name: "" },
@@ -7,36 +12,18 @@ const match = ref({
   matchDate: "",
   status: "Scheduled",
   referee: { id: "", firstName: "", lastName: "" },
-  competition: { id: "", name: "" },
+  competition: { id: competitionId || "", name: "" },
 });
 
-const newCreatedMatch = ref([]);
-
-function onCancel(e) {
-  navigateTo("/matches");
+function onCancel() {
+  navigateTo(`/leagues/${competitionId}`);
 }
 
-async function onSave(e) {
-  const { getMatch } = useMatch();
-  const match = await getMatch(e.id);
-
-  newCreatedMatch.value.push(match);
-}
-
-function onDelete(matchId) {
-  newCreatedMatch.value = newCreatedMatch.value.filter((m) => m.id !== matchId);
+function onSave() {
+  navigateTo(`/leagues/${competitionId}`);
 }
 </script>
 
 <template>
   <MatchForm v-model="match" @cancel="onCancel" @save="onSave" />
-
-  <!-- CREATED MATCHES -->
-  <div v-if="newCreatedMatch.length">
-    <MatchList
-      :matches="newCreatedMatch"
-      :delete-button="true"
-      @deleted="onDelete"
-    />
-  </div>
 </template>

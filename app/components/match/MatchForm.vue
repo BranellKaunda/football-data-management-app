@@ -2,130 +2,173 @@
 import { createEmptyMatchForm } from "#shared/utils/Match";
 
 const match = defineModel();
-const draft = ref({ ...match.value });
 const emit = defineEmits(["cancel", "save"]);
 
+const editing = computed(() => !!match.value.id);
+
 const { getAllTeams } = useTeam();
-const teams = await getAllTeams();
-
 const { getAllReferees } = useReferee();
-const referees = await getAllReferees();
-
 const { getAllLeagues } = useLeague();
-const competitions = await getAllLeagues();
-
 const { createMatch, editMatch } = useMatch();
 
+const teams = await getAllTeams();
+const referees = await getAllReferees();
+const competitions = await getAllLeagues();
+
+const rows = ref([]);
+
+function initRows() {
+  if (match.value.id) {
+    rows.value = [{ ...match.value }];
+  } else {
+    rows.value = [{ ...createEmptyMatchForm() }];
+  }
+}
+
+initRows();
+
+function addRow() {
+  rows.value.push({ ...createEmptyMatchForm() });
+}
+
+function removeRow(index) {
+  rows.value.splice(index, 1);
+}
+
 async function save() {
-  const body = {
-    homeTeamId: draft.value.homeTeam.id,
-    awayTeamId: draft.value.awayTeam.id,
-    homeTeamGoals: draft.value.homeTeamGoals,
-    awayTeamGoals: draft.value.awayTeamGoals,
-    matchDate: draft.value.matchDate,
-    status: draft.value.status,
-    refereeId: draft.value.referee.id,
-    competitionId: draft.value.competition.id,
-  };
+  const promises = rows.value.map((row) => {
+    const body = {
+      homeTeamId: row.homeTeam.id,
+      awayTeamId: row.awayTeam.id,
+      homeTeamGoals: row.homeTeamGoals,
+      awayTeamGoals: row.awayTeamGoals,
+      matchDate: row.matchDate,
+      status: row.status,
+      refereeId: row.referee.id,
+      competitionId: row.competition.id,
+    };
 
-  const res = match.value.id
-    ? await editMatch(match.value.id, body)
-    : await createMatch(body);
+    return row.id ? editMatch(row.id, body) : createMatch(body);
+  });
 
-  emit("save", res);
-  draft.value = { ...createEmptyMatchForm() };
+  const results = await Promise.all(promises);
+  emit("save", results);
 }
 
 function cancel() {
-  draft.value = { ...match.value };
+  initRows();
   emit("cancel");
 }
 </script>
 
 <template>
-  <h1 class="m-8 text-2xl font-bold text-center">
-    {{ match.id ? "Edit Match" : "Create Match" }}
-  </h1>
-  <form
-    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"
-    @submit.prevent="save"
-  >
-    <div class="flex flex-col gap-2">
-      <label>Home Team</label>
-      <select v-model.number="draft.homeTeam.id" placeholder="select a team">
-        <option disabled value="">Select a team</option>
-        <option v-for="team in teams" :key="team.id" :value="team.id">
-          {{ team.name }}
-        </option>
-      </select>
+  <div class="max-w-6xl mx-auto p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-center">
+        {{ editing ? "Edit Match" : "Create Matches" }}
+      </h1>
+      <button
+        class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+        @click="addRow"
+      >
+        New Match
+      </button>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Away Team</label>
-      <select v-model.number="draft.awayTeam.id" placeholder="select a team">
-        <option disabled value="">Select a team</option>
-        <option v-for="team in teams" :key="team.id" :value="team.id">
-          {{ team.name }}
-        </option>
-      </select>
+    <div class="bg-white rounded shadow overflow-x-auto" v-if="rows.length">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-100 border-b border-gray-200">
+          <tr>
+            <th class="p-2 font-semibold">Home Team</th>
+            <th class="p-2 font-semibold">Away Team</th>
+            <th class="p-2 font-semibold w-20">H Goals</th>
+            <th class="p-2 font-semibold w-20">A Goals</th>
+            <th class="p-2 font-semibold">Date</th>
+            <th class="p-2 font-semibold">Status</th>
+            <th class="p-2 font-semibold">Referee</th>
+            <th class="p-2 font-semibold">Competition</th>
+            <th class="p-2 font-semibold w-16"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(row, index) in rows"
+            :key="index"
+            class="border-b border-gray-200 hover:bg-gray-50"
+          >
+            <td class="p-1">
+              <select v-model.number="row.homeTeam.id" class="w-36">
+                <option disabled :value="null">Select team</option>
+                <option v-for="team in teams" :key="team.id" :value="team.id">
+                  {{ team.name }}
+                </option>
+              </select>
+            </td>
+            <td class="p-1">
+              <select v-model.number="row.awayTeam.id" class="w-36">
+                <option disabled :value="null">Select team</option>
+                <option v-for="team in teams" :key="team.id" :value="team.id">
+                  {{ team.name }}
+                </option>
+              </select>
+            </td>
+            <td class="p-1">
+              <input v-model.number="row.homeTeamGoals" type="number" class="w-16" />
+            </td>
+            <td class="p-1">
+              <input v-model.number="row.awayTeamGoals" type="number" class="w-16" />
+            </td>
+            <td class="p-1">
+              <input v-model="row.matchDate" placeholder="yyyy-mm-dd" class="w-28" />
+            </td>
+            <td class="p-1">
+              <select v-model="row.status" class="w-28">
+                <option value="Scheduled">Scheduled</option>
+                <option value="Live">Live</option>
+                <option value="Finished">Finished</option>
+                <option value="Halftime">Halftime</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Abandoned">Abandoned</option>
+              </select>
+            </td>
+            <td class="p-1">
+              <select v-model.number="row.referee.id" class="w-32">
+                <option disabled :value="null">Select referee</option>
+                <option
+                  v-for="referee in referees"
+                  :key="referee.id"
+                  :value="referee.id"
+                >
+                  {{ referee.firstName }} {{ referee.lastName }}
+                </option>
+              </select>
+            </td>
+            <td class="p-1">
+              <select v-model.number="row.competition.id" class="w-36">
+                <option disabled :value="null">Select competition</option>
+                <option
+                  v-for="competition in competitions"
+                  :key="competition.id"
+                  :value="competition.id"
+                >
+                  {{ competition.name }} {{ competition.season }}
+                </option>
+              </select>
+            </td>
+            <td class="p-1 text-center">
+              <button
+                class="text-red-500 hover:text-red-700 text-lg font-bold leading-none"
+                @click="removeRow(index)"
+              >
+                &times;
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Home Team Goals</label>
-      <input v-model.number="draft.homeTeamGoals" placeholder="homeTeamGoals" />
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label>Away Team Goals</label>
-      <input v-model.number="draft.awayTeamGoals" placeholder="awayTeamGoals" />
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label>Match Date</label>
-      <input v-model="draft.matchDate" placeholder="yyyy-mm-dd" />
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label>Status</label>
-      <select v-model="draft.status">
-        <option value="Scheduled">Scheduled</option>
-        <option value="Live">Live</option>
-        <option value="Finished">Finished</option>
-        <option value="Halftime">Halftime</option>
-        <option value="Cancelled">Cancelled</option>
-        <option value="Abandoned">Abandoned</option>
-      </select>
-    </div>
-
-    <div class="flex flex-col gap-2" v-if="referees">
-      <label>Referee</label>
-      <select v-model.number="draft.referee.id">
-        <option disabled value="">Select a referee</option>
-        <option
-          v-for="referee in referees"
-          :key="referee.id"
-          :value="referee.id"
-        >
-          {{ referee.firstName }} {{ referee.lastName }}
-        </option>
-      </select>
-    </div>
-
-    <div class="flex flex-col gap-2" v-if="competitions">
-      <label> Competition</label>
-      <select v-model.number="draft.competition.id">
-        <option disabled value="">Select a competition</option>
-        <option
-          v-for="competition in competitions"
-          :key="competition.id"
-          :value="competition.id"
-        >
-          {{ competition.name }} {{ competition.season }}
-        </option>
-      </select>
-    </div>
-
-    <div class="flex gap-4 justify-end">
+    <div class="flex gap-4 justify-end mt-6">
       <button
         class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
         type="button"
@@ -135,10 +178,11 @@ function cancel() {
       </button>
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-        type="submit"
+        type="button"
+        @click="save"
       >
         Save
       </button>
     </div>
-  </form>
+  </div>
 </template>
