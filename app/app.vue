@@ -13,14 +13,14 @@ const players = ref({
         <li class="hover:text-blue-600">
           <NuxtLink to="/">Home</NuxtLink>
         </li>
-        <!-- <li class="hover:text-blue-600">
-          <NuxtLink to="/players">Players</NuxtLink>
-        </li> -->
         <li class="hover:text-blue-600">
           <NuxtLink to="/teams">Teams</NuxtLink>
         </li>
         <li class="hover:text-blue-600">
           <NuxtLink to="/leagues">Leagues</NuxtLink>
+        </li>
+        <li class="hover:text-blue-600">
+          <NuxtLink to="/player-teams">Transfers</NuxtLink>
         </li>
       </ul>
     </nav>

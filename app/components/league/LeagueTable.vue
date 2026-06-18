@@ -99,7 +99,7 @@ const tableData = computed(() => {
       class="bg-white rounded shadow overflow-hidden"
     >
       <table class="w-full text-sm">
-        <thead class="bg-gray-100 border-b">
+        <thead class="bg-gray-100 border-b border-gray-200">
           <tr>
             <th class="p-3 text-left font-semibold">#</th>
             <th class="p-3 text-left font-semibold">Team</th>
@@ -140,7 +140,7 @@ const tableData = computed(() => {
                 />
                 <NuxtLink
                   :to="`/teams/${team.id}`"
-                  class="font-medium hover:text-blue-600"
+                  class="font-normal hover:text-blue-600"
                 >
                   {{ team.name }}
                 </NuxtLink>
