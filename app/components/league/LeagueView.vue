@@ -89,21 +89,20 @@ watch(matchedLeague, async (league) => {
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-      <div class="flex gap-4 mb-6">
-        <NuxtLink
-          class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
-          to="/leagues/create"
-        >
-          Create New League
-        </NuxtLink>
-        <NuxtLink
-          v-if="matchedLeague"
-          class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
-          :to="`/matches/create?competitionId=${matchedLeague.id}`"
-        >
-          Create A Match
-        </NuxtLink>
-      </div>
+    <div class="flex gap-4 mb-6">
+      <NuxtLink
+        class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
+        to="/leagues/create"
+      >
+        Create New League
+      </NuxtLink>
+      <NuxtLink
+        class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
+        :to="`/matches/create`"
+      >
+        Create A Match
+      </NuxtLink>
+    </div>
 
     <h1 class="text-lg font-bold mb-6 text-center">Competition</h1>
 

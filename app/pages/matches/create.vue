@@ -1,8 +1,5 @@
 <script setup>
 const route = useRoute();
-const competitionId = route.query.competitionId
-  ? Number(route.query.competitionId)
-  : null;
 
 const match = ref({
   homeTeam: { id: "", name: "" },
@@ -12,15 +9,18 @@ const match = ref({
   matchDate: "",
   status: "Scheduled",
   referee: { id: "", firstName: "", lastName: "" },
-  competition: { id: competitionId || "", name: "" },
+  competition: { id: "", name: "" },
 });
 
+const competitionId = ref(null);
+
 function onCancel() {
-  navigateTo(`/leagues/${competitionId}`);
+  navigateTo(`/leagues`);
 }
 
-function onSave() {
-  navigateTo(`/leagues/${competitionId}`);
+function onSave(e) {
+  competitionId.value = e[0].competitionId;
+  navigateTo(`/leagues/${competitionId.value}`);
 }
 </script>
 

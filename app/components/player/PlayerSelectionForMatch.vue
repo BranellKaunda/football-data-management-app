@@ -16,8 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(["save"]);
 
-const { getPlayersByTeam } = usePlayer();
-const players = await getPlayersByTeam(props.teamId);
+const players = await $fetch(`/api/players/?team_id=${props.teamId}`);
 
 const newPlayerIds = ref([]);
 

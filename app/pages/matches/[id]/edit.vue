@@ -6,11 +6,11 @@ const { getMatch } = useMatch();
 const match = await getMatch(matchId);
 
 const onCancel = () => {
-  navigateTo(`/matches/${matchId}`);
+  navigateTo(`/leagues/${match.competition.id}`);
 };
 
 const onSave = () => {
-  navigateTo(`/matches/${match.id}`);
+  navigateTo(`/leagues/${match.competition.id}`);
 };
 </script>
 

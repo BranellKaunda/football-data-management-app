@@ -12,15 +12,11 @@ const homeTeamId = computed(() => match.homeTeam.id);
 const awayTeamId = computed(() => match.awayTeam.id);
 
 const homeTeamPlayersArray = computed(() => {
-  return match?.players.filter(
-    (player) => player.teamId === homeTeamId.value,
-  );
+  return match?.players.filter((player) => player.teamId === homeTeamId.value);
 });
 
 const awayTeamPlayersArray = computed(() => {
-  return match?.players.filter(
-    (player) => player.teamId === awayTeamId.value,
-  );
+  return match?.players.filter((player) => player.teamId === awayTeamId.value);
 });
 
 const homeTeamExistingPlayerIds = computed(() => {
@@ -44,8 +40,7 @@ const onCancel = () => {
 };
 
 const onSave = async () => {
-  //navigateTo(`/matches/${e.res.id}`);
-  reloadNuxtApp();
+  navigateTo(`/matches/${e.res.id}`);
 };
 </script>
 

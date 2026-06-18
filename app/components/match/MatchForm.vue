@@ -17,6 +17,7 @@ const competitions = await getAllLeagues();
 
 const rows = ref([]);
 
+//to know if i am editing or creating a new match
 function initRows() {
   if (match.value.id) {
     rows.value = [{ ...match.value }];
@@ -52,6 +53,7 @@ async function save() {
   });
 
   const results = await Promise.all(promises);
+  console.log(results);
   emit("save", results);
 }
 
@@ -96,8 +98,11 @@ function cancel() {
             :key="index"
             class="border-b border-gray-200 hover:bg-gray-50"
           >
-            <td class="p-1">
-              <select v-model.number="row.homeTeam.id" class="w-36">
+            <td class="p-2">
+              <select
+                v-model.number="row.homeTeam.id"
+                class="w-32 border rounded font-normal text-sm"
+              >
                 <option disabled :value="null">Select team</option>
                 <option v-for="team in teams" :key="team.id" :value="team.id">
                   {{ team.name }}
@@ -105,7 +110,11 @@ function cancel() {
               </select>
             </td>
             <td class="p-1">
-              <select v-model.number="row.awayTeam.id" class="w-36">
+              <select
+                v-model.number="row.awayTeam.id"
+                class="w-32 border rounded font-normal text-sm"
+              >
+                <!-- class ="w-36" of select -->
                 <option disabled :value="null">Select team</option>
                 <option v-for="team in teams" :key="team.id" :value="team.id">
                   {{ team.name }}
@@ -113,16 +122,31 @@ function cancel() {
               </select>
             </td>
             <td class="p-1">
-              <input v-model.number="row.homeTeamGoals" type="number" class="w-16" />
+              <input
+                v-model.number="row.homeTeamGoals"
+                type="number"
+                class="w-16 border rounded font-normal text-sm"
+              />
             </td>
             <td class="p-1">
-              <input v-model.number="row.awayTeamGoals" type="number" class="w-16" />
+              <input
+                v-model.number="row.awayTeamGoals"
+                type="number"
+                class="w-16 border rounded font-normal text-sm"
+              />
             </td>
             <td class="p-1">
-              <input v-model="row.matchDate" placeholder="yyyy-mm-dd" class="w-28" />
+              <input
+                v-model="row.matchDate"
+                placeholder="yyyy-mm-dd"
+                class="w-26 border rounded font-normal text-sm"
+              />
             </td>
             <td class="p-1">
-              <select v-model="row.status" class="w-28">
+              <select
+                v-model="row.status"
+                class="border rounded font-normal text-sm"
+              >
                 <option value="Scheduled">Scheduled</option>
                 <option value="Live">Live</option>
                 <option value="Finished">Finished</option>
@@ -132,7 +156,10 @@ function cancel() {
               </select>
             </td>
             <td class="p-1">
-              <select v-model.number="row.referee.id" class="w-32">
+              <select
+                v-model.number="row.referee.id"
+                class="border rounded font-normal text-sm"
+              >
                 <option disabled :value="null">Select referee</option>
                 <option
                   v-for="referee in referees"
@@ -144,7 +171,10 @@ function cancel() {
               </select>
             </td>
             <td class="p-1">
-              <select v-model.number="row.competition.id" class="w-36">
+              <select
+                v-model.number="row.competition.id"
+                class="border rounded font-normal text-sm"
+              >
                 <option disabled :value="null">Select competition</option>
                 <option
                   v-for="competition in competitions"
