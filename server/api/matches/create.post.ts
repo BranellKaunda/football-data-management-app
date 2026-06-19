@@ -3,6 +3,7 @@ import { useDrizzle } from "#server/utils/drizzle";
 import { readBody, setResponseStatus } from "h3";
 import { matches } from "#server/database/schema";
 import { matchSchema } from "#server/utils/validation/matchSchema";
+import addTeamToLeague from "#server/utils/teamsXleagues";
 
 const schema = matchSchema;
 
@@ -18,7 +19,14 @@ export default defineEventHandler(async (event) => {
     })
     .returning();
 
+  const match = result[0];
+
+  await Promise.all([
+    addTeamToLeague(match.homeTeamId, match.competitionId),
+    addTeamToLeague(match.awayTeamId, match.competitionId),
+  ]);
+
   setResponseStatus(event, 201);
 
-  return result[0];
+  return match;
 });

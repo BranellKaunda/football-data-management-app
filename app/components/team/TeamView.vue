@@ -144,7 +144,7 @@ watch(selectedLeagueId, async () => {
               :key="league.id"
               :value="league.id"
             >
-              {{ league.season }}
+              {{ initialTeamId ? league.name : "" }} {{ league.season }}
             </option>
           </select>
 
