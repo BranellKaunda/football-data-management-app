@@ -102,7 +102,28 @@ watch(matchedLeague, async (league) => {
       >
         Create A Match
       </NuxtLink>
+
+      <NuxtLink
+        class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
+        :to="`/import/matches`"
+      >
+        Import Matches
+      </NuxtLink>
     </div>
+
+    <!-- INSTRUCTIONS FOR ADMIN-->
+    <!-- <div class="text-gray-400 mb-6 font-normal">
+      <h2 class="text-gray-400">INSTRUCTIONS</h2>
+      <ol class="list-decimal list-inside">
+        <li>Create a league.</li>
+        <li>Import/create teams</li>
+        <li>
+          Create a match using the "Create A Match" link. Or import matches
+          using a CSV file, format:
+          date,home_team,away_team,home_goals,away_goals.
+        </li>
+      </ol>
+    </div> -->
 
     <h1 class="text-lg font-bold mb-6 text-center">Competition</h1>
 

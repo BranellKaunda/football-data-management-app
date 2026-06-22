@@ -1,25 +1,46 @@
 <script setup>
 const selectedFile = ref(null);
 const competitionId = ref(null);
+const status = ref(null);
+const loading = ref(false);
 
 const { getAllLeagues } = useLeague();
 const competitions = await getAllLeagues();
 
 function handleFileChange(event) {
   selectedFile.value = event.target.files[0];
+  status.value = null;
 }
 
 async function handleFileUpload() {
   if (!selectedFile.value) return;
 
-  const formData = new FormData();
-  formData.append("file", selectedFile.value);
-  formData.append("competitionId", competitionId.value);
+  loading.value = true;
+  status.value = null;
 
-  const res = await $fetch("/api/import/matches", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const formData = new FormData();
+    formData.append("file", selectedFile.value);
+    formData.append("competitionId", competitionId.value);
+
+    const res = await $fetch("/api/import/matches", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (res.error) {
+      status.value = { type: "error", message: res.error };
+    } else {
+      status.value = {
+        type: "success",
+        message: `Successfully imported! ${res.inserted} matches created, ${res.skipped} skipped.`,
+      };
+    }
+  } catch (err) {
+    status.value = { type: "error", message: err.message || "Upload failed" };
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 
@@ -62,12 +83,24 @@ async function handleFileUpload() {
         </select>
       </div>
 
+      <div
+        v-if="status"
+        :class="[
+          'px-4 py-3 rounded text-sm font-medium',
+          status.type === 'success'
+            ? 'bg-green-100 text-green-800 border border-green-300'
+            : 'bg-red-100 text-red-800 border border-red-300',
+        ]"
+      >
+        {{ status.message }}
+      </div>
+
       <button
         type="submit"
         class="self-start px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        :disabled="!selectedFile"
+        :disabled="!selectedFile || loading"
       >
-        Import Matches
+        {{ loading ? "Importing..." : "Import Matches" }}
       </button>
     </form>
   </div>
