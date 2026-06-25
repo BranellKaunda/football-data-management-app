@@ -1,9 +1,7 @@
 <script setup>
-const players = ref({
-  name: "branell",
-  age: 27,
-  number: 22,
-});
+import { authClient } from "~/lib/auth-client";
+
+const { data: session, error } = await authClient.getSession();
 </script>
 
 <template>
@@ -24,6 +22,8 @@ const players = ref({
         </li>
       </ul>
     </nav>
+
+    <h1 v-if="session">{{ session.name }}</h1>
 
     <NuxtPage />
 
