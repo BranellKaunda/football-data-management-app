@@ -1,4 +1,8 @@
 <script setup>
+import { authClient } from "~/lib/auth-client";
+
+const { data: session } = await authClient.getSession();
+
 const props = defineProps({
   match: {
     type: Object,
@@ -70,6 +74,7 @@ const onDelete = async (matchId) => {
 
         <div class="text-center flex justify-center gap-4 mt-4">
           <NuxtLink
+            v-if="session"
             class="text-blue-600 hover:text-blue-800 text-sm"
             :to="`/matches/${match.id}/edit`"
           >
@@ -83,7 +88,7 @@ const onDelete = async (matchId) => {
             Details
           </NuxtLink>
 
-          <div>
+          <div v-if="session">
             <button
               @click="onDelete(match.id)"
               class="absolute bottom-2 right-6 hover:scale-110"

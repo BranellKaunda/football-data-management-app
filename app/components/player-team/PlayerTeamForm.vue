@@ -55,16 +55,9 @@ function cancel() {
   >
     <div class="flex flex-col gap-2">
       <label>Player</label>
-      <select
-        v-if="!editing"
-        v-model.number="draft.playerId"
-      >
+      <select v-if="!editing" v-model.number="draft.playerId">
         <option disabled value="">Select a player</option>
-        <option
-          v-for="player in players"
-          :key="player.id"
-          :value="player.id"
-        >
+        <option v-for="player in players" :key="player.id" :value="player.id">
           {{ player.firstName }} {{ player.lastName }}
         </option>
       </select>
@@ -77,11 +70,7 @@ function cancel() {
       <label>Team</label>
       <select v-model.number="draft.teamId">
         <option disabled value="">Select a team</option>
-        <option
-          v-for="team in teams"
-          :key="team.id"
-          :value="team.id"
-        >
+        <option v-for="team in teams" :key="team.id" :value="team.id">
           {{ team.name }}
         </option>
       </select>

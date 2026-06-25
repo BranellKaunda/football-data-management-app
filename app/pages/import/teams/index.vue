@@ -1,4 +1,8 @@
 <script setup>
+import { useSession } from "~/lib/auth-client";
+
+const { data: session } = useSession();
+
 const selectedFile = ref(null);
 const status = ref(null);
 const loading = ref(false);
@@ -44,6 +48,7 @@ async function handleFileUpload() {
     <h1 class="text-2xl font-bold mb-6 text-center">Import Teams</h1>
 
     <form
+      v-if="session"
       @submit.prevent="handleFileUpload"
       class="bg-white p-6 rounded shadow flex flex-col gap-4"
     >

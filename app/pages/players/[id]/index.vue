@@ -1,4 +1,8 @@
 <script setup>
+import { useSession } from "~/lib/auth-client";
+
+const { data: session } = useSession();
+
 const route = useRoute();
 
 const { getPlayer } = usePlayer();
@@ -61,7 +65,7 @@ const currentTeam = computed(() => {
     </div>
 
     <!-- BUTTON -->
-    <div class="flex justify-end mt-4">
+    <div v-if="session" class="flex justify-end mt-4">
       <NuxtLink
         :to="`/players/${player.id}/edit`"
         class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"

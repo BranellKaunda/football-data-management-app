@@ -1,4 +1,8 @@
 <script setup>
+import { authClient } from "~/lib/auth-client";
+
+const { data: session } = await authClient.getSession();
+
 const route = useRoute();
 const props = defineProps({
   matches: {
@@ -85,6 +89,7 @@ const data = route.params.id
 
         <div class="text-center flex justify-center gap-4 mt-4">
           <NuxtLink
+            v-if="session"
             class="text-blue-600 hover:text-blue-800 text-sm"
             :to="`/matches/${match.id}/edit`"
           >
@@ -99,7 +104,7 @@ const data = route.params.id
           </NuxtLink>
         </div>
 
-        <div class="relative" v-if="deleteButton">
+        <div class="relative" v-if="deleteButton && session">
           <button
             @click="onDelete(match.id)"
             class="absolute bottom-2 right-6 hover:scale-110"

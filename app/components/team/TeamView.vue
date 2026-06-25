@@ -1,4 +1,9 @@
 <script setup>
+import { authClient } from "@/lib/auth-client";
+
+const { data: session } = await authClient.getSession();
+console.log(session);
+
 const props = defineProps({
   initialTeamId: {
     type: Number,
@@ -93,6 +98,7 @@ watch(selectedLeagueId, async () => {
 <template>
   <div class="max-w-3xl mx-auto p-6">
     <NuxtLink
+      v-if="session"
       class="inline-block mb-6 px-4 py-2 font-semibold hover:text-blue-800"
       to="/teams/create"
     >
@@ -100,6 +106,7 @@ watch(selectedLeagueId, async () => {
     </NuxtLink>
 
     <NuxtLink
+      v-if="session"
       class="inline-block mb-6 px-4 py-2 font-semibold hover:text-blue-800"
       to="/import/teams"
     >
@@ -149,7 +156,7 @@ watch(selectedLeagueId, async () => {
           </select>
 
           <NuxtLink
-            v-if="selectedTeam"
+            v-if="selectedTeam && session"
             :to="`/teams/${selectedTeam.id}/edit`"
             class="text-blue-600 text-sm mt-2 hover:underline"
           >
