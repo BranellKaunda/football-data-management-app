@@ -15,19 +15,24 @@ const homeTeamId = computed(() => match.homeTeam.id);
 const awayTeamId = computed(() => match.awayTeam.id);
 
 const homeTeamPlayersArray = computed(() => {
-  return match?.players.filter((player) => player.teamId === homeTeamId.value);
+  return (
+    match?.players?.filter((p) =>
+      p.playerTeams?.some((pt) => pt.teamId === homeTeamId.value),
+    ) ?? []
+  );
 });
+//Keep the player only if they belong to the home team.
 
 const awayTeamPlayersArray = computed(() => {
-  return match?.players.filter((player) => player.teamId === awayTeamId.value);
+  return (
+    match?.players?.filter((p) =>
+      p.playerTeams?.some((pt) => pt.teamId === awayTeamId.value),
+    ) ?? []
+  );
 });
 
-const homeTeamExistingPlayerIds = computed(() => {
-  return homeTeamPlayersArray.value?.map((p) => p.id) ?? [];
-});
-
-const awayTeamExistingPlayerIds = computed(() => {
-  return awayTeamPlayersArray.value?.map((p) => p.id) ?? [];
+const existingPlayerIds = computed(() => {
+  return match?.players?.map((p) => p.id) ?? [];
 });
 
 function onSelectionSaved(selectedIds) {
@@ -43,7 +48,7 @@ const onCancel = () => {
 };
 
 const onSave = async () => {
-  navigateTo(`/matches/${e.res.id}`);
+  navigateTo(`/matches/${id}`);
 };
 </script>
 
@@ -60,7 +65,7 @@ const onSave = async () => {
       <PlayerSelectionForMatch
         :teamId="homeTeamId"
         :matchId="id"
-        :existingPlayerIds="homeTeamExistingPlayerIds"
+        :existingPlayerIds="existingPlayerIds"
         @save="onSelectionSaved"
       />
     </div>
@@ -70,7 +75,7 @@ const onSave = async () => {
       <PlayerSelectionForMatch
         :teamId="awayTeamId"
         :matchId="id"
-        :existingPlayerIds="awayTeamExistingPlayerIds"
+        :existingPlayerIds="existingPlayerIds"
         @save="onSelectionSaved"
       />
     </div>

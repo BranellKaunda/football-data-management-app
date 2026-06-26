@@ -17,6 +17,11 @@ export default defineEventHandler(async (event) => {
       referee: true,
       players: {
         columns: { id: true, firstName: true, lastName: true },
+        with: {
+          playerTeams: {
+            columns: { teamId: true },
+          },
+        },
       },
     },
 

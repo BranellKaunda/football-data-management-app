@@ -16,7 +16,8 @@ const props = defineProps({
 
 const emit = defineEmits(["save"]);
 
-const players = await $fetch(`/api/players/?team_id=${props.teamId}`);
+const { getPlayersByTeamAndYear } = usePlayer();
+const players = await getPlayersByTeamAndYear(props.teamId);
 
 const newPlayerIds = ref([]);
 
@@ -62,18 +63,24 @@ async function save() {
       >
         <input
           type="checkbox"
-          :id="`player-${player.id}`"
-          :value="player.id"
-          :checked="isExisting(player.id) || newPlayerIds.includes(player.id)"
-          :disabled="isExisting(player.id)"
-          @change="togglePlayer(player.id)"
+          :id="`player-${player.player.id}`"
+          :value="player.player.id"
+          :checked="
+            isExisting(player.player.id) ||
+            newPlayerIds.includes(player.player.id)
+          "
+          :disabled="isExisting(player.player.id)"
+          @change="togglePlayer(player.player.id)"
         />
         <label
-          :for="`player-${player.id}`"
-          :class="{ 'text-gray-400': isExisting(player.id) }"
+          :for="`player-${player.player.id}`"
+          :class="{ 'text-gray-400': isExisting(player.player.id) }"
         >
-          {{ player.firstName }} {{ player.lastName }}
-          <span v-if="isExisting(player.id)" class="text-xs text-gray-400 ml-1">
+          {{ player.player.firstName }} {{ player.player.lastName }}
+          <span
+            v-if="isExisting(player.player.id)"
+            class="text-xs text-gray-400 ml-1"
+          >
             (already added)
           </span>
         </label>
