@@ -20,8 +20,8 @@ const selectedTeamId = ref(null);
 const selectedLeagueId = ref("");
 const teamLeagues = ref([]);
 
-if (props.initialTeamId && teams) {
-  selectedTeamId.value = props.initialTeamId;
+if (teams?.length) {
+  selectedTeamId.value = props.initialTeamId ?? teams[0].id;
 }
 
 async function loadTeamLeagues(teamId) {
@@ -134,7 +134,7 @@ watch(selectedLeagueId, async () => {
             v-model="selectedTeamId"
             class="border rounded px-8 font-semibold text-sm"
           >
-            <option :value="null">Select a team</option>
+            <!-- <option :value="null">Select a team</option> -->
             <option v-for="team in teams" :key="team.id" :value="team.id">
               {{ team.name }}
             </option>
@@ -150,7 +150,7 @@ watch(selectedLeagueId, async () => {
               :key="league.id"
               :value="league.id"
             >
-              {{ initialTeamId ? league.name : "" }} {{ league.season }}
+              {{ selectedTeamId ? league.name : "" }} {{ league.season }}
             </option>
           </select>
 

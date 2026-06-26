@@ -9,7 +9,7 @@ export const usePlayer = () => {
     return player;
   };
 
-  const getPlayersByTeamAndYear = async (teamId: number, year: number) => {
+  /* const getPlayersByTeamAndYear = async (teamId: number, year: number) => {
     const params = new URLSearchParams({
       team_id: String(teamId),
       year: String(year),
@@ -17,6 +17,14 @@ export const usePlayer = () => {
 
     const players = await $fetch(`/api/players/?${params}`);
 
+    return players;
+  }; */
+
+  const getPlayersByTeamAndYear = async (teamId: number, year?: number) => {
+    const params = new URLSearchParams({ teamId: String(teamId) });
+    if (year) params.set("year", String(year));
+
+    const players = await $fetch(`/api/players/?${params}`);
     return players;
   };
 

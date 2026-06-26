@@ -17,20 +17,24 @@ const props = defineProps({
 const { getAllLeagues } = useLeague();
 const { getMatchesByCompetition } = useMatch();
 
+const leagues = await getAllLeagues();
+
 const selectedName = ref("");
 const selectedSeason = ref("");
 const leagueMatches = ref([]);
 const visibleCount = ref(20);
 
+if (leagues?.length) {
+  selectedName.value = leagues[0].name;
+  const seasons = [...new Set(leagues.filter((l) => l.name === selectedName.value).map((l) => l.season))];
+  selectedSeason.value = seasons[0] ?? "";
+}
+
 if (props.initialLeague) {
   selectedName.value = props.initialLeague.name;
   selectedSeason.value = props.initialLeague.season;
   leagueMatches.value = await getMatchesByCompetition(props.initialLeague.id);
-}
-
-const leagues = await getAllLeagues();
-
-if (!props.initialLeague && props.initialLeagueId && leagues) {
+} else if (props.initialLeagueId && leagues) {
   const league = leagues.find((l) => l.id === props.initialLeagueId);
   if (league) {
     selectedName.value = league.name;
@@ -40,20 +44,12 @@ if (!props.initialLeague && props.initialLeagueId && leagues) {
 
 const availableNames = computed(() => {
   if (!leagues) return [];
-  let filtered = leagues;
-  if (selectedSeason.value) {
-    filtered = filtered.filter((l) => l.season === selectedSeason.value);
-  }
-  return [...new Set(filtered.map((l) => l.name))];
+  return [...new Set(leagues.map((l) => l.name))];
 });
 
 const availableSeasons = computed(() => {
-  if (!leagues) return [];
-  let filtered = leagues;
-  if (selectedName.value) {
-    filtered = filtered.filter((l) => l.name === selectedName.value);
-  }
-  return [...new Set(filtered.map((l) => l.season))];
+  if (!leagues || !selectedName.value) return [];
+  return [...new Set(leagues.filter((l) => l.name === selectedName.value).map((l) => l.season))];
 });
 
 const matchedLeague = computed(() => {
@@ -79,16 +75,20 @@ const showMoreMatches = () => {
 
 const activeTab = ref("matches");
 
-watch(matchedLeague, async (league) => {
-  visibleCount.value = 20;
-  if (league) {
-    if (!props.initialLeague || league.id !== props.initialLeague.id) {
-      leagueMatches.value = await getMatchesByCompetition(league.id);
+watch(
+  matchedLeague,
+  async (league) => {
+    visibleCount.value = 20;
+    if (league) {
+      if (!props.initialLeague || league.id !== props.initialLeague.id) {
+        leagueMatches.value = await getMatchesByCompetition(league.id);
+      }
+    } else {
+      leagueMatches.value = [];
     }
-  } else {
-    leagueMatches.value = [];
-  }
-});
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -157,7 +157,6 @@ watch(matchedLeague, async (league) => {
             v-model="selectedName"
             class="border rounded px-8 font-semibold text-sm"
           >
-            <option value="">Select a league</option>
             <option v-for="name in availableNames" :key="name" :value="name">
               {{ name }}
             </option>
@@ -167,7 +166,6 @@ watch(matchedLeague, async (league) => {
             v-model="selectedSeason"
             class="border rounded px-8 text-gray-600 text-sm mt-2"
           >
-            <option value="">Select a season</option>
             <option
               v-for="season in availableSeasons"
               :key="season"

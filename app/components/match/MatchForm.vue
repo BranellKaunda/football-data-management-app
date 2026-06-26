@@ -53,7 +53,6 @@ async function save() {
   });
 
   const results = await Promise.all(promises);
-  console.log(results);
   emit("save", results);
 }
 
