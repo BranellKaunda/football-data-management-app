@@ -4,6 +4,7 @@ import { authClient } from "~/lib/auth-client";
 const email = ref("");
 const password = ref("");
 const error = ref("");
+const session = authClient.useSession();
 
 async function handleSignIn() {
   error.value = "";
@@ -18,6 +19,7 @@ async function handleSignIn() {
     return;
   }
 
+  await session.value.refetch();
   await navigateTo("/");
 }
 </script>

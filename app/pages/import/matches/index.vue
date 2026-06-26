@@ -1,7 +1,7 @@
 <script setup>
-import { useSession } from "~/lib/auth-client";
+import { authClient } from "~/lib/auth-client";
 
-const { data: session } = useSession();
+const session = authClient.useSession();
 
 const selectedFile = ref(null);
 const competitionId = ref(null);
@@ -53,7 +53,7 @@ async function handleFileUpload() {
     <h1 class="text-2xl font-bold mb-6 text-center">Import Matches</h1>
 
     <form
-      v-if="session"
+      v-if="session.data"
       @submit.prevent="handleFileUpload"
       class="bg-white p-6 rounded shadow flex flex-col gap-4"
     >

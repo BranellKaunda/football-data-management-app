@@ -1,9 +1,9 @@
 <script setup>
-import { useSession } from "~/lib/auth-client";
+import { authClient } from "~/lib/auth-client";
 import MatchSummary from "~/components/match-action/MatchSummary.vue";
 import { reloadNuxtApp } from "#app";
 
-const { data: session } = useSession();
+const session = authClient.useSession();
 
 const route = useRoute();
 const id = Number(route.params.id);
@@ -50,7 +50,7 @@ const onSave = async () => {
 <template>
   <Match :match="match" />
 
-  <template v-if="match.status === 'Scheduled' && session">
+  <template v-if="match.status === 'Scheduled' && session.data">
     <h1 class="text-xl font-bold mb-4 text-center">
       Submit players for the match
     </h1>

@@ -1,7 +1,7 @@
 <script setup>
 import { authClient } from "@/lib/auth-client";
 
-const { data: session } = await authClient.getSession();
+const session = authClient.useSession();
 
 const props = defineProps({
   initialLeagueId: {
@@ -95,14 +95,14 @@ watch(matchedLeague, async (league) => {
   <div class="max-w-3xl mx-auto p-6">
     <div class="flex gap-4 mb-6">
       <NuxtLink
-        v-if="session"
+        v-if="session.data"
         class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
         to="/leagues/create"
       >
         Create New League
       </NuxtLink>
       <NuxtLink
-        v-if="session"
+        v-if="session.data"
         class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
         :to="`/matches/create`"
       >
@@ -110,7 +110,7 @@ watch(matchedLeague, async (league) => {
       </NuxtLink>
 
       <NuxtLink
-        v-if="session"
+        v-if="session.data"
         class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
         :to="`/import/matches`"
       >
@@ -178,7 +178,7 @@ watch(matchedLeague, async (league) => {
           </select>
 
           <NuxtLink
-            v-if="matchedLeague && session"
+            v-if="matchedLeague && session.data"
             :to="`/leagues/${matchedLeague.id}/edit`"
             class="text-blue-600 text-sm mt-2 hover:underline"
           >

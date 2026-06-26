@@ -1,7 +1,7 @@
 <script setup>
-import { useSession } from "~/lib/auth-client";
+import { authClient } from "~/lib/auth-client";
 
-const { data: session } = useSession();
+const session = authClient.useSession();
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { data: session } = useSession();
         <li class="hover:text-blue-600">
           <NuxtLink to="/leagues">Leagues</NuxtLink>
         </li>
-        <li class="hover:text-blue-600" v-if="session">
+        <li class="hover:text-blue-600" v-if="session.data">
           <NuxtLink to="/player-teams">Transfers</NuxtLink>
         </li>
         <li class="hover:text-blue-600">
