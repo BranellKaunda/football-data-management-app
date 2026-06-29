@@ -1,6 +1,4 @@
 import { defineEventHandler, readMultipartFormData } from "h3";
-import fs from "fs";
-import path from "path";
 import { parse } from "csv-parse/sync";
 import createTeam from "#server/utils/team";
 
@@ -15,31 +13,15 @@ type MatchRecord = {
 export default defineEventHandler(async (event) => {
   const form = await readMultipartFormData(event);
 
-  const fileField = form?.find((field) => field.name === "file") as
-    | {
-        name: string;
-        filename?: string;
-        data?: Buffer | ArrayBuffer | string;
-      }
-    | undefined;
+  const fileField = form?.find((field) => field.name === "file");
 
   if (!fileField || !fileField.data) {
     return { error: "No file uploaded" };
   }
 
-  const fileName = fileField.filename ?? fileField.name;
-  const buffer = Buffer.isBuffer(fileField.data)
+  const fileContent = typeof fileField.data === "string"
     ? fileField.data
-    : Buffer.from(fileField.data as ArrayBuffer);
-
-  // 2. Build path inside /data folder
-  const filePath = path.join(process.cwd(), "data", fileName);
-
-  // 3. Save file to disk
-  fs.writeFileSync(filePath, buffer);
-
-  // 4. (Optional) Read file again
-  const fileContent = fs.readFileSync(filePath, "utf8");
+    : Buffer.from(fileField.data).toString("utf8");
 
   // 5. change to object
   const records: MatchRecord[] = parse(fileContent, {

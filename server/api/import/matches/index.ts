@@ -1,6 +1,4 @@
 import { defineEventHandler, readMultipartFormData } from "h3";
-import fs from "fs";
-import path from "path";
 import { parse } from "csv-parse/sync";
 import createMatch from "#server/utils/match";
 import addTeamToLeague from "#server/utils/teamsXleagues";
@@ -30,16 +28,9 @@ export default defineEventHandler(async (event) => {
     return { error: "Invalid competition ID" };
   }
 
-  const fileName = fileField.filename ?? fileField.name;
-  const buffer = Buffer.isBuffer(fileField.data)
+  const fileContent = typeof fileField.data === "string"
     ? fileField.data
-    : Buffer.from(fileField.data as ArrayBuffer);
-
-  const filePath = path.join(process.cwd(), "data", fileName);
-
-  fs.writeFileSync(filePath, buffer);
-
-  const fileContent = fs.readFileSync(filePath, "utf8");
+    : Buffer.from(fileField.data).toString("utf8");
 
   const records: MatchRecord[] = parse(fileContent, {
     columns: true,
