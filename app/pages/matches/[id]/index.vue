@@ -49,6 +49,7 @@ const onCancel = () => {
 
 const onSave = async () => {
   navigateTo(`/matches/${id}`);
+  //ideal to just have a UI refresh
 };
 </script>
 
