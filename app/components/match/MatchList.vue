@@ -18,10 +18,17 @@ const props = defineProps({
 
 const emit = defineEmits(["deleted"]);
 const { getAllMatches, getMatchesByCompetition, deleteMatch } = useMatch();
+const authError = useState("authError");
 
 const onDelete = async (matchId) => {
-  await deleteMatch(matchId);
-  emit("deleted", matchId);
+  try {
+    await deleteMatch(matchId);
+    emit("deleted", matchId);
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 };
 
 const data = route.params.id

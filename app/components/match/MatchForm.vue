@@ -36,6 +36,8 @@ function removeRow(index) {
   rows.value.splice(index, 1);
 }
 
+const authError = useState("authError");
+
 async function save() {
   const promises = rows.value.map((row) => {
     const body = {
@@ -52,8 +54,14 @@ async function save() {
     return row.id ? editMatch(row.id, body) : createMatch(body);
   });
 
-  const results = await Promise.all(promises);
-  emit("save", results);
+  try {
+    const results = await Promise.all(promises);
+    emit("save", results);
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 
 function cancel() {

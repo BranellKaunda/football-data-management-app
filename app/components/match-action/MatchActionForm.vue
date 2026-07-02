@@ -29,6 +29,8 @@ const teams = computed(() => {
 
 const { createMatchAction, editMatchAction } = useMatchAction();
 
+const authError = useState("authError");
+
 async function save() {
   const body = {
     matchId: props.matchId,
@@ -43,14 +45,20 @@ async function save() {
     body.id = matchAction.value.id;
   }
 
-  const res = matchAction.value.id
-    ? await editMatchAction(body)
-    : await createMatchAction(body);
+  try {
+    const res = matchAction.value.id
+      ? await editMatchAction(body)
+      : await createMatchAction(body);
 
-  matchAction.value = res;
+    matchAction.value = res;
 
-  emit("save", res);
-  draft.value = { ...createEmptyMatchActions(props.matchId) };
+    emit("save", res);
+    draft.value = { ...createEmptyMatchActions(props.matchId) };
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 
 function cancel() {

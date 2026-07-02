@@ -7,6 +7,8 @@ const emit = defineEmits(["cancel", "save"]);
 
 const { createTeam, editTeam } = useTeam();
 
+const authError = useState("authError");
+
 async function save() {
   const body = {
     name: draft.value.name,
@@ -14,12 +16,18 @@ async function save() {
     logo: draft.value.logo,
   };
 
-  const res = team.value.id
-    ? await editTeam(team.value.id, body)
-    : await createTeam(body);
+  try {
+    const res = team.value.id
+      ? await editTeam(team.value.id, body)
+      : await createTeam(body);
 
-  team.value = res; // emit once
-  emit("save", res);
+    team.value = res; // emit once
+    emit("save", res);
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 
 function cancel() {

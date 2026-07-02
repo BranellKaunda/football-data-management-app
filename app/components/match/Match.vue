@@ -11,10 +11,17 @@ const props = defineProps({
 });
 
 const { deleteMatch } = useMatch();
+const authError = useState("authError");
 
 const onDelete = async (matchId) => {
-  await deleteMatch(matchId);
-  navigateTo("/matches");
+  try {
+    await deleteMatch(matchId);
+    navigateTo("/matches");
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 };
 </script>
 

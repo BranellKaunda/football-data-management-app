@@ -9,6 +9,8 @@ const teams = await getAllTeams();
 
 const { createPlayer, editPlayer } = usePlayer();
 
+const authError = useState("authError");
+
 async function save() {
   const body = {
     firstName: draft.value.firstName,
@@ -19,12 +21,18 @@ async function save() {
     heightCm: draft.value.heightCm,
   };
 
-  const res = editing.value
-    ? await editPlayer(player.value.id, body)
-    : await createPlayer(body);
+  try {
+    const res = editing.value
+      ? await editPlayer(player.value.id, body)
+      : await createPlayer(body);
 
-  player.value = res;
-  emit("save", res);
+    player.value = res;
+    emit("save", res);
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 
 function cancel() {

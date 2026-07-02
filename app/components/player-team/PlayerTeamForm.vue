@@ -15,6 +15,8 @@ const { assignPlayerToTeam, updatePlayerTeam } = usePlayerTeam();
 const players = await getAllPlayers();
 const teams = await getAllTeams();
 
+const authError = useState("authError");
+
 async function save() {
   const body = {
     teamId: draft.value.teamId,
@@ -24,14 +26,20 @@ async function save() {
     loan: draft.value.loan ?? false,
   };
 
-  if (editing.value) {
-    await updatePlayerTeam(record.value.id, body);
-  } else {
-    body.playerId = draft.value.playerId;
-    await assignPlayerToTeam(body);
-  }
+  try {
+    if (editing.value) {
+      await updatePlayerTeam(record.value.id, body);
+    } else {
+      body.playerId = draft.value.playerId;
+      await assignPlayerToTeam(body);
+    }
 
-  emit("save");
+    emit("save");
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 
 function cancel() {

@@ -2,6 +2,7 @@
 const photoUrl = ref("");
 const selectedFile = ref(null);
 const emit = defineEmits(["handleUpload"]);
+const authError = useState("authError");
 
 function handleFileChange(event) {
   selectedFile.value = event.target.files[0];
@@ -13,13 +14,19 @@ async function handleFileUpload() {
   const formData = new FormData();
   formData.append("file", selectedFile.value);
 
-  const res = await $fetch("/api/upload/photo", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const res = await $fetch("/api/upload/photo", {
+      method: "POST",
+      body: formData,
+    });
 
-  photoUrl.value = res.url;
-  emit("handleUpload", res.url);
+    photoUrl.value = res.url;
+    emit("handleUpload", res.url);
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 </script>
 

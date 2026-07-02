@@ -5,6 +5,8 @@ const emit = defineEmits(["cancel", "save"]);
 
 const { createLeague, editLeague } = useLeague();
 
+const authError = useState("authError");
+
 async function save() {
   const body = {
     name: draft.value.name,
@@ -12,12 +14,18 @@ async function save() {
     rank: draft.value.rank,
   };
 
-  const res = league.value.id
-    ? await editLeague(league.value.id, body)
-    : await createLeague(body);
+  try {
+    const res = league.value.id
+      ? await editLeague(league.value.id, body)
+      : await createLeague(body);
 
-  league.value = res;
-  emit("save", res);
+    league.value = res;
+    emit("save", res);
+  } catch (e) {
+    if (e?.response?.status === 401) {
+      authError.value = "You must be signed in to perform this action.";
+    }
+  }
 }
 
 function cancel() {
