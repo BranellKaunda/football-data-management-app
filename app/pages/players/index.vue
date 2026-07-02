@@ -1,8 +1,4 @@
 <script setup>
-import { authClient } from "~/lib/auth-client";
-
-const session = authClient.useSession();
-
 const { getAllPlayers } = usePlayer();
 const players = await getAllPlayers();
 </script>
@@ -10,7 +6,6 @@ const players = await getAllPlayers();
 <template>
   <div class="max-w-3xl mx-auto p-6">
     <NuxtLink
-      v-if="session.data"
       to="/players/create"
       class="inline-block mb-6 px-4 py-2 font-semibold hover:text-blue-800"
       >Register Player</NuxtLink

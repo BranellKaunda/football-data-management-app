@@ -1,15 +1,10 @@
 <script setup>
-import { authClient } from "~/lib/auth-client";
-
-const session = authClient.useSession();
-
 const { getAllPlayerXMatches } = usePlayerXMatch();
 const playerXmatches = await getAllPlayerXMatches();
 </script>
 <template>
   <div class="max-w-3xl mx-auto p-6">
     <NuxtLink
-      v-if="session.data"
       to="/playerXmatches/create"
       class="inline-block mb-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
       >Create Player Match Assignment</NuxtLink

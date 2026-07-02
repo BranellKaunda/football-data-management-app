@@ -1,7 +1,4 @@
 <script setup>
-import { authClient } from "~/lib/auth-client";
-
-const session = authClient.useSession();
 const authError = useState("authError", () => null);
 </script>
 
@@ -42,7 +39,7 @@ const authError = useState("authError", () => null);
         <li class="hover:text-blue-600">
           <NuxtLink to="/leagues">Leagues</NuxtLink>
         </li>
-        <li class="hover:text-blue-600" v-if="session.data">
+        <li class="hover:text-blue-600">
           <NuxtLink to="/player-teams">Transfers</NuxtLink>
         </li>
         <li class="hover:text-blue-600">

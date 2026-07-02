@@ -56,7 +56,7 @@ async function save() {
     draft.value = { ...createEmptyMatchActions(props.matchId) };
   } catch (e) {
     if (e?.response?.status === 401) {
-      authError.value = "You must be signed in to perform this action.";
+      authError.value = "You must be an Admin to perform this action.";
     }
   }
 }

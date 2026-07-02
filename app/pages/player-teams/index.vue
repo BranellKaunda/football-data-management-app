@@ -1,8 +1,4 @@
 <script setup>
-import { authClient } from "~/lib/auth-client";
-
-const session = authClient.useSession();
-
 const { getAllPlayerTeams } = usePlayerTeam();
 const records = await getAllPlayerTeams();
 </script>
@@ -12,7 +8,6 @@ const records = await getAllPlayerTeams();
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold text-center">Assign players to teams</h1>
       <NuxtLink
-        v-if="session.data"
         to="/player-teams/create"
         class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
       >
@@ -73,7 +68,6 @@ const records = await getAllPlayerTeams();
             </td>
             <td class="p-3 text-right">
               <NuxtLink
-                v-if="session.data"
                 :to="`/player-teams/${record.id}/edit`"
                 class="text-blue-600 hover:text-blue-800 text-sm"
               >

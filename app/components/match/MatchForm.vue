@@ -59,7 +59,7 @@ async function save() {
     emit("save", results);
   } catch (e) {
     if (e?.response?.status === 401) {
-      authError.value = "You must be signed in to perform this action.";
+      authError.value = "You must be an Admin to perform this action.";
     }
   }
 }

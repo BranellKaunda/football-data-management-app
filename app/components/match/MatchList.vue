@@ -1,8 +1,4 @@
 <script setup>
-import { authClient } from "~/lib/auth-client";
-
-const session = authClient.useSession();
-
 const route = useRoute();
 const props = defineProps({
   matches: {
@@ -26,7 +22,7 @@ const onDelete = async (matchId) => {
     emit("deleted", matchId);
   } catch (e) {
     if (e?.response?.status === 401) {
-      authError.value = "You must be signed in to perform this action.";
+      authError.value = "You must be an Admin to perform this action.";
     }
   }
 };
@@ -96,7 +92,6 @@ const data = route.params.id
 
         <div class="text-center flex justify-center gap-4 mt-4">
           <NuxtLink
-            v-if="session.data"
             class="text-blue-600 hover:text-blue-800 text-sm"
             :to="`/matches/${match.id}/edit`"
           >
@@ -111,7 +106,7 @@ const data = route.params.id
           </NuxtLink>
         </div>
 
-        <div class="relative" v-if="deleteButton && session.data">
+        <div class="relative" v-if="deleteButton">
           <button
             @click="onDelete(match.id)"
             class="absolute bottom-2 right-6 hover:scale-110"
