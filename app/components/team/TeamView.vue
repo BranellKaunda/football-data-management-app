@@ -109,7 +109,7 @@ watch(selectedLeagueId, async () => {
     <h1 class="text-lg font-bold mb-6 text-center">Team</h1>
 
     <div class="grid grid-cols-1 gap-4">
-      <div class="bg-white p-8 rounded shadow flex items-center gap-6">
+      <div class="bg-white p-8 rounded shadow flex flex-col sm:flex-row items-center gap-6">
         <TeamLogo
           v-if="selectedTeam"
           :teamLogo="selectedTeam.logo"
@@ -123,7 +123,7 @@ watch(selectedLeagueId, async () => {
           Logo
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col w-full sm:w-auto">
           <select
             v-model="selectedTeamId"
             class="border rounded px-8 font-semibold text-sm"
@@ -161,7 +161,7 @@ watch(selectedLeagueId, async () => {
   </div>
 
   <!-- TABS -->
-  <div v-if="selectedTeamId" class="max-w-3xl mx-auto px-6 flex border-b">
+  <div v-if="selectedTeamId" class="max-w-3xl mx-auto px-6 flex border-b overflow-x-auto">
     <button
       @click="activeTab = 'matches'"
       class="px-6 py-3 text-sm font-semibold border-b-2 transition"

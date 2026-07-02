@@ -1,12 +1,13 @@
 <script setup>
 const authError = useState("authError", () => null);
+const menuOpen = ref(false);
 </script>
 
 <template>
   <div>
     <div
       v-if="authError"
-      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center"
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center text-sm md:text-base"
       role="alert"
     >
       <span class="block sm:inline">{{ authError }}</span>
@@ -28,22 +29,57 @@ const authError = useState("authError", () => null);
       </span>
     </div>
 
-    <nav class="bg-gray-800 text-white p-4">
-      <ul class="flex flex-row gap-4 justify-end">
+    <nav class="bg-gray-800 text-white">
+      <div class="flex items-center justify-between p-4 md:p-4">
+        <!-- <span class="font-bold text-lg">FDMA</span> -->
+        <button
+          class="md:hidden text-white focus:outline-none"
+          @click="menuOpen = !menuOpen"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              v-if="!menuOpen"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+            <path
+              v-else
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <ul
+        class="flex-col md:flex-row flex gap-2 md:gap-4 px-4 pb-4 md:pb-4 md:flex md:justify-end"
+        :class="{ hidden: !menuOpen, flex: menuOpen }"
+      >
         <li class="hover:text-blue-600">
-          <NuxtLink to="/">Home</NuxtLink>
+          <NuxtLink to="/" @click="menuOpen = false">Home</NuxtLink>
         </li>
         <li class="hover:text-blue-600">
-          <NuxtLink to="/teams">Teams</NuxtLink>
+          <NuxtLink to="/teams" @click="menuOpen = false">Teams</NuxtLink>
         </li>
         <li class="hover:text-blue-600">
-          <NuxtLink to="/leagues">Leagues</NuxtLink>
+          <NuxtLink to="/leagues" @click="menuOpen = false">Leagues</NuxtLink>
         </li>
         <li class="hover:text-blue-600">
-          <NuxtLink to="/player-teams">Transfers</NuxtLink>
+          <NuxtLink to="/player-teams" @click="menuOpen = false"
+            >Transfers</NuxtLink
+          >
         </li>
         <li class="hover:text-blue-600">
-          <NuxtLink to="/admin">Admin</NuxtLink>
+          <NuxtLink to="/admin" @click="menuOpen = false">Admin</NuxtLink>
         </li>
       </ul>
     </nav>

@@ -96,8 +96,8 @@ const onSave = async () => {
   </template>
 
   <template v-else-if="match.status === 'Finished'">
-    <div class="flex justify-between mb-4 max-w-3xl mx-auto gap-4">
-      <div class="bg-white p-4">
+    <div class="flex flex-col sm:flex-row justify-between mb-4 max-w-3xl mx-auto gap-4">
+      <div class="bg-white p-4 flex-1">
         <PlayerInMatch
           :players="homeTeamPlayersArray"
           :teamLogo="match.homeTeam.logo"
@@ -105,7 +105,7 @@ const onSave = async () => {
         />
       </div>
 
-      <div class="bg-white p-4">
+      <div class="bg-white p-4 flex-1">
         <PlayerInMatch
           :players="awayTeamPlayersArray"
           :teamLogo="match.awayTeam.logo"

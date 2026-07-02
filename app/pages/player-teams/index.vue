@@ -5,18 +5,18 @@ const records = await getAllPlayerTeams();
 
 <template>
   <div class="max-w-4xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold text-center">Assign players to teams</h1>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+      <h1 class="text-xl sm:text-2xl font-bold">Assign players to teams</h1>
       <NuxtLink
         to="/player-teams/create"
-        class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+        class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded text-sm sm:text-base"
       >
         New Assignment
       </NuxtLink>
     </div>
 
-    <div class="bg-white rounded shadow overflow-hidden" v-if="records?.length">
-      <table class="w-full text-left">
+    <div class="bg-white rounded shadow overflow-x-auto" v-if="records?.length">
+      <table class="w-full text-left min-w-[500px]">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr>
             <th class="p-3 font-semibold text-sm">Player</th>

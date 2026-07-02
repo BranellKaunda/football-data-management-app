@@ -72,7 +72,7 @@ function cancel() {
     {{ matchAction.id ? "Edit Match Action" : "Create Match Action" }}
   </h1>
   <form
-    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-10"
+    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-4 sm:m-10"
     @submit.prevent="save"
   >
     <div class="flex flex-col gap-2">

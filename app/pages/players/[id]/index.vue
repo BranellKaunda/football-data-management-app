@@ -12,9 +12,9 @@ const currentTeam = computed(() => {
 
 <template>
   <div
-    class="bg-white p-6 rounded shadow max-w-md mx-auto m-10 flex flex-col gap-4"
+    class="bg-white p-6 rounded shadow max-w-md mx-auto m-4 sm:m-10 flex flex-col gap-4"
   >
-    <h1 class="text-2xl font-bold text-center">Player Details</h1>
+    <h1 class="text-xl sm:text-2xl font-bold text-center">Player Details</h1>
 
     <!-- TEAM LOGO + NAME -->
     <div class="flex items-center gap-4" v-if="currentTeam">

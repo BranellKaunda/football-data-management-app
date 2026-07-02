@@ -11,7 +11,7 @@ const totalTeams = computed(() => teams?.length ?? 0);
 
 <template>
   <div>
-    <div class="max-w-3xl mx-auto p-6 grid grid-cols-2 gap-4">
+    <div class="max-w-3xl mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="bg-white p-6 rounded shadow text-center">
         <p class="text-3xl font-bold">{{ totalLeagues }}</p>
         <p class="text-gray-500 text-sm">Total Leagues</p>

@@ -89,7 +89,7 @@ watch(
 
 <template>
   <div class="max-w-3xl mx-auto p-6">
-    <div class="flex gap-4 mb-6">
+    <div class="flex flex-wrap gap-2 sm:gap-4 mb-6">
       <NuxtLink
         class="inline-block px-4 py-2 font-semibold hover:text-blue-800"
         to="/leagues/create"
@@ -128,7 +128,7 @@ watch(
     <h1 class="text-lg font-bold mb-6 text-center">Competition</h1>
 
     <div class="grid grid-cols-1 gap-4">
-      <div class="bg-white p-8 rounded shadow flex items-center gap-6">
+      <div class="bg-white p-8 rounded shadow flex flex-col sm:flex-row items-center gap-6">
         <!-- LEAGUE LOGO -->
         <NuxtLink v-if="matchedLeague" :to="`/leagues/${matchedLeague.id}`">
           <img
@@ -181,7 +181,7 @@ watch(
   </div>
 
   <!-- TABS -->
-  <div v-if="leagueMatches.length" class="max-w-3xl mx-auto px-6 flex border-b">
+  <div v-if="leagueMatches.length" class="max-w-3xl mx-auto px-6 flex border-b overflow-x-auto">
     <button
       @click="activeTab = 'matches'"
       class="px-6 py-3 text-sm font-semibold border-b-2 transition"

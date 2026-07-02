@@ -71,9 +71,9 @@ function cancel() {
 </script>
 
 <template>
-  <div class="max-w-6xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold text-center">
+  <div class="max-w-full sm:max-w-6xl mx-auto p-4 sm:p-6">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-6">
+      <h1 class="text-xl sm:text-2xl font-bold text-center">
         {{ editing ? "Edit Match" : "Create Matches" }}
       </h1>
       <button
@@ -85,7 +85,7 @@ function cancel() {
     </div>
 
     <div class="bg-white rounded shadow overflow-x-auto" v-if="rows.length">
-      <table class="w-full text-left text-sm">
+      <table class="w-full text-left text-sm min-w-[700px]">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr>
             <th class="p-2 font-semibold">Home Team</th>

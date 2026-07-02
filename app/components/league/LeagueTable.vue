@@ -96,9 +96,9 @@ const tableData = computed(() => {
 
     <div
       v-if="tableData.length"
-      class="bg-white rounded shadow overflow-hidden"
+      class="bg-white rounded shadow overflow-x-auto"
     >
-      <table class="w-full text-sm">
+      <table class="w-full text-sm min-w-[600px]">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr>
             <th class="p-3 text-left font-semibold">#</th>

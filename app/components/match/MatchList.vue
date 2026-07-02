@@ -33,7 +33,7 @@ const data = route.params.id
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto p-6">
+  <div class="max-w-3xl mx-auto p-4 sm:p-6">
     <h1 class="text-lg font-semibold mb-6 text-center">Matches</h1>
 
     <div class="flex flex-col gap-4" v-if="matches ? matches : data">
@@ -43,9 +43,9 @@ const data = route.params.id
         class="bg-white p-4 rounded shadow flex flex-col gap-3"
       >
         <!-- MAIN MATCH ROW -->
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
           <!-- HOME TEAM -->
-          <div class="flex items-center gap-2 w-1/3">
+          <div class="flex items-center gap-2 w-full sm:w-1/3 sm:justify-start">
             <TeamLogo
               :teamLogo="match?.homeTeam.logo"
               :teamId="match?.homeTeam.id"
@@ -60,14 +60,14 @@ const data = route.params.id
           </div>
 
           <!-- SCORE -->
-          <div class="text-lg font-bold text-center w-1/3">
+          <div class="text-lg font-bold text-center w-full sm:w-1/3">
             {{ match?.homeTeamGoals }}
             <span class="text-gray-500">vs</span>
             {{ match?.awayTeamGoals }}
           </div>
 
           <!-- AWAY TEAM -->
-          <div class="flex items-center justify-end gap-2 w-1/3">
+          <div class="flex items-center justify-start sm:justify-end gap-2 w-full sm:w-1/3">
             <NuxtLink
               :to="`/teams/${match?.awayTeam.id}`"
               class="font-medium text-sm text-right hover:text-blue-600"
