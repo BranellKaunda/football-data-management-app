@@ -7,31 +7,27 @@ const menuOpen = ref(false);
   <div>
     <div
       v-if="authError"
-      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center text-sm md:text-base"
+      class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm relative flex items-center justify-between gap-2"
       role="alert"
     >
-      <span class="block sm:inline">{{ authError }}</span>
-      <span
-        class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer"
+      <span>{{ authError }}</span>
+      <button
+        class="text-red-400 hover:text-red-600 shrink-0"
         @click="authError = null"
       >
-        <svg
-          class="fill-current h-6 w-6 text-red-500"
-          role="button"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <title>Close</title>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
-            d="M14.348 5.652a1 1 0 00-1.414 0L10 8.586 7.066 5.652a1 1 0 10-1.414 1.414L8.586 10l-2.934 2.934a1 1 0 101.414 1.414L10 11.414l2.934 2.934a1 1 0 001.414-1.414L11.414 10l2.934-2.934a1 1 0 000-1.414z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
           />
         </svg>
-      </span>
+      </button>
     </div>
 
-    <nav class="bg-gray-800 text-white">
-      <div class="flex items-center justify-between p-4 md:p-4">
-        <!-- <span class="font-bold text-lg">FDMA</span> -->
+    <nav class="bg-slate-900 text-white border-b border-slate-700">
+      <div class="flex items-center justify-end p-4">
         <button
           class="md:hidden text-white focus:outline-none"
           @click="menuOpen = !menuOpen"
@@ -61,25 +57,53 @@ const menuOpen = ref(false);
         </button>
       </div>
       <ul
-        class="flex-col md:flex-row flex gap-2 md:gap-4 px-4 pb-4 md:pb-4 md:flex md:justify-end"
+        class="flex-col md:flex-row flex gap-1 px-4 pb-4 md:pb-4 md:flex md:justify-center md:gap-0"
         :class="{ hidden: !menuOpen, flex: menuOpen }"
       >
-        <li class="hover:text-blue-600">
-          <NuxtLink to="/" @click="menuOpen = false">Home</NuxtLink>
+        <li>
+          <NuxtLink
+            to="/"
+            exact-active-class="text-white bg-slate-800"
+            class="block px-4 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+            @click="menuOpen = false"
+            >Home</NuxtLink
+          >
         </li>
-        <li class="hover:text-blue-600">
-          <NuxtLink to="/teams" @click="menuOpen = false">Teams</NuxtLink>
+        <li>
+          <NuxtLink
+            to="/teams"
+            exact-active-class="text-white bg-slate-800"
+            class="block px-4 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+            @click="menuOpen = false"
+            >Teams</NuxtLink
+          >
         </li>
-        <li class="hover:text-blue-600">
-          <NuxtLink to="/leagues" @click="menuOpen = false">Leagues</NuxtLink>
+        <li>
+          <NuxtLink
+            to="/leagues"
+            exact-active-class="text-white bg-slate-800"
+            class="block px-4 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+            @click="menuOpen = false"
+            >Leagues</NuxtLink
+          >
         </li>
-        <li class="hover:text-blue-600">
-          <NuxtLink to="/player-teams" @click="menuOpen = false"
+        <li>
+          <NuxtLink
+            to="/player-teams"
+            exact-active-class="text-white bg-slate-800"
+            class="block px-4 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+            @click="menuOpen = false"
             >Transfers</NuxtLink
           >
         </li>
-        <li class="hover:text-blue-600">
-          <NuxtLink to="/admin" @click="menuOpen = false">Admin</NuxtLink>
+        <li>
+          <NuxtLink
+            to="/admin"
+            exact-active-class="text-white bg-slate-800"
+            class="block px-4 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+            @click="menuOpen = false"
+            >Admin</NuxtLink
+          >
         </li>
       </ul>
     </nav>

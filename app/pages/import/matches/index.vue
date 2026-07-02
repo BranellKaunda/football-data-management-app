@@ -50,7 +50,7 @@ async function handleFileUpload() {
 
     <form
       @submit.prevent="handleFileUpload"
-      class="bg-white p-6 rounded shadow flex flex-col gap-4"
+      class="card p-6 flex flex-col gap-4"
     >
       <div>
         <label for="csvFile" class="block text-sm font-medium text-gray-700"
@@ -97,7 +97,7 @@ async function handleFileUpload() {
 
       <button
         type="submit"
-        class="self-start px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        class="btn-primary self-start disabled:opacity-50 disabled:cursor-not-allowed"
         :disabled="!selectedFile || loading"
       >
         {{ loading ? "Importing..." : "Import Matches" }}

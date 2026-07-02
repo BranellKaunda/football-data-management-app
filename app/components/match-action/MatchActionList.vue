@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="bg-white p-4 rounded shadow">
+  <div class="card p-4">
     <ul class="flex flex-col gap-4">
       <li
         class="flex items-center gap-3"

@@ -5,7 +5,7 @@ const playerXmatch = await getPlayerXMatch(route.params.id);
 </script>
 <template>
   <div
-    class="bg-white p-6 rounded shadow max-w-md mx-auto m-4 sm:m-10 flex flex-col gap-4"
+    class="card p-6 max-w-md mx-auto m-4 sm:m-10 flex flex-col gap-4"
   >
     <h1 class="text-2xl font-bold text-center">
       Player Match Assignment Details

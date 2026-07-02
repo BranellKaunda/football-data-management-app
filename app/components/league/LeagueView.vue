@@ -128,7 +128,7 @@ watch(
     <h1 class="text-lg font-bold mb-6 text-center">Competition</h1>
 
     <div class="grid grid-cols-1 gap-4">
-      <div class="bg-white p-8 rounded shadow flex flex-col sm:flex-row items-center gap-6">
+      <div class="card p-8 flex flex-col sm:flex-row items-center gap-6">
         <!-- LEAGUE LOGO -->
         <NuxtLink v-if="matchedLeague" :to="`/leagues/${matchedLeague.id}`">
           <img

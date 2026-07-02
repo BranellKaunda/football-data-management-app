@@ -6,7 +6,7 @@ const playerXmatches = await getAllPlayerXMatches();
   <div class="max-w-3xl mx-auto p-6">
     <NuxtLink
       to="/playerXmatches/create"
-      class="inline-block mb-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+      class="btn-primary mb-4"
       >Create Player Match Assignment</NuxtLink
     >
     <h1 class="text-2xl font-bold mb-6 text-center">
@@ -16,7 +16,7 @@ const playerXmatches = await getAllPlayerXMatches();
       <div
         v-for="assignment in playerXmatches"
         :key="assignment.id"
-        class="bg-white p-4 rounded shadow flex flex-col gap-2"
+        class="card p-4 flex flex-col gap-2"
       >
         <NuxtLink
           :to="`/playerXmatches/${assignment.id}`"

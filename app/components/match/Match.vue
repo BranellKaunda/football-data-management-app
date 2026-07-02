@@ -26,7 +26,7 @@ const onDelete = async (matchId) => {
     <h1 class="text-2xl font-bold mb-6 text-center">Matches</h1>
 
     <div class="flex flex-col gap-4">
-      <div class="bg-white p-4 rounded shadow flex flex-col gap-3 relative">
+      <div class="card p-4 flex flex-col gap-3 relative">
         <!-- MAIN MATCH ROW -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
           <!-- HOME TEAM -->

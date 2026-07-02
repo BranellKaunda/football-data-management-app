@@ -76,15 +76,12 @@ function cancel() {
       <h1 class="text-xl sm:text-2xl font-bold text-center">
         {{ editing ? "Edit Match" : "Create Matches" }}
       </h1>
-      <button
-        class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
-        @click="addRow"
-      >
+      <button class="btn-primary" @click="addRow">
         New Match
       </button>
     </div>
 
-    <div class="bg-white rounded shadow overflow-x-auto" v-if="rows.length">
+    <div class="card overflow-x-auto" v-if="rows.length">
       <table class="w-full text-left text-sm min-w-[700px]">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr>
@@ -205,21 +202,9 @@ function cancel() {
       </table>
     </div>
 
-    <div class="flex gap-4 justify-end mt-6">
-      <button
-        class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
-        type="button"
-        @click="cancel"
-      >
-        Cancel
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-        type="button"
-        @click="save"
-      >
-        Save
-      </button>
+    <div class="flex gap-3 justify-end mt-6">
+      <button class="btn-secondary" type="button" @click="cancel">Cancel</button>
+      <button class="btn-primary" type="button" @click="save">Save</button>
     </div>
   </div>
 </template>

@@ -9,13 +9,13 @@ const records = await getAllPlayerTeams();
       <h1 class="text-xl sm:text-2xl font-bold">Assign players to teams</h1>
       <NuxtLink
         to="/player-teams/create"
-        class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded text-sm sm:text-base"
+        class="btn-primary text-sm sm:text-base"
       >
         New Assignment
       </NuxtLink>
     </div>
 
-    <div class="bg-white rounded shadow overflow-x-auto" v-if="records?.length">
+    <div class="card overflow-x-auto" v-if="records?.length">
       <table class="w-full text-left min-w-[500px]">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr>

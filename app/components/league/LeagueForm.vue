@@ -155,7 +155,7 @@ const tooltipText = (entry) => {
 
     <div
       v-if="teamsData.length"
-      class="bg-white rounded shadow overflow-x-auto"
+      class="card overflow-x-auto"
     >
       <table class="w-full text-sm min-w-[600px]">
         <thead class="bg-gray-100 border-b border-gray-200">

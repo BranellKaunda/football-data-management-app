@@ -52,7 +52,7 @@ async function save() {
 
 <template>
   <form
-    class="flex flex-col gap-2 bg-white p-4 rounded shadow"
+    class="card p-4 flex flex-col gap-2"
     @submit.prevent="save"
   >
     <template v-if="players && players.length">

@@ -27,33 +27,28 @@ async function handleSignUp() {
 <template>
   <form
     @submit.prevent="handleSignUp"
-    class="flex flex-col gap-4 rounded border p-6 shadow"
+    class="card p-6 flex flex-col gap-4"
   >
     <h1 class="text-xl font-bold">Sign Up</h1>
-    <p v-if="error" class="text-red-600">{{ error }}</p>
+    <p v-if="error" class="text-red-600 text-sm">{{ error }}</p>
     <input
       v-model="name"
       type="text"
       placeholder="Name"
-      class="rounded border p-2"
+      class="input"
     />
     <input
       v-model="email"
       type="email"
       placeholder="Email"
-      class="rounded border p-2"
+      class="input"
     />
     <input
       v-model="password"
       type="password"
       placeholder="Password"
-      class="rounded border p-2"
+      class="input"
     />
-    <button
-      type="submit"
-      class="rounded bg-green-600 p-2 text-white hover:bg-green-700"
-    >
-      Sign Up
-    </button>
+    <button type="submit" class="btn-primary w-full">Sign Up</button>
   </form>
 </template>

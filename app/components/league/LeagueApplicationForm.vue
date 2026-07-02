@@ -39,38 +39,27 @@ function cancel() {
     {{ league.id ? "Edit League" : "Create League" }}
   </h1>
   <form
-    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-4 sm:m-10"
+    class="card flex flex-col gap-4 p-6 max-w-md mx-auto m-4 sm:m-10"
     @submit.prevent="save"
   >
-    <div class="flex flex-col gap-2">
-      <label>Name</label>
-      <input v-model="draft.name" placeholder="name" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Name</label>
+      <input v-model="draft.name" placeholder="e.g. Premier League" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Season</label>
-      <input v-model="draft.season" placeholder="season" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Season</label>
+      <input v-model="draft.season" placeholder="e.g. 2024/2025" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Rank</label>
-      <input v-model.number="draft.rank" placeholder="rank" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Rank</label>
+      <input v-model.number="draft.rank" placeholder="e.g. 1" class="input" />
     </div>
 
-    <div class="flex gap-4 justify-end">
-      <button
-        class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
-        type="button"
-        @click="cancel"
-      >
-        Cancel
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-        type="submit"
-      >
-        Save
-      </button>
+    <div class="flex gap-3 justify-end pt-2">
+      <button class="btn-secondary" type="button" @click="cancel">Cancel</button>
+      <button class="btn-primary" type="submit">Save</button>
     </div>
   </form>
 </template>

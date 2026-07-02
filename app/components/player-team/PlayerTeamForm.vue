@@ -58,25 +58,25 @@ function cancel() {
   </h1>
 
   <form
-    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-4 sm:m-10"
+    class="card flex flex-col gap-4 p-6 max-w-md mx-auto m-4 sm:m-10"
     @submit.prevent="save"
   >
-    <div class="flex flex-col gap-2">
-      <label>Player</label>
-      <select v-if="!editing" v-model.number="draft.playerId">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Player</label>
+      <select v-if="!editing" v-model.number="draft.playerId" class="select">
         <option disabled value="">Select a player</option>
         <option v-for="player in players" :key="player.id" :value="player.id">
           {{ player.firstName }} {{ player.lastName }}
         </option>
       </select>
-      <p v-else class="text-gray-700">
+      <p v-else class="text-sm text-slate-600 font-medium">
         {{ draft.player?.firstName }} {{ draft.player?.lastName }}
       </p>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Team</label>
-      <select v-model.number="draft.teamId">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Team</label>
+      <select v-model.number="draft.teamId" class="select">
         <option disabled value="">Select a team</option>
         <option v-for="team in teams" :key="team.id" :value="team.id">
           {{ team.name }}
@@ -84,42 +84,31 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Start Date</label>
-      <input v-model="draft.startDate" placeholder="yyyy-mm-dd" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Start Date</label>
+      <input v-model="draft.startDate" placeholder="yyyy-mm-dd" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>End Date</label>
-      <input v-model="draft.endDate" placeholder="yyyy-mm-dd" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">End Date</label>
+      <input v-model="draft.endDate" placeholder="yyyy-mm-dd" class="input" />
     </div>
 
-    <fieldset class="flex gap-6">
-      <div class="flex items-center gap-2">
-        <input id="transfer" v-model="draft.transfer" type="checkbox" />
-        <label for="transfer">Transfer</label>
-      </div>
+    <fieldset class="flex gap-6 pt-1">
+      <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+        <input id="transfer" v-model="draft.transfer" type="checkbox" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+        <span>Transfer</span>
+      </label>
 
-      <div class="flex items-center gap-2">
-        <input id="loan" v-model="draft.loan" type="checkbox" />
-        <label for="loan">Loan</label>
-      </div>
+      <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+        <input id="loan" v-model="draft.loan" type="checkbox" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+        <span>Loan</span>
+      </label>
     </fieldset>
 
-    <div class="flex gap-4 justify-end">
-      <button
-        class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
-        type="button"
-        @click="cancel"
-      >
-        Cancel
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-        type="submit"
-      >
-        Save
-      </button>
+    <div class="flex gap-3 justify-end pt-2">
+      <button class="btn-secondary" type="button" @click="cancel">Cancel</button>
+      <button class="btn-primary" type="submit">Save</button>
     </div>
   </form>
 </template>

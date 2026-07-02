@@ -16,7 +16,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto">
+  <div>
     <h2 class="text-xl font-semibold mb-4">Players</h2>
     <div class="flex flex-col gap-3">
       <ol class="list-decimal list-inside">

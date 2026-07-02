@@ -72,12 +72,12 @@ function cancel() {
     {{ matchAction.id ? "Edit Match Action" : "Create Match Action" }}
   </h1>
   <form
-    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-4 sm:m-10"
+    class="card flex flex-col gap-4 p-6 max-w-md mx-auto m-4 sm:m-10"
     @submit.prevent="save"
   >
-    <div class="flex flex-col gap-2">
-      <label>Player</label>
-      <select v-model.number="draft.playerId">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Player</label>
+      <select v-model.number="draft.playerId" class="select">
         <option disabled value="">Select a player</option>
         <option v-for="player in players" :key="player.id" :value="player.id">
           {{ player.firstName }} {{ player.lastName }}
@@ -85,9 +85,9 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Action</label>
-      <select v-model="draft.action">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Action</label>
+      <select v-model="draft.action" class="select">
         <option disabled value="">Select action</option>
         <option value="Goal">Goal</option>
         <option value="Yellow Card">Yellow Card</option>
@@ -100,9 +100,9 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Team</label>
-      <select v-model.number="draft.teamId">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Team</label>
+      <select v-model.number="draft.teamId" class="select">
         <option disabled value="">Select a team</option>
         <option v-for="team in teams" :key="team.id" :value="team.id || null">
           {{ team.name }}
@@ -110,14 +110,14 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Minute</label>
-      <input v-model.number="draft.minute" type="number" placeholder="minute" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Minute</label>
+      <input v-model.number="draft.minute" type="number" placeholder="e.g. 45" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Extra Player (e.g. substitution coming in)</label>
-      <select v-model="draft.playerIdExtra">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Extra Player (e.g. substitution coming in)</label>
+      <select v-model="draft.playerIdExtra" class="select">
         <option :value="null">None</option>
         <option
           v-for="player in players"
@@ -129,20 +129,9 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex gap-4 justify-end">
-      <button
-        class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
-        type="button"
-        @click="cancel"
-      >
-        Cancel
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-        type="submit"
-      >
-        Save
-      </button>
+    <div class="flex gap-3 justify-end pt-2">
+      <button class="btn-secondary" type="button" @click="cancel">Cancel</button>
+      <button class="btn-primary" type="submit">Save</button>
     </div>
   </form>
 </template>

@@ -27,7 +27,7 @@ watch(
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto p-6 shadow flex flex-col gap-2">
+  <div class="max-w-3xl mx-auto p-6 flex flex-col gap-2">
     <h1 class="text-lg font-semibold mb-6 text-center">Players</h1>
 
     <ol class="list-decimal list-inside" v-if="players.length > 0">

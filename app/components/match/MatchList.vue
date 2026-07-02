@@ -40,7 +40,7 @@ const data = route.params.id
       <div
         v-for="match in matches ? matches : data"
         :key="match.id"
-        class="bg-white p-4 rounded shadow flex flex-col gap-3"
+        class="card p-4 flex flex-col gap-3"
       >
         <!-- MAIN MATCH ROW -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">

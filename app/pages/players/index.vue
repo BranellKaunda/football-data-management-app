@@ -17,7 +17,7 @@ const players = await getAllPlayers();
       <div
         v-for="player in players"
         :key="player.id"
-        class="bg-white p-4 rounded shadow flex items-center gap-4"
+        class="card p-4 flex items-center gap-4"
       >
         <!-- PLAYER IMAGE PLACEHOLDER -->
         <NuxtLink :to="`/players/${player.id}`">

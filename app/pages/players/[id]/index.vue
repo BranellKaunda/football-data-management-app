@@ -12,7 +12,7 @@ const currentTeam = computed(() => {
 
 <template>
   <div
-    class="bg-white p-6 rounded shadow max-w-md mx-auto m-4 sm:m-10 flex flex-col gap-4"
+    class="card p-6 max-w-md mx-auto m-4 sm:m-10 flex flex-col gap-4"
   >
     <h1 class="text-xl sm:text-2xl font-bold text-center">Player Details</h1>
 
@@ -64,7 +64,7 @@ const currentTeam = computed(() => {
     <div class="flex justify-end mt-4">
       <NuxtLink
         :to="`/players/${player.id}/edit`"
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+        class="btn-primary"
       >
         Edit Player
       </NuxtLink>

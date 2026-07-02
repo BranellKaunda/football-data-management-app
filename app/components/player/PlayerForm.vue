@@ -47,27 +47,27 @@ function cancel() {
   </h1>
 
   <form
-    class="flex flex-col gap-4 bg-white p-4 rounded shadow max-w-md mx-auto m-4 sm:m-10"
+    class="card flex flex-col gap-4 p-6 max-w-md mx-auto m-4 sm:m-10"
     @submit.prevent="save"
   >
-    <div class="flex flex-col gap-2">
-      <label>First name</label>
-      <input v-model="draft.firstName" placeholder="firstName" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">First name</label>
+      <input v-model="draft.firstName" placeholder="e.g. Cristiano" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Last name</label>
-      <input v-model="draft.lastName" placeholder="lastName" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Last name</label>
+      <input v-model="draft.lastName" placeholder="e.g. Ronaldo" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Date of Birth</label>
-      <input v-model="draft.dob" placeholder="yyyy-mm-dd" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Date of Birth</label>
+      <input v-model="draft.dob" placeholder="yyyy-mm-dd" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Position</label>
-      <select v-model="draft.position">
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Position</label>
+      <select v-model="draft.position" class="select">
         <option disabled value="">Select a position</option>
         <option value="Forward">Forward</option>
         <option value="Midfielder">Midfielder</option>
@@ -76,30 +76,19 @@ function cancel() {
       </select>
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Weight (kg)</label>
-      <input v-model.number="draft.weightKg" placeholder="weight" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Weight (kg)</label>
+      <input v-model.number="draft.weightKg" placeholder="e.g. 85" class="input" />
     </div>
 
-    <div class="flex flex-col gap-2">
-      <label>Height (cm)</label>
-      <input v-model.number="draft.heightCm" placeholder="height" />
+    <div class="flex flex-col gap-1.5">
+      <label class="label">Height (cm)</label>
+      <input v-model.number="draft.heightCm" placeholder="e.g. 187" class="input" />
     </div>
 
-    <div class="flex gap-4 justify-end">
-      <button
-        class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
-        type="button"
-        @click="cancel"
-      >
-        Cancel
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-        type="submit"
-      >
-        Save
-      </button>
+    <div class="flex gap-3 justify-end pt-2">
+      <button class="btn-secondary" type="button" @click="cancel">Cancel</button>
+      <button class="btn-primary" type="submit">Save</button>
     </div>
   </form>
 </template>

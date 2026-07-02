@@ -7,7 +7,7 @@ const matchActions = await getAllMatchActions();
   <div class="max-w-3xl mx-auto p-6">
     <NuxtLink
       to="/match-actions/create"
-      class="inline-block mb-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+      class="btn-primary mb-4"
     >
       Create Match Action
     </NuxtLink>
